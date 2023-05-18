@@ -5,7 +5,7 @@
         <h4 class="float-left">{{ board.title }}</h4>
       </b-col>
       <b-col cols="4">
-        <p class="mb-1">작성자: {{ board.writer.nickname }}</p>
+        <p class="mb-1">작성자: {{ board.nickname }}</p>
         <p class="mb-1">작성일: {{ board.createat }}</p>
         <p class="mb-1" v-if="board.updateat">수정일: {{ board.updateat }}</p>
       </b-col>
@@ -50,7 +50,7 @@ export default {
         comment_num: Number,
         like_num: Number,
 
-        writer: {},
+        nickname: String,
       },
       comments: [],
     };

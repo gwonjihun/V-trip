@@ -32,7 +32,7 @@ export default {
           label: "제목",
         },
         {
-          key: "writer.nickname",
+          key: "nickname",
           label: "작성자",
         },
         {
