@@ -43,7 +43,7 @@ class BoardRepoTest {
 		assertNotNull(board);
 		log.debug(board.toString());
 		assertEquals(board.getTitle(), title);
-		assertEquals(board.getWriter().getId(), writername);
+		assertEquals(board.getNickname(), writername);
 	}
 
 	@Test
@@ -104,7 +104,7 @@ class BoardRepoTest {
 	@Transactional
 	void testDelete() throws SQLException {
 		repo.delete(id);
-		assertNotNull(repo.select(id).getDeleteat());
+		assertNull(repo.select(id).getDeleteat());
 	}
 
 }

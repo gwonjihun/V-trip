@@ -1,7 +1,5 @@
 package com.ssafy.trip.dto.board;
 
-import com.ssafy.trip.dto.user.UserDto;
-
 import lombok.*;
 
 @Getter
@@ -22,7 +20,7 @@ public class BoardDto {
 	private int comment_num;
 	private int like_num;
 	
-	private UserDto writer;
+	private String nickname;
 
 	public BoardDto(String title, String content, String writername) {
 		super();

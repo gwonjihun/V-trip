@@ -2,7 +2,6 @@ package com.ssafy.trip.model.service.user;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import com.ssafy.trip.dto.user.UserDto;
 

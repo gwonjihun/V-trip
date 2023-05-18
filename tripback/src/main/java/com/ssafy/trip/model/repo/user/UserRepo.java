@@ -2,7 +2,6 @@ package com.ssafy.trip.model.repo.user;
 
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 

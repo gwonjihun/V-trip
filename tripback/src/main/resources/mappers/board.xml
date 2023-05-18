@@ -3,20 +3,19 @@
 <mapper namespace="com.ssafy.trip.model.repo.board.BoardRepo">
 	
 	<resultMap type="com.ssafy.trip.dto.board.BoardDto" id="boardMap">
-		<id column="content_id" property="content_id"/>
-		<result column="title" property="title"/>
-		<result column="content" property="content"/>
-		<result column="writername" property="writername"/>
-		<result column="reads" property="reads"/>
-		<result column="createat" property="createat"/>
-		<result column="updateat" property="updateat"/>
+		<id column="content_id" 		property="content_id"/>
+		<result column="title" 			property="title"/>
+		<result column="content" 		property="content"/>
+		<result column="writername" 	property="writername"/>
+		<result column="reads" 			property="reads"/>
+		<result column="createat" 		property="createat"/>
+		<result column="updateat" 		property="updateat"/>
 		<result column="content.deleteat" property="deleteat"/>
 		
-		<result column="comment_num" property="comment_num"/>
-		<result column="like_num" property="like_num"/>
+		<result column="comment_num" 	property="comment_num"/>
+		<result column="like_num" 		property="like_num"/>
 		
-		<association property="writer" column="id" javaType="com.ssafy.trip.dto.user.UserDto"
-			resultMap="com.ssafy.trip.model.repo.user.UserRepo.userMap" />
+		<result column="nickname" 		property="nickname"/>
 	</resultMap>
 	
 	<sql id="select">
