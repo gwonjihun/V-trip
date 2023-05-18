@@ -17,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 public class WebMvcConfig implements WebMvcConfigurer {
 	
 	private final List<String> patterns = Arrays.asList(
-			"/tripapi/board/**"
+			"/tripapi/board/**",
+			"/tripapi/plan/**"
 			);
 	
 	private final JwtInterceptor jwtInterceptor;

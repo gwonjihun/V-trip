@@ -6,8 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,14 +16,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.trip.dto.plan.PlanDetailDto;
 import com.ssafy.trip.dto.plan.PlanDto;
-import com.ssafy.trip.dto.user.UserDto;
 import com.ssafy.trip.model.service.plan.PlanDetailService;
 import com.ssafy.trip.model.service.plan.PlanSearvice;
+import com.ssafy.trip.model.service.user.JwtService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +35,8 @@ public class PlanRestController {
 
 	private final PlanSearvice svc;
 	private final PlanDetailService pdsvc;
+	
+	private final JwtService jwtSvc;
 
 	@GetMapping
 	ResponseEntity<Map<String, Object>> list() throws SQLException {
@@ -83,7 +82,7 @@ public class PlanRestController {
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	@DeleteMapping("/{plan_id}")
-	ResponseEntity<Void> delete(@PathVariable int plan_id,@RequestBody PlanDto plan,HttpSession session) throws SQLException {
+	ResponseEntity<Void> delete(@PathVariable int plan_id,@RequestBody PlanDto plan) throws SQLException {
 		/*
 		 * data input
 		 * {
@@ -91,8 +90,7 @@ public class PlanRestController {
 		 * }
 		 * */
 		// plan 세부 조회
-		UserDto login = (UserDto)session.getAttribute("userinfo");
-		if (login.getUser_type().equals("admin") || login.getId().equals(plan.getWriterid())) {
+		if (jwtSvc.checkAuthor(plan.getWriterid())) {
 			int r = svc.delete(plan_id);
 			if (r != 0)
 				return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -103,8 +101,7 @@ public class PlanRestController {
 	}
 	@Transactional
 	@PutMapping("/{plan_id}")
-	ResponseEntity<Void> detail_update(@PathVariable int plan_id, @RequestBody Map<String, Object> map,
-			HttpSession session) throws SQLException {
+	ResponseEntity<Void> detail_update(@PathVariable int plan_id, @RequestBody Map<String, Object> map) throws SQLException {
 		/*
 		 * { plan :{ plan dto 정보}. planlist : [{plandetaildto}.....] } 으로 데이터를 받자
 		 * 1. plan_id를 통해서 plan이 있는지 확인 2. plan과 session아이디가 동일
@@ -118,8 +115,7 @@ public class PlanRestController {
 		if (plan == null) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
-		UserDto login = (UserDto) session.getAttribute("userinfo");
-		if (login.getId().equals(plan.getWriterid()) || login.getUser_type().equals("admin")) {
+		if (jwtSvc.checkAuthor(plan.getWriterid())) {
 			PlanDto plan_in = (PlanDto) map.get("plan");
 			List<PlanDetailDto> plan_list = (LinkedList<PlanDetailDto>) map.get("planlist");
 			svc.updatePlan(plan_in);
