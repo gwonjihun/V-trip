@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
+import { mapActions, mapState } from "vuex";
 import LoginForm from "../user/LoginForm.vue";
 import RegistForm from "../user/RegistForm.vue";
 
@@ -35,7 +35,7 @@ export default {
   components: { LoginForm, RegistForm },
   name: "HeaderNav",
   computed: {
-    ...mapGetters("userStore", ["isLogin"]),
+    ...mapState("userStore", ["isLogin"]),
   },
   methods: {
     ...mapActions("userStore", ["doLogout"]),
