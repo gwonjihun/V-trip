@@ -50,6 +50,8 @@ export default {
           console.log(data.title);
           console.log(this.board.title);
           this.board.content = data.content;
+          this.board.content_id = data.content_id;
+          this.board.writername = data.writername;
         },
         (err) => {
           console.log(err)
@@ -87,12 +89,9 @@ export default {
     modifyBoard() {
       let msg = "수정을 실패했습니다.";
 
-      let data = {
-        "title": this.board.title,
-        "content": this.board.content
-      };
+      console.log("수정 요청을 위한 data" + this.board);
       update(
-        data,
+        this.board,
         (res) => {
           console.log(res);
           console.log(msg);

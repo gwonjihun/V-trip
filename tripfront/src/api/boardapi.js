@@ -18,7 +18,7 @@ async function insert(board, success, fail) {
   await api.post("/board", JSON.stringify(board)).then(success).catch(fail);
 }
 async function update(board, success, fail) {
-  await api.put("/board", JSON.stringify(board)).then(success).catch(fail);
+  await api.put("/board", board).then(success).catch(fail);
 }
 async function delte(content_id, success, fail) {
   await api.delete(`/board/${content_id}`).then(success).catch(fail);
