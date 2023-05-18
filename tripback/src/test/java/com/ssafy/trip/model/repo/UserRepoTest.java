@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,14 +55,14 @@ class UserRepoTest {
 	@Test
 	@Transactional
 	void testUpdateUser() throws SQLException {
-		Map<String, String> map = new HashMap<>();
-		map.put("id", id);
-		map.put("nickname", cnickname);
-		assertEquals(repo.updateUser(map), 1);
+		UserDto user = new UserDto();
+		user.setId(id);
+		user.setNickname(cnickname);
+		assertEquals(repo.updateUser(user), 1);
 		System.out.println(repo.selectUser(id));
-		
-		map.put("point", ""+cpoint);
-		assertEquals(repo.updateUser(map), 1);
+
+		user.setPoint(cpoint);
+		assertEquals(repo.updateUser(user), 1);
 		System.out.println(repo.selectUser(id));
 	}
 
