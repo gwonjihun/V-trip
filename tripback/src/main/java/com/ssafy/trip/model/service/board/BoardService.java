@@ -14,7 +14,7 @@ public interface BoardService {
 	Map<String, Object> selectOption(BoardSearchOptionDto option) throws SQLException;
 	int selectCount(BoardSearchOptionDto option) throws SQLException;
 	int insert(BoardDto board) throws SQLException;
-	int update(Map<String, String> map) throws SQLException;
+	int update(BoardDto board) throws SQLException;
 	int delete(int content_id) throws SQLException;
 	int deleteAll(String writername) throws SQLException;
 	int selectLike(int content_id, String users_id) throws SQLException;

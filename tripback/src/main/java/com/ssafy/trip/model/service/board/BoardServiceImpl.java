@@ -68,8 +68,8 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int update(Map<String, String> map) throws SQLException {
-		return repo.update(map);
+	public int update(BoardDto board) throws SQLException {
+		return repo.update(board);
 	}
 
 	@Override
