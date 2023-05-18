@@ -16,6 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
 	
+	private final long MAX_AGE_SECS = 3600;
+	
 	private final List<String> patterns = Arrays.asList(
 			"/tripapi/board/**",
 			"/tripapi/plan/**"
@@ -31,6 +33,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedOrigins("*");
+		registry.addMapping("/**")
+		.allowedOrigins("http://localhost:8081")
+		.allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+		.allowedHeaders("*")
+		.allowCredentials(true)
+		.maxAge(MAX_AGE_SECS);
 	}
 }

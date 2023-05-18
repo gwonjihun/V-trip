@@ -12,6 +12,7 @@ function apiInstance() {
       "Content-type": "application/json",
     },
   });
+  instance.defaults.headers.common["access-token"] = sessionStorage.getItem("access-token");
   return instance;
 }
 
