@@ -10,9 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ssafy.trip.dto.PlanDetailDto;
-import com.ssafy.trip.dto.PlanDto;
-import com.ssafy.trip.model.service.PlanDetailService;
+import com.ssafy.trip.dto.plan.PlanDetailDto;
+import com.ssafy.trip.dto.plan.PlanDto;
+import com.ssafy.trip.model.repo.plan.PlanDetailRepo;
+import com.ssafy.trip.model.service.plan.PlanDetailService;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.trip.dto.BoardDto;
-import com.ssafy.trip.dto.BoardSearchOptionDto;
+import com.ssafy.trip.dto.board.BoardDto;
+import com.ssafy.trip.dto.board.BoardSearchOptionDto;
+import com.ssafy.trip.model.repo.board.BoardRepo;
 
 import lombok.extern.slf4j.Slf4j;
 

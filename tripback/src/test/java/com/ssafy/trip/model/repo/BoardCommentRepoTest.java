@@ -7,7 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.trip.dto.BoardCommentDto;
+import com.ssafy.trip.dto.board.BoardCommentDto;
+import com.ssafy.trip.model.repo.board.BoardCommentRepo;
 
 import lombok.extern.slf4j.Slf4j;
 

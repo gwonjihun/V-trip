@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.model.repo.PlanRepo">
+<mapper namespace="com.ssafy.trip.model.repo.plan.PlanRepo">
 
-	<resultMap type="com.ssafy.trip.dto.PlanDto" id="planMap">
+	<resultMap type="com.ssafy.trip.dto.plan.PlanDto" id="planMap">
 		<id column="plan_id" property="plan_id" />
 		<result column="writerid" property="writerid" />
 		<result column="title" property="title" />

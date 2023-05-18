@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.model.repo.BoardRepo">
+<mapper namespace="com.ssafy.trip.model.repo.board.BoardRepo">
 	
-	<resultMap type="com.ssafy.trip.dto.BoardDto" id="boardMap">
+	<resultMap type="com.ssafy.trip.dto.board.BoardDto" id="boardMap">
 		<id column="content_id" property="content_id"/>
 		<result column="title" property="title"/>
 		<result column="content" property="content"/>
@@ -15,8 +15,8 @@
 		<result column="comment_num" property="comment_num"/>
 		<result column="like_num" property="like_num"/>
 		
-		<association property="writer" column="id" javaType="com.ssafy.trip.dto.UserDto"
-			resultMap="com.ssafy.trip.model.repo.UserRepo.userMap" />
+		<association property="writer" column="id" javaType="com.ssafy.trip.dto.user.UserDto"
+			resultMap="com.ssafy.trip.model.repo.user.UserRepo.userMap" />
 	</resultMap>
 	
 	<sql id="select">

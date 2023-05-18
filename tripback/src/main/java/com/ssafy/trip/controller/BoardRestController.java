@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.trip.dto.BoardCommentDto;
-import com.ssafy.trip.dto.BoardDto;
-import com.ssafy.trip.dto.BoardSearchOptionDto;
-import com.ssafy.trip.dto.UserDto;
-import com.ssafy.trip.model.service.BoardCommentService;
-import com.ssafy.trip.model.service.BoardLikeService;
-import com.ssafy.trip.model.service.BoardService;
+import com.ssafy.trip.dto.board.BoardCommentDto;
+import com.ssafy.trip.dto.board.BoardDto;
+import com.ssafy.trip.dto.board.BoardSearchOptionDto;
+import com.ssafy.trip.dto.user.UserDto;
+import com.ssafy.trip.model.service.board.BoardCommentService;
+import com.ssafy.trip.model.service.board.BoardLikeService;
+import com.ssafy.trip.model.service.board.BoardService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

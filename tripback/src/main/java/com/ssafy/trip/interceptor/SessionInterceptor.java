@@ -7,7 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.ssafy.trip.dto.UserDto;
+import com.ssafy.trip.dto.user.UserDto;
 
 import lombok.extern.slf4j.Slf4j;
 

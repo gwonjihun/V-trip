@@ -10,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ssafy.trip.dto.UserDto;
+import com.ssafy.trip.dto.user.UserDto;
+import com.ssafy.trip.model.repo.user.UserRepo;
 
 import lombok.extern.slf4j.Slf4j;
 

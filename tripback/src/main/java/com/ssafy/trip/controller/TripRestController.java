@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.trip.dto.AttractionInfoDto;
-import com.ssafy.trip.dto.TripConditionDto;
-import com.ssafy.trip.model.service.AttractionInfoService;
+import com.ssafy.trip.dto.trip.AttractionInfoDto;
+import com.ssafy.trip.dto.trip.TripConditionDto;
+import com.ssafy.trip.model.service.trip.AttractionInfoService;
 
 import lombok.extern.slf4j.Slf4j;
 

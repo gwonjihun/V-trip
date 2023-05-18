@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.model.repo.BoardCommentRepo">
+<mapper namespace="com.ssafy.trip.model.repo.board.BoardCommentRepo">
 
-	<resultMap type="com.ssafy.trip.dto.BoardCommentDto" id="commentMap">
+	<resultMap type="com.ssafy.trip.dto.board.BoardCommentDto" id="commentMap">
 		<id 	column="comment_id" property="comment_id"/>
 		<result column="comment" 	property="comment"/>
 		<result column="writername" property="writername"/>
