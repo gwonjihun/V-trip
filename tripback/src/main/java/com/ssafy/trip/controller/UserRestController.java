@@ -31,7 +31,7 @@ public class UserRestController {
 	private final UserService svc;
 	
 	@PostMapping("/login")
-	ResponseEntity<?> login(UserDto user, HttpSession session) throws SQLException {
+	ResponseEntity<?> login(@RequestBody UserDto user, HttpSession session) throws SQLException {
 		UserDto login = svc.loginUser(user);
 		if (login != null) {
 			session.setAttribute("userinfo", login);;

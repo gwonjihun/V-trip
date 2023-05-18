@@ -1,5 +1,5 @@
 import { login, logout } from "@/api/userapi";
-import router from "@/router";
+import { HttpStatusCode } from "axios";
 
 export default {
   namespaced: true,
@@ -33,15 +33,19 @@ export default {
     },
   },
   actions: {
-    doLogin({ commit }, user) {
-      login(
+    async doLogin({ commit }, user) {
+      await login(
         user,
-        ({ data }) => {
+        ({ data, status }) => {
+          if (status == HttpStatusCode.NoContent) {
+            alert("아이디와 패스워드를 확인해주세요");
+            return;
+          }
           commit("SET_USERID", data.id);
           commit("SET_USERINFO", data);
         },
         () => {
-          console.log("아이디와 패스워드를 확인해주세요");
+          alert("login error");
         }
       );
     },
@@ -50,7 +54,6 @@ export default {
         () => {
           commit("SET_USERID", "");
           commit("SET_USERINFO", {});
-          router.push("/");
         },
         () => {
           alert("logout error");

@@ -30,12 +30,14 @@
 
 <script>
 import { mapActions } from "vuex";
+
 export default {
   name: "LoginForm",
   data() {
     return {
-      id: "",
-      password: "",
+      // dev 초기값
+      id: "ssafy",
+      password: "1234",
     };
   },
   props: {
@@ -43,11 +45,12 @@ export default {
   },
   methods: {
     ...mapActions("userStore", ["doLogin"]),
-    formLogin() {
-      if (this.id === "" || this.password === "") {
+    async formLogin() {
+      if (this.id == "" || this.password == "") {
         alert("아이디와 비밀번호를 입력해주세요");
+        return;
       }
-      this.doLogin({
+      await this.doLogin({
         id: this.id,
         password: this.password,
       });

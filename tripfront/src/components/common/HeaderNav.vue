@@ -12,7 +12,7 @@
           <b-nav-item to="/notice">Notice</b-nav-item>
         </b-navbar-nav>
         <b-navbar-nav>
-          <b-nav-item v-if="isLogin">Logout</b-nav-item>
+          <b-nav-item v-if="isLogin" @click="doLogout">Logout</b-nav-item>
           <b-nav-item v-else v-b-modal.modal-login>Login</b-nav-item>
           <b-nav-item v-if="isLogin">MyPage </b-nav-item>
           <b-nav-item v-else v-b-modal.modal-regist>Regist </b-nav-item>
@@ -27,7 +27,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import LoginForm from "../user/LoginForm.vue";
 import RegistForm from "../user/RegistForm.vue";
 
@@ -38,6 +38,7 @@ export default {
     ...mapGetters("userStore", ["isLogin"]),
   },
   methods: {
+    ...mapActions("userStore", ["doLogout"]),
     login() {
       console.log("login");
     },
