@@ -28,4 +28,12 @@ public class BoardDto {
 		this.content = content;
 		this.writername = writername;
 	}
+
+	public BoardDto(int content_id, String title, String content, String writername) {
+		super();
+		this.content_id = content_id;
+		this.title = title;
+		this.content = content;
+		this.writername = writername;
+	}
 }

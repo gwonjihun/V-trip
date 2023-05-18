@@ -1,10 +1,11 @@
 package com.ssafy.trip.model.repo;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,10 +92,8 @@ class BoardRepoTest {
 	@Test
 	@Transactional
 	void testUpdate() throws SQLException {
-		Map<String, String> map = new HashMap<>();
-		map.put("content_id", ""+id);
-		map.put("content", ccontent);
-		repo.update(map);
+		BoardDto board = new BoardDto(id, title, ccontent, writername);
+		repo.update(board);
 		log.debug(repo.select(id).toString());
 		assertEquals(repo.select(id).getContent(), ccontent);
 		assertNotNull(repo.select(id).getUpdateat());

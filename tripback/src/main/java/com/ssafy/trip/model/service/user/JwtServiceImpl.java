@@ -26,18 +26,11 @@ public class JwtServiceImpl implements JwtService {
 	private static final String SALT = "ssafySecret";
 	
 	private static final int ACCESS_TOKEN_EXPIRE_MINUTES = 1; // 분단위
-	private static final int REFRESH_TOKEN_EXPIRE_MINUTES = 2; // 주단위
 
 	@Override
-	public <T> String createAccessToken(String key, T data) {
-		return create(key, data, "access-token", 1000 * 60 * 30 * ACCESS_TOKEN_EXPIRE_MINUTES);
+	public <T> String createAccessToken(Map<String, String> data) {
+		return create(data, "access-token", 1000 * 60 * 30 * ACCESS_TOKEN_EXPIRE_MINUTES);
 //		return create(key, data, "access-token", 1000 * 1 * ACCESS_TOKEN_EXPIRE_MINUTES);
-	}
-
-//	AccessToken에 비해 유효기간을 길게...
-	@Override
-	public <T> String createRefreshToken(String key, T data) {
-		return create(key, data, "refresh-token", 1000 * 60 * 60 * 24 * 7 * REFRESH_TOKEN_EXPIRE_MINUTES);
 	}
 
 	//Token 발급
@@ -49,7 +42,7 @@ public class JwtServiceImpl implements JwtService {
 	 * jwt 토큰의 구성 : header + payload + signature
 	 */
 	@Override
-	public <T> String create(String key, T data, String subject, long expire) {
+	public <T> String create(Map<String, String> data, String subject, long expire) {
 		// Payload 설정 : 생성일 (IssuedAt), 유효기간 (Expiration), 
 		// 토큰 제목 (Subject), 데이터 (Claim) 등 정보 세팅.
 		Claims claims = Jwts.claims()
@@ -61,7 +54,10 @@ public class JwtServiceImpl implements JwtService {
 				.setExpiration(new Date(System.currentTimeMillis() + expire)); 
 		
 		// 저장할 data의 key, value
-		claims.put(key, data); 
+//		claims.put(key, data); 
+		for (Map.Entry<String, String> entry: data.entrySet()) {
+			claims.put(entry.getKey(), entry.getValue());
+		}
 		
 		String jwt = Jwts.builder()
 				// Header 설정 : 토큰의 타입, 해쉬 알고리즘 정보 세팅.
@@ -111,7 +107,7 @@ public class JwtServiceImpl implements JwtService {
 	}
 
 	@Override
-	public Map<String, Object> get(String key) {
+	public Map<String, Object> getBody() {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes())
 				.getRequest();
 		String jwt = request.getHeader("access-token");
@@ -134,10 +130,17 @@ public class JwtServiceImpl implements JwtService {
 		log.info("value : {}", value);
 		return value;
 	}
-
-	@Override
-	public String getUserId() {
-		return (String) this.get("user").get("userid");
+	public String getUserType() {
+		return (String) getBody().get("user_type");
 	}
-
+	
+	public String getId() {
+		return (String) getBody().get("id");
+	}
+	
+	public boolean checkAuthor(String user_id) {
+		String user_type = getUserType();
+		String login_id = getId();
+		return user_type.equals("admin") || login_id.equals(user_id);
+	}
 }

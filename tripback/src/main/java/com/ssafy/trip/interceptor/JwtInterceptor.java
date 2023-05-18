@@ -16,14 +16,18 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
 
-	private static final String HEADER_AUTH = "Authorization";
+	private static final String HEADER_AUTH = "access-token";
 
 	private final JwtService jwtSvc;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		final String token = request.getHeader(HEADER_AUTH);
+		String method = request.getMethod();
+		log.debug(method);
+		if (method.equals("GET")) return true;
+
+		final String token = request.getHeader(HEADER_AUTH);		
 
 		if(token != null && jwtSvc.checkToken(token)){
 			log.info("토큰 사용 가능 : {}", token);

@@ -37,11 +37,10 @@ public class UserRestController {
 		UserDto login = svc.loginUser(user);
 		Map<String, Object> result = new HashMap<>();
 		if (login != null) {
-			String key = "userinfo";
-			Map<String, Object> data = new HashMap<>();
+			Map<String, String> data = new HashMap<>();
 			data.put("id", login.getId());
 			data.put("user_type", login.getUser_type());
-			String accessToken = jwtSvc.createAccessToken(key, data);
+			String accessToken = jwtSvc.createAccessToken(data);
 			result.put("access-token", accessToken);
 			login.setPassword(null);
 			result.put("userinfo", login);

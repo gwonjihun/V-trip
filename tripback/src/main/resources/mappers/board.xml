@@ -92,12 +92,8 @@
 	<update id="update">
 		update content
 		<set>
-			<if test="content != null">
-				content=#{content},
-			</if>
-			<if test="reads != null">
-				reads=#{reads},
-			</if>
+			title=#{title},
+			content=#{content},
 			updateat=now()
 		</set>
 		where content_id=#{content_id}
