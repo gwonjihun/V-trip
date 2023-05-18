@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.ssafy.trip.interceptor.SessionInterceptor;
+import com.ssafy.trip.interceptor.JwtInterceptor;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,11 +20,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			"/tripapi/board/**"
 			);
 	
-	private final SessionInterceptor sessionInterceptor;
+	private final JwtInterceptor jwtInterceptor;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(sessionInterceptor)
+		registry.addInterceptor(jwtInterceptor)
 			.addPathPatterns(patterns);
 	}
 	

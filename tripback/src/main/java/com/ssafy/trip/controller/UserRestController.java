@@ -1,8 +1,8 @@
 package com.ssafy.trip.controller;
 
 import java.sql.SQLException;
-
-import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.trip.dto.user.UserDto;
+import com.ssafy.trip.model.service.user.JwtService;
 import com.ssafy.trip.model.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,20 +30,29 @@ import lombok.extern.slf4j.Slf4j;
 public class UserRestController {
 	
 	private final UserService svc;
+	private final JwtService jwtSvc;
 	
 	@PostMapping("/login")
-	ResponseEntity<?> login(@RequestBody UserDto user, HttpSession session) throws SQLException {
+	ResponseEntity<?> login(@RequestBody UserDto user) throws SQLException {
 		UserDto login = svc.loginUser(user);
+		Map<String, Object> result = new HashMap<>();
 		if (login != null) {
-			session.setAttribute("userinfo", login);;
-			return new ResponseEntity<UserDto>(login, HttpStatus.OK);
+			String key = "userinfo";
+			Map<String, Object> data = new HashMap<>();
+			data.put("id", login.getId());
+			data.put("user_type", login.getUser_type());
+			String accessToken = jwtSvc.createAccessToken(key, data);
+			result.put("access-token", accessToken);
+			login.setPassword(null);
+			result.put("userinfo", login);
+			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 		}
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
 	
 	@GetMapping("/logout")
-	ResponseEntity<?> logout(HttpSession session) {
-		session.invalidate();
+	ResponseEntity<?> logout() {
+		// delete refreshToken
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
@@ -56,36 +66,28 @@ public class UserRestController {
 	}
 	
 	@PutMapping
-	ResponseEntity<?> update(@RequestBody UserDto user, HttpSession session, Model model) throws SQLException {
+	ResponseEntity<?> update(@RequestBody UserDto user, Model model) throws SQLException {
 		if ( user.getId()== null || svc.updateUser(user) == 0) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		} else {
-			session.setAttribute("userinfo", svc.selectUser(user.getId()));
+			// token interceptor
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		}
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<?> delete(@PathVariable String id, HttpSession session, Model model) throws SQLException {
-		UserDto login = (UserDto) session.getAttribute("userinfo");
-		if (!login.getId().equals(id) && !login.getUser_type().equals("admin")) {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}
-		int r = svc.deleteUser(id);
-		if (r == 0) {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-		}
-		if (!login.getUser_type().equals("admin")) {
-			session.invalidate();
-		}
+	ResponseEntity<?> delete(@PathVariable String id) throws SQLException {
+		// token interceptor
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")
 	ResponseEntity<UserDto> userInfo(@PathVariable String id) throws SQLException {
 		UserDto user = svc.selectUser(id);
-		if (user != null)
+		if (user != null) {
+			user.setPassword(null);
 			return new ResponseEntity<UserDto>(user, HttpStatus.OK);
+		}
 		else
 			return new ResponseEntity<UserDto>(HttpStatus.NO_CONTENT);
 	}
