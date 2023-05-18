@@ -29,25 +29,31 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default {
   name: "LoginForm",
   data() {
     return {
-      id: "",
-      password: "",
+      // dev 초기값
+      id: "ssafy",
+      password: "1234",
     };
   },
   props: {
     modalId: String,
   },
   methods: {
-    formLogin() {
-      if (this.id === "" || this.password === "") {
+    ...mapActions("userStore", ["doLogin"]),
+    async formLogin() {
+      if (this.id == "" || this.password == "") {
         alert("아이디와 비밀번호를 입력해주세요");
+        return;
       }
-      console.log(this.id);
-      console.log(this.password);
-      // axios 통신
+      await this.doLogin({
+        id: this.id,
+        password: this.password,
+      });
     },
   },
 };

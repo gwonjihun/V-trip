@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.trip.dto.UserDto;
-import com.ssafy.trip.model.service.UserService;
+import com.ssafy.trip.dto.user.UserDto;
+import com.ssafy.trip.model.service.user.UserService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +31,7 @@ public class UserRestController {
 	private final UserService svc;
 	
 	@PostMapping("/login")
-	ResponseEntity<?> login(UserDto user, HttpSession session) throws SQLException {
+	ResponseEntity<?> login(@RequestBody UserDto user, HttpSession session) throws SQLException {
 		UserDto login = svc.loginUser(user);
 		if (login != null) {
 			session.setAttribute("userinfo", login);;

@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.ssafy.trip.dto.PlanLikeDto;
+import com.ssafy.trip.dto.plan.PlanLikeDto;
+import com.ssafy.trip.model.repo.plan.PlanLikeRepo;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.model.repo.PlanDetailRepo">
+<mapper namespace="com.ssafy.trip.model.repo.plan.PlanDetailRepo">
 
 	<select id="select"
-		resultType="com.ssafy.trip.dto.PlanDetailDto">
+		resultType="com.ssafy.trip.dto.plan.PlanDetailDto">
 		select * from plandetail where plan_id = #{plan_id} order by detail_id asc
 	</select>
 

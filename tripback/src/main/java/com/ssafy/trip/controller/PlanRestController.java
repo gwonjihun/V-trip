@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.trip.dto.PlanDetailDto;
-import com.ssafy.trip.dto.PlanDto;
-import com.ssafy.trip.dto.UserDto;
-import com.ssafy.trip.model.service.PlanDetailService;
-import com.ssafy.trip.model.service.PlanSearvice;
+import com.ssafy.trip.dto.plan.PlanDetailDto;
+import com.ssafy.trip.dto.plan.PlanDto;
+import com.ssafy.trip.dto.user.UserDto;
+import com.ssafy.trip.model.service.plan.PlanDetailService;
+import com.ssafy.trip.model.service.plan.PlanSearvice;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
