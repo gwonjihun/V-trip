@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @CrossOrigin("*")
-@RequestMapping("/tripapi/search")
+@RequestMapping("/tripapi/info")
 public class TripRestController {
 
 	
@@ -34,13 +34,10 @@ public class TripRestController {
 	private AttractionInfoService svc;
 	
 	@GetMapping("/search")
-	ResponseEntity<?> search(@RequestParam int sido_code ,@RequestParam int content_type_id,@RequestParam String title) throws SQLException{
-		System.out.println(title);
-		log.debug(title);
-		TripConditionDto dto = new TripConditionDto(sido_code, content_type_id, title);
-		System.out.println(dto);
-		log.debug(dto.toString());
-		List<AttractionInfoDto> aa = svc.selectKeyword(dto);
+	ResponseEntity<?> search(TripConditionDto ins) throws SQLException{
+		System.out.println(ins.getTitle());
+		log.debug(ins.getTitle());
+		List<AttractionInfoDto> aa = svc.selectKeyword(ins);
 		if(aa != null) {
 		return new ResponseEntity<List<AttractionInfoDto>>(aa,HttpStatus.OK);
 		}else {
