@@ -29,6 +29,7 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
 export default {
   name: "LoginForm",
   data() {
@@ -41,13 +42,15 @@ export default {
     modalId: String,
   },
   methods: {
+    ...mapActions("userStore", ["doLogin"]),
     formLogin() {
       if (this.id === "" || this.password === "") {
         alert("아이디와 비밀번호를 입력해주세요");
       }
-      console.log(this.id);
-      console.log(this.password);
-      // axios 통신
+      this.doLogin({
+        id: this.id,
+        password: this.password,
+      });
     },
   },
 };
