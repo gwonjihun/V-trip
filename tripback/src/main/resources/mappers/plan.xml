@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.model.repo.PlanRepo">
+
+	<resultMap type="com.ssafy.trip.dto.PlanDto" id="planMap">
+		<id column="plan_id" property="plan_id" />
+		<result column="writerid" property="writerid" />
+		<result column="title" property="title" />
+		<result column="reads" property="reads" />
+		<result column="share" property="share" />
+		<result column="sidocode" property="sidocode"/>
+		<result column="createat" property="createat" />
+		<result column="updateat" property="updateat" />
+		<result column="deleteat" property="deleteat" />
+		<result column="startDate" property="startDate" />
+		<result column="endDate" property="endDate" />
+		<result column="likes" property="likes" />
+		<result column="sidoname" property = "sidoname"/>
+		
+	</resultMap>
+
+	<sql id="select">
+		select * , (select count(*) from plan_like where plan_like.plan_id = plan.plan_id) likes,
+		(select sido_name from sido where plan.sidocode = sido.sido_code) as sidoname
+		from plan
+	</sql>
+
+	<select id="selectAll" resultMap="planMap">
+		<include refid="select" />
+		where deleteat is null and share =0
+	</select>
+
+	<select id="select" resultMap="planMap">
+		<include refid="select" />
+		where plan_id=${plan_id} and deleteat is null and share =0
+	</select>
+
+
+	<update id="delete">
+		update plan
+		<set>
+			deleteat = current_timestamp()
+		</set>
+		where plan_id=${plan_id}
+	</update>
+	
+	<update id="updateread">
+		update plan
+		<set>
+				plan.reads= plan.reads+1
+		</set>
+		where plan_id=#{plan_id}
+	</update>
+	
+	<update id="updatePlan" >
+		update plan
+		<set>
+			<if test="title != null">
+				title = "${title}",
+			</if>
+			<if test="sidocode != null">
+				sidocode = ${sidocode},
+			</if>
+			<if test="share != null">
+				share = ${share},
+			</if>
+			<if test="startDate != null">
+				startDate = #{startDate},
+			</if>
+			<if test="endDate != null">
+				endDate = #{endDate},
+			</if>
+			updateat = current_timestamp()
+		</set>
+		where plan_id = ${plan_id}
+	</update>
+	
+	<insert id="insert" useGeneratedKeys="true" > insert into plan(writerid, title, share,sidocode,startdate,enddate)
+		values('${writerid}', '${title}', ${share}, ${sidocode},'${startDate}', '${endDate}') </insert>
+</mapper>

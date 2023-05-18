@@ -1,45 +1,51 @@
 <template>
   <header>
-    <nav>
-      <div class="nav-home"><router-link to="/">trip</router-link></div>
-      <div class="nav-menu">
-        <router-link to="/">Home</router-link>
-        <router-link to="/">Search</router-link>
-        <router-link to="/">Plan</router-link>
-        <router-link to="/">Post</router-link>
-        <router-link to="/">Notice</router-link>
-      </div>
-      <div class="nav-user">
-        <a href="#">Login</a>
-        <a href="#">Logout</a>
-        <a href="#">Regist </a>
-        <a href="#">MyPage </a>
-      </div>
-    </nav>
+    <b-navbar toggleable="lg">
+      <b-navbar-brand to="/">trip</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav class="m-auto">
+          <b-nav-item to="/">Home</b-nav-item>
+          <b-nav-item to="/search">Search</b-nav-item>
+          <b-nav-item to="/plan">Plan</b-nav-item>
+          <b-nav-item to="/board">Board</b-nav-item>
+          <b-nav-item to="/notice">Notice</b-nav-item>
+        </b-navbar-nav>
+        <b-navbar-nav>
+          <b-nav-item v-if="isLogin">Logout</b-nav-item>
+          <b-nav-item v-else v-b-modal.modal-login>Login</b-nav-item>
+          <b-nav-item v-if="isLogin">MyPage </b-nav-item>
+          <b-nav-item v-else v-b-modal.modal-regist>Regist </b-nav-item>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
+    <div v-if="!isLogin">
+      <login-form modal-id="modal-login" />
+      <regist-form modal-id="modal-regist" />
+    </div>
   </header>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import LoginForm from "../user/LoginForm.vue";
+import RegistForm from "../user/RegistForm.vue";
+
 export default {
+  components: { LoginForm, RegistForm },
   name: "HeaderNav",
+  computed: {
+    ...mapGetters("userStore", ["isLogin"]),
+  },
+  methods: {
+    login() {
+      console.log("login");
+    },
+    regist() {
+      console.log("regist");
+    },
+  },
 };
 </script>
 
-<style scope>
-nav {
-  display: flex;
-  justify-content: space-between;
-}
-.nav-home {
-  justify-self: start;
-}
-.nav-menu {
-  justify-self: center;
-}
-.nav-user {
-  justify-self: end;
-}
-a {
-  padding: 5px;
-}
-</style>
+<style scope></style>

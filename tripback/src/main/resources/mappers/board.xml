@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.model.repo.BoardRepo">
+	
+	<resultMap type="com.ssafy.trip.dto.BoardDto" id="boardMap">
+		<id column="content_id" property="content_id"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="writername" property="writername"/>
+		<result column="reads" property="reads"/>
+		<result column="createat" property="createat"/>
+		<result column="updateat" property="updateat"/>
+		<result column="content.deleteat" property="deleteat"/>
+		
+		<result column="comment_num" property="comment_num"/>
+		<result column="like_num" property="like_num"/>
+		
+		<association property="writer" column="id" javaType="com.ssafy.trip.dto.UserDto"
+			resultMap="com.ssafy.trip.model.repo.UserRepo.userMap" />
+	</resultMap>
+	
+	<sql id="select">
+		select *, (
+			select count(*)
+			from comment
+			where comment.content_id = content.content_id
+				and comment.deleteat is null
+		) comment_num,(
+			select count(*)
+			from content_like
+			where content_like.content_id = content.content_id
+		) like_num
+		from content
+			join users
+			on content.writername = users.id
+	</sql>
+	
+	<select id="select" resultMap="boardMap">
+		<include refid="select" />
+		where content_id=#{content_id}
+	</select>
+	
+	<select id="selectAll" resultMap="boardMap">
+		<include refid="select" />
+		where content.deleteat is null and users.user_type != "admin";
+	</select>
+	
+	<select id="selectNotice" resultMap="boardMap">
+		<include refid="select" />
+		where content.deleteat is null and users.user_type = "admin";
+	</select>
+	
+	<sql id="option">
+		<where>
+			<if test="key != 'none' and word != null and word !=''">
+				<if test="key == 'title'">
+					${key} like concat('%', #{word}, '%')
+				</if>
+				<if test="key != 'title'">
+					${key} = #{word}
+				</if>
+			</if>
+			<if test="notice">
+				and users.user_type="admin"
+			</if>
+			<if test="!notice">
+				and users.user_type!="admin"
+			</if>
+			and content.deleteat is null
+		</where>
+	</sql>
+	
+	<select id="selectOption" resultMap="boardMap">
+		<include refid="select" />
+		<include refid="option" />
+		limit #{start}, #{spp}
+	</select>
+	
+	<select id="selectCount" resultType="int">
+		select count(content_id)
+		from content
+			join users
+			on content.writername = users.id
+		<include refid="option" />
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true">
+		insert into
+		content(title, content, writername)
+		values(#{title}, #{content}, #{writername})
+	</insert>
+	
+	<update id="update">
+		update content
+		<set>
+			<if test="content != null">
+				content=#{content},
+			</if>
+			<if test="reads != null">
+				reads=#{reads},
+			</if>
+			updateat=now()
+		</set>
+		where content_id=#{content_id}
+	</update>
+	
+	<update id="delete">
+		update content
+		set deleteat=now()
+		where deleteat is null and content_id=#{content_id}
+	</update>
+	
+	<update id="deleteAll">
+		update content
+		set deleteat=now()
+		where deleteat is null and writername=#{writername}
+	</update>
+	
+	<update id="updateReads">
+		update content
+		set content.reads=content.reads+1
+		where content_id=#{content_id}
+	</update>
+</mapper>

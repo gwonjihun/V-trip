@@ -4,18 +4,12 @@ import { createVuexPersistedState } from "vue-persistedstate";
 
 Vue.use(Vuex);
 
+import userStore from "./modules/userStore";
+import planStore from "./modules/planStore";
+import boardStore from "./modules/boardStore";
+
 export default new Vuex.Store({
-  state: {
-    userinfo: {
-      id: String,
-      name: String,
-      password: String,
-      email: String,
-      user_type: String,
-      nickname: String,
-      point: Number,
-    },
-  },
+  state: {},
   getters: {},
   mutations: {},
   actions: {},
@@ -25,5 +19,9 @@ export default new Vuex.Store({
       storage: window.sessionStorage,
     }),
   ],
-  modules: {},
+  modules: {
+    userStore,
+    planStore,
+    boardStore,
+  },
 });

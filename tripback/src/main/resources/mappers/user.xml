@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.model.repo.UserRepo">
+
+	<resultMap type="com.ssafy.trip.dto.UserDto" id="userMap">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="password" property="password"/>
+		<result column="email" property="email"/>
+		<result column="user_type" property="user_type"/>
+		<result column="nickname" property="nickname"/>
+		<result column="point" property="point"/>
+		<result column="users.deleteat" property="deleteat"/>
+	</resultMap>
+	
+	<sql id="select">
+		select * from users
+	</sql>
+	
+	<select id="selectAllUsers" resultMap="userMap">
+		<include refid="select"/>
+	</select>
+	
+	<select id="selectUser" resultMap="userMap">
+		<include refid="select"/>
+		where id=#{id}
+	</select>
+	
+	<update id="deleteUser">
+		update users
+		set deleteat=now()
+		where deleteat is null and id=#{id}
+	</update>
+	
+	<update id="updateUser">
+		update users
+		<set>
+			<if test="password != null">
+				password=#{password},
+			</if>
+			<if test="email != null">
+				email=#{email},
+			</if>
+			<if test="nickname != null">
+				nickname=#{nickname},
+			</if>
+			<if test="point != null">
+				point=#{point}
+			</if>
+		</set>
+		where id=#{id}
+	</update>
+	
+	<insert id="insertUser">
+		insert into users(id, name, password, email, user_type, nickname, point)
+		values(#{id}, #{name}, #{password}, #{email}, #{user_type}, #{nickname}, #{point})
+	</insert>
+</mapper>

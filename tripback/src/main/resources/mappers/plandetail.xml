@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.model.repo.PlanDetailRepo">
+
+	<select id="select"
+		resultType="com.ssafy.trip.dto.PlanDetailDto">
+		select * from plandetail where plan_id = #{plan_id} order by detail_id asc
+	</select>
+
+
+	<insert id="insert" parameterType="java.util.List">
+		INSERT INTO plandetail (plan_id, content_id,days,plandetail.index)
+		VALUES
+		<foreach collection="list" item="item" separator=" , ">
+			(#{item.plan_id}, #{item.content_id}, #{item.days},
+			#{item.index})
+		</foreach>
+	</insert>
+
+	<delete id="delete">
+		delete from plandetail where plan_id = #{plan_id}
+
+	</delete>
+</mapper>

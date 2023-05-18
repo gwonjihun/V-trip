@@ -1,0 +1,31 @@
+package com.ssafy.trip.dto;
+
+import lombok.*;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+public class BoardDto {
+	private int content_id;
+	private String title;
+	private String content;
+	private String writername;
+	private int reads;
+	private String createat;
+	private String updateat;
+	private String deleteat;
+	
+	private int comment_num;
+	private int like_num;
+	
+	private UserDto writer;
+
+	public BoardDto(String title, String content, String writername) {
+		super();
+		this.title = title;
+		this.content = content;
+		this.writername = writername;
+	}
+}

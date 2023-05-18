@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssafy.trip.model.repo.AttractionInfoRepo">
+	<select id="selectAll" resultType="AttractionInfoDto">
+		select * from attraction_info limit 20;
+	</select>
+
+	<select id="selectKeyword" resultType="AttractionInfoDto">
+		select * from attraction_info
+		where title like concat('%',#{title},'%')
+		<if test="content_type_id != 0">
+			and content_type_id = #{content_type_id}
+		</if>
+		<if test="sido_code != 0">
+		and sido_code=#{sido_code}
+		</if>
+		limit 20;
+	</select>
+	<select id="selectHotplace" resultType="AttractionInfoDto" >
+		select * from
+		attraction_info where first_image !="" order by readcount;
+	</select>
+
+</mapper>
