@@ -19,27 +19,30 @@
 
 <script>
 import { mapState } from "vuex";
-import { insert, update, listDetail } from "@/api/boardapi.js";
+import { insert, update, listDetail, delte } from "@/api/boardapi.js";
 export default {
   data() {
     return {
       board: {
-        title: String,
-        content: String,
+        title: "",
+        content: "",
       },
     };
   },
   props: {
-    type: { type: String, require: true, default: "modify" },
-    content_id: { type: Number, default: 1 }
+    type: { type: String, require: true, default: "modify" }
   },
   computed: {
     ...mapState("userStore", ["userId"]),
   },
 
   created() {
+    if (this.userId === "") this.$router.push("/board");
+    else console.log(`사용자 ID:` + this.userId);
     if (this.type === "modify") {
-      var param = this.content_id;
+      console.log(this.$route.query);
+      var param = this.$route.query.content_id;
+      //var param = this.$route.params.content_id;
       listDetail(param,
         ({ data }) => {
           console.log(data);
@@ -59,22 +62,72 @@ export default {
 
       let err = true;
       let msg = "";
-      !this.article.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
-      err && !this.article.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
-      err && !this.article.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
-
+      // !this.article.userid && ((msg = "작성자 입력해주세요"), (err = false), this.$refs.userid.focus());
+      // err && !this.article.subject && ((msg = "제목 입력해주세요"), (err = false), this.$refs.subject.focus());
+      // err && !this.article.content && ((msg = "내용 입력해주세요"), (err = false), this.$refs.content.focus());
+      console.log("Submit event call");
       if (!err) alert(msg);
       else this.type === "register" ? this.registBoard() : this.modifyBoard();
     },
     registBoard() {
-      insert();
+
+      let msg = "등록을 실패했습니다.";
+
+
+      insert(this.board, (res) => {
+        console.log(res);
+        console.log(msg);
+      },
+        (err) => {
+          console.log("에러발생 : " + err);
+        });
+      // alert(msg);
+      // this.$router.push("/board");
     },
     modifyBoard() {
-      update();
+      let msg = "수정을 실패했습니다.";
+
+      let data = {
+        "title": this.board.title,
+        "content": this.board.content
+      };
+      update(
+        data,
+        (res) => {
+          console.log(res);
+          console.log(msg);
+        },
+        (err) => {
+          console.log("에러발생 : " + err);
+        });
+
+      // alert(msg);
+      // this.$router.push("/board");
+    },
+
+    onDelete(event) {
+      event.preventDefault();
+      let msg = "수정을 실패했습니다.";
+
+      var param = this.$route.query.content_id;
+      //var param = this.$route.params.content_id;
+      console.log(param);
+      delte(param,
+        (res) => {
+          console.log(res);
+          console.log(msg);
+        },
+        (err) => {
+          console.log("에러발생 : " + err);
+        });
+
+      // alert(msg);
+      // this.$router.push("/board");
     },
     moveList() {
-      window.location.href = "http://localhost:8081/board";
-    },
+      this.$router.push("/board");
+    }
+
 
   }
 };
