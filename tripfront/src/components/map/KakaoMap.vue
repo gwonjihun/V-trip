@@ -84,6 +84,7 @@ export default {
     loadMaker() {
       // 현재 표시되어있는 marker들이 있다면 marker에 등록된 map을 없애준다.
       console.log("1111");
+      console.log(this.trips);
       this.deleteMarker();
       console.log("2222");
       // 마커 이미지를 생성합니다
@@ -128,12 +129,19 @@ export default {
       //마커를 등록하면서 
       // 4. 지도를 이동시켜주기
       // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
-      const bounds = this.positions.reduce(
-        (bounds, position) => bounds.extend(position.latlng),
-        new kakao.maps.LatLngBounds()
-      );
-      console.log(bounds);
-      this.map.setBounds(bounds);
+      // const bounds = this.positions.reduce(
+      //   (bounds, position) => bounds.extend(position.latlng),
+      //   new kakao.maps.LatLngBounds()
+      // );
+      // console.log(bounds);
+      // this.map.setBounds(bounds);
+
+
+      var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
+
+      // 지도 중심을 부드럽게 이동시킵니다
+      // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
+      this.map.panTo(moveLatLon);
     },
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);

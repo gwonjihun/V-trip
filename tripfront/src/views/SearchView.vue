@@ -1,8 +1,9 @@
 <template>
   <div>
     <h2 style="padding-bottom: 5px;">지도야 나와랏!</h2>
-    <search-var class=".custom_typecontrol" style="position:relative ;"></search-var>
-    <kakao-map style="width:100%;height:100%;position:absolute;overflow:hidden;"></kakao-map>
+
+    <search-var class=".custom_typecontrol" style="position:relative;" @tripList="handletriplist"></search-var>
+    <kakao-map style="width:100%;height:100%;position:absolute;overflow:hidden;" :trips="tripList"></kakao-map>
     <plan-table></plan-table>
   </div>
 </template>
@@ -14,7 +15,19 @@ import PlanTable from "@/components/map/PlanTable.vue";
 export default {
   components: { KakaoMap, PlanTable, SearchVar },
   name: "SearchView",
+  data() {
+    return {
+      tripList: {},
+    }
+  },
+  methods: {
+    handletriplist(trips) {
+      this.tripList = trips;
+    }
+  }
+
 };
+
 </script>
 
 <style>

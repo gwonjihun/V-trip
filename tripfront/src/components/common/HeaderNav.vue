@@ -1,7 +1,7 @@
 <template>
   <header>
     <b-navbar toggleable="lg">
-      <b-navbar-brand to="/">trip</b-navbar-brand>
+      <b-navbar-brand to="/">V-Trip</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="m-auto">
