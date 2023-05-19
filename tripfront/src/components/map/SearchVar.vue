@@ -5,7 +5,7 @@
       <b-form-select v-model="kind" :options="kind_options"></b-form-select>
       <b-form-input v-model="word">
       </b-form-input>
-      <b-button type="submit">제출</b-button>
+      <b-button type="submit">검색</b-button>
     </b-form>
   </div>
 </template>
@@ -47,6 +47,7 @@ export default {
         });
       });
     },
+
       (err) => {
         alert(msg);
         console.log("에러발생 : " + err);
@@ -66,14 +67,22 @@ export default {
       search(params, ({ data }) => {
         this.trips = data;
         console.log(this.trips);
-        this.$emit("tripList", this.trips);
+        console.log("!@#!@#!@#!@#!@#");
+        if (this.trips.length > 0) this.$emit("tripList", this.trips);
+        else this.$emit("tripList", []);
       },
         (err) => {
           alert(msg);
           console.log("에러발생 : " + err);
         });
+      this.reset();
+    },
+    reset() {
+      this.word = "";
+      this.kind = 0;
+      this.sidocode = 0;
     }
-  }
+  },
 }
 </script>
 
