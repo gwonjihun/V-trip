@@ -20,9 +20,6 @@ function planInstance() {
   // Open Api
   const instance = axios.create({
     baseURL: OPEN_AREA_URL,
-    headers: {
-      "Content-type": "application/json",
-    },
   });
   return instance;
 }
