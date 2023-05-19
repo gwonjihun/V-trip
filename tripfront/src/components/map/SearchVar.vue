@@ -17,7 +17,17 @@ export default {
     return {
       word: "",
       kind: 0,
-      kind_options: [{ value: 0, text: '관광지 선택' }],
+      kind_options: [
+        { value: "0", text: '관광지 선택' },
+        { value: " 12", text: '관광지' },
+        { value: "14", text: '문화시설' },
+        { value: "15", text: '축제공연행사' },
+        { value: "25", text: '여행코스' },
+        { value: "28", text: '레포츠' },
+        { value: "32", text: '숙박' },
+        { value: "38", text: '쇼핑' },
+        { value: "39", text: '음식점' },
+      ],
       sidocode: 0,
       sido_options: [
         { value: 0, text: '시군구 선택' },

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+
 export default {
   name: "KakaoMap",
   components: {},
@@ -13,6 +14,7 @@ export default {
       map: null,
       positions: [],
       markers: [],
+      infoWindows: [],
     };
   },
   /*
@@ -35,8 +37,8 @@ export default {
       this.positions = [];
       this.trips.forEach((trip) => {
         let obj = {};
-        obj.title = trip.statNm;
-        obj.latlng = new kakao.maps.LatLng(trip.lat, trip.lng);
+        obj = trip;
+        obj.latlng = new kakao.maps.LatLng(trip.latitude, trip.longitude);
 
         this.positions.push(obj);
       });
@@ -69,18 +71,11 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new window.kakao.maps.LatLng(33.450701, 126.570667),
-        level: 3,
+        level: 30,
       };
       this.map = new window.kakao.maps.Map(container, options);
-      this.positions = [{
-        "title": "카카오 테스트용",
-        "latlng": new window.kakao.maps.LatLng(33.450701, 126.570667),
-      }];
 
-      this.loadMaker();
-      //   this.loadMaker();
-    }, // 이거도 고정
-    // 지정한 위치에 마커 불러오기
+    },
     loadMaker() {
       // 현재 표시되어있는 marker들이 있다면 marker에 등록된 map을 없애준다.
       console.log("1111");
@@ -95,6 +90,7 @@ export default {
 
       // 마커를 생성합니다
       this.markers = [];
+      console.log("불러온 장소 개수 : " + this.positions.length);
       this.positions.forEach((position) => {
         const marker = new kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
@@ -103,14 +99,13 @@ export default {
           //   image: markerImage, // 마커의 이미지
         });
 
-        var iwContent = '<div style="padding:5px;"><div><div>히히히히히히</div></div>' +
-          '<img alt="close" width="14" height="13" src="http://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"' +
+        var iwContent = '<div class="temp"  style="padding:5px;"><div>히히히히히히</div>' +
+          '<button id ="planadd"> temp</button>' +
+          '<img alt="close"  width="14" height="13" src="http://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"' +
           'style="position: absolute; right: 5px; top: 5px; cursor: pointer;"></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
         const infowindow = new kakao.maps.InfoWindow({
-          // map: this.map,
           content: iwContent,
-
         });
 
         // 마커에 클릭이벤트를 등록합니다
@@ -119,29 +114,34 @@ export default {
           // console.log("!!!!자 이제 infowindows가 만들어 질꺼야!!!");
 
           // infowindow.setZIndex(888);
+          for (var i = 0; i < this.infoWindows.length; i++) {
+            this.infoWindows[i].close();
+          }
+          console.log("응애");
           infowindow.open(this.map, marker);
+          var id = document.getElementById("planadd");
+          id.onclick = () => {
+            console.log(marker);
+            infowindow.close(this.map, marker);
+          }
           // console.log(infowindow.getContent());
         });
 
         this.markers.push(marker);
+        this.infoWindows.push(infowindow);
       });
       console.log("마커수 ::: " + this.markers.length);
       //마커를 등록하면서 
       // 4. 지도를 이동시켜주기
       // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
-      // const bounds = this.positions.reduce(
-      //   (bounds, position) => bounds.extend(position.latlng),
-      //   new kakao.maps.LatLngBounds()
-      // );
-      // console.log(bounds);
-      // this.map.setBounds(bounds);
-
-
-      var moveLatLon = new kakao.maps.LatLng(33.450580, 126.574942);
 
       // 지도 중심을 부드럽게 이동시킵니다
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-      this.map.panTo(moveLatLon);
+      this.map.panTo(this.positions[0].latlng);
+
+    },
+    closewindow() {
+
     },
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);
@@ -151,7 +151,9 @@ export default {
           item.setMap(null);
         });
       }
+
     },
+
   },
 };
 </script>
