@@ -6,6 +6,7 @@
 
 <script>
 
+
 export default {
   name: "KakaoMap",
   components: {},
@@ -15,6 +16,11 @@ export default {
       positions: [],
       markers: [],
       infoWindows: [],
+      result: {
+        addr: "",
+        content_id: "",
+        title: ""
+      }
     };
   },
   /*
@@ -33,16 +39,20 @@ export default {
   },
   watch: {
     trips() {
-      console.log("지역들", this.trips);
       this.positions = [];
-      this.trips.forEach((trip) => {
-        let obj = {};
-        obj = trip;
-        obj.latlng = new kakao.maps.LatLng(trip.latitude, trip.longitude);
+      if (this.trips.length > 0) {
+        this.trips.forEach((trip) => {
+          let obj = {};
+          obj = trip;
+          obj.latlng = new kakao.maps.LatLng(trip.latitude, trip.longitude);
 
-        this.positions.push(obj);
-      });
-      this.loadMaker();
+          this.positions.push(obj);
+        });
+
+        this.loadMaker();
+      } else {
+        this.deleteMarker();
+      }
     },
   },
   created() { },
@@ -91,6 +101,7 @@ export default {
       // 마커를 생성합니다
       this.markers = [];
       console.log("불러온 장소 개수 : " + this.positions.length);
+      console.log(this.positions);
       this.positions.forEach((position) => {
         const marker = new kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
@@ -99,10 +110,23 @@ export default {
           //   image: markerImage, // 마커의 이미지
         });
 
-        var iwContent = '<div class="temp"  style="padding:5px;"><div>히히히히히히</div>' +
-          '<button id ="planadd"> temp</button>' +
-          '<img alt="close"  width="14" height="13" src="http://t1.daumcdn.net/localimg/localimages/07/mapjsapi/2x/bt_close.gif"' +
-          'style="position: absolute; right: 5px; top: 5px; cursor: pointer;"></div>'; // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+        var iwContent =
+          `
+          <div class="temp" style="padding:5px;">
+            <div >
+            <div style ="width: 30%; heigh : 100%; display:inline;"><img src = "${position.first_image}" style="width:100px;heigh:100px; "></div>
+            <div style ="width: 70%; heigh : 100%">
+              ${position.title}<br>
+              ${position.addr1}
+              </div>
+            </div>
+            <button id ="planadd"> 방문하기</button>
+            <button id = "insta" type="button" >인스타 아이콘</button>
+            <button id = "naver" type="button">네이버 아이콘</button>
+            <button id = "close" type="button">닫기</button>
+          </div>
+          `;
+        // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
 
         const infowindow = new kakao.maps.InfoWindow({
           content: iwContent,
@@ -111,19 +135,57 @@ export default {
         // 마커에 클릭이벤트를 등록합니다
         kakao.maps.event.addListener(marker, 'click', () => {
           // 마커 위에 인포윈도우를 표시합니다
-          // console.log("!!!!자 이제 infowindows가 만들어 질꺼야!!!");
-
-          // infowindow.setZIndex(888);
+          console.log("##############################");
+          console.log(marker);
           for (var i = 0; i < this.infoWindows.length; i++) {
             this.infoWindows[i].close();
           }
-          console.log("응애");
+
+          console.log(this.result); // 여기까지는 바낀다.
+          //     result: {
+          //   addr: "",
+          //   content_id: "",
+          //   title: ""
+          // }
+
+
+
+          /* 여기서 이제 전달할 tran_data 배열에 값을 저장시켜준다.그리고 idonclick에서 emit이벤트 처리를 저장해놔준다. */
           infowindow.open(this.map, marker);
-          var id = document.getElementById("planadd");
-          id.onclick = () => {
-            console.log(marker);
+          let close = document.getElementById("close");
+          close.onclick = () => {
             infowindow.close(this.map, marker);
-          }
+          };
+          let naver = document.getElementById("naver");
+          naver.onclick = () => {
+            console.log("!@#######################");
+            console.log(this.result.title);
+            let url = this.result.title.replace(" ", "");
+            console.log(url);
+            window.open(`https://search.naver.com/search.naver?query=${url}`);
+          };
+          let insta = document.getElementById("insta");
+          insta.onclick = () => {
+            let url = this.result.title.replace(" ", "");
+            console.log(url);
+            window.open(`https://www.instagram.com/explore/tags/${url}`);
+          };
+          let planadd = document.getElementById("planadd");
+
+          planadd.onclick = () => {
+
+            console.log(position);
+            this.result.addr = position.addr;
+            this.result.content_id = position.content_id;
+            this.result.title = position.title;
+            console.log(this.result);
+            this.$emit("plan", this.result);// 여기서 이제 plan-table vue로 저장될 데이터 전송
+
+            console.log("!@#########");
+            console.log(this.result);
+
+          };
+
           // console.log(infowindow.getContent());
         });
 
@@ -151,7 +213,9 @@ export default {
           item.setMap(null);
         });
       }
-
+      for (var i = 0; i < this.infoWindows.length; i++) {
+        this.infoWindows[i].close();
+      }
     },
 
   },
