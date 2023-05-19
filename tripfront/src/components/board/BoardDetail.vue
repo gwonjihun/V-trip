@@ -42,7 +42,7 @@
 <script>
 import { listDetail } from "@/api/boardapi";
 import { HttpStatusCode } from "axios";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 import BoardComment from "./comment/BoardComment.vue";
 
 export default {
@@ -71,8 +71,16 @@ export default {
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
+    ...mapState("boardStore", ["isUpdate"]),
+  },
+  watch: {
+    isUpdate: async function () {
+      this.getDetail();
+      // await this.reload();
+    },
   },
   methods: {
+    ...mapActions("boardStore", ["reload"]),
     getDetail() {
       listDetail(this.$route.params.content_id, ({ data, status }) => {
         if (status == HttpStatusCode.NoContent) {

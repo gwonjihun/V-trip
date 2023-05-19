@@ -15,7 +15,7 @@
 
 <script>
 import { commentPost } from "@/api/boardapi";
-import { mapState } from "vuex";
+import { mapActions, mapState } from "vuex";
 export default {
   name: "CommentForm",
   props: {
@@ -35,6 +35,7 @@ export default {
     this.link = this.plink | 0;
   },
   methods: {
+    ...mapActions("boardStore", ["update"]),
     registComment() {
       if (this.userinfo.id == "") {
         alert("로그인 후에 이용 가능합니다.");
@@ -53,7 +54,7 @@ export default {
           link: this.link,
         },
         () => {
-          this.$emit("regist-comment");
+          this.update();
         },
         (err) => {
           alert(err);
