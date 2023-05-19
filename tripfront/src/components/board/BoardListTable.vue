@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { updateReads } from '@/api/boardapi';
+
 export default {
   name: "BoardListTable",
   props: {
@@ -49,9 +51,14 @@ export default {
     };
   },
   methods: {
-    clickRow(item) {
+    async clickRow(item) {
       console.log(item.content_id);
       let route = this.notice ? "notice" : "board";
+      await updateReads(
+        item.content_id,
+        () => {},
+        (err) => console.log(err)
+      );
       this.$router.push({ name: `${route}Detail`, params: { content_id: item.content_id } });
     },
   },

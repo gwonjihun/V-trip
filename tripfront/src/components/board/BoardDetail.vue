@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import { listDetail, updateReads } from "@/api/boardapi";
+import { listDetail } from "@/api/boardapi";
 import { HttpStatusCode } from "axios";
 import { mapState } from "vuex";
 import BoardComment from "./comment/BoardComment.vue";
@@ -73,23 +73,21 @@ export default {
     ...mapState("userStore", ["userinfo"]),
   },
   methods: {
+    getDetail() {
+      listDetail(this.$route.params.content_id, ({ data, status }) => {
+        if (status == HttpStatusCode.NoContent) {
+          alert("삭제되었거나 존재하지 않는 글입니다.");
+          this.$router.push("/board");
+        }
+        this.board = data;
+      });
+    },
     moveModify() {
       this.$router.push({ name: "boardModify", params: { content_id: this.board.content_id } });
     },
   },
   created() {
-    listDetail(this.$route.params.content_id, ({ data, status }) => {
-      if (status == HttpStatusCode.NoContent) {
-        alert("삭제되었거나 존재하지 않는 글입니다.");
-        this.$router.push("/board");
-      }
-      this.board = data;
-      updateReads(
-        this.board.content_id,
-        () => (this.board.reads += 1),
-        (err) => console.log(err)
-      );
-    });
+    this.getDetail();
   },
 };
 </script>
