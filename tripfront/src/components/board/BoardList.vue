@@ -1,10 +1,6 @@
 <template>
   <b-container>
-    <b-table striped hover no-border-collapse :fields="fields" :items="boards" @row-clicked="clickRow">
-      <template #cell(index)="data">
-        {{ data.index + start }}
-      </template>
-    </b-table>
+    <board-list-table :boards="boards" :start="start" :notice="notice" />
     <!-- search -->
     <!-- pagenation -->
   </b-container>
@@ -12,9 +8,14 @@
 
 <script>
 import { option } from "@/api/boardapi";
+import BoardListTable from "./BoardListTable.vue";
 
 export default {
+  components: { BoardListTable },
   name: "BoardList",
+  props: {
+    notice: { type: Boolean, require: true, default: false },
+  },
   data() {
     return {
       pgno: 1,
@@ -22,36 +23,6 @@ export default {
       key: "",
       word: "",
       count: 0,
-      fields: [
-        {
-          key: "index",
-          label: "번호",
-        },
-        {
-          key: "title",
-          label: "제목",
-        },
-        {
-          key: "nickname",
-          label: "작성자",
-        },
-        {
-          key: "reads",
-          label: "조회수",
-        },
-        {
-          key: "comment_num",
-          label: "댓글수",
-        },
-        {
-          key: "like_num",
-          label: "좋아요수",
-        },
-        {
-          key: "createat",
-          label: "작성일",
-        },
-      ],
       boards: [],
     };
   },
@@ -67,6 +38,7 @@ export default {
           pgno: this.pgno,
           key: this.key,
           word: this.word,
+          notice: this.notice,
         },
         ({ data }) => {
           this.count = data.count;
@@ -85,10 +57,6 @@ export default {
           alert("error");
         }
       );
-    },
-    clickRow(item) {
-      console.log(item.content_id);
-      this.$router.push({ name: "boardDetail", params: { content_id: item.content_id } });
     },
   },
   created() {

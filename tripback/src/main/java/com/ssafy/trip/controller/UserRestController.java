@@ -29,6 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class UserRestController {
 	
+	static final String SUCCESS = "success";
+	static final String FAIL = "fail";
+	static final String DUPLICATED= "duplicated";
+	static final String NOT_EXIST= "not_exist";
+	
 	private final UserService svc;
 	private final JwtService jwtSvc;
 	
@@ -56,28 +61,30 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/regist")
-	ResponseEntity<?> regist(UserDto user) throws SQLException {
+	ResponseEntity<String> regist(UserDto user) throws SQLException {
+		if (svc.selectUser(user.getId()) != null)
+			return new ResponseEntity<String>(DUPLICATED, HttpStatus.NO_CONTENT);
 		log.debug(user.toString());
 		if (svc.insertUser(user) != 0)
-			return new ResponseEntity<Void>(HttpStatus.CREATED);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
 		else
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 	}
 	
 	@PutMapping
-	ResponseEntity<?> update(@RequestBody UserDto user, Model model) throws SQLException {
-		if ( user.getId()== null || svc.updateUser(user) == 0) {
-			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+	ResponseEntity<String> update(@RequestBody UserDto user, Model model) throws SQLException {
+		if ( user == null || svc.updateUser(user) == 0) {
+			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		} else {
-			// token interceptor
-			return new ResponseEntity<Void>(HttpStatus.OK);
+			return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 		}
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	ResponseEntity<?> delete(@PathVariable String id) throws SQLException {
-		// token interceptor
-		return new ResponseEntity<Void>(HttpStatus.OK);
+	ResponseEntity<String> delete(@PathVariable String id) throws SQLException {
+		if (svc.selectUser(id) == null)
+			return new ResponseEntity<String>(NOT_EXIST, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
 	
 	@GetMapping("/{id}")

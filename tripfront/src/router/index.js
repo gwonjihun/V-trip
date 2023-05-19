@@ -32,7 +32,7 @@ const routes = [
         component: () => import("@/components/board/BoardList"),
       },
       {
-        path: "detail/:content_id",
+        path: ":content_id",
         name: "boardDetail",
         component: () => import("@/components/board/BoardDetail"),
       },
@@ -46,7 +46,19 @@ const routes = [
   {
     path: "/notice",
     name: "notice",
-    component: HomeView,
+    component: () => import("@/views/NoticeView"),
+    children: [
+      {
+        path: "",
+        name: "NoticeList",
+        component: () => import("@/components/board/BoardList"),
+      },
+      {
+        path: ":content_id",
+        name: "noticeDetail",
+        component: () => import("@/components/board/BoardDetail"),
+      },
+    ],
   },
   {
     path: "/about",
