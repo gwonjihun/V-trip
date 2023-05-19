@@ -14,6 +14,9 @@ async function option(param, success, fail) {
 async function listDetail(content_id, success, fail) {
   await api.get(`/board/${content_id}`).then(success).catch(fail);
 }
+async function updateReads(content_id, success, fail) {
+  await api.get(`/board/${content_id}/reads`).then(success).catch(fail);
+}
 async function insert(board, success, fail) {
   await api.post("/board", JSON.stringify(board)).then(success).catch(fail);
 }
@@ -57,6 +60,7 @@ export {
   likeSelect,
   list,
   listDetail,
+  updateReads,
   notice,
   update,
   option,

@@ -9,6 +9,7 @@ import com.ssafy.trip.dto.board.BoardSearchOptionDto;
 
 public interface BoardService {
 	BoardDto select(int content_id) throws SQLException;
+	int updateReads(int content_id) throws SQLException;
 	List<BoardDto> selectAll() throws SQLException;
 	List<BoardDto> selectNotice() throws SQLException;
 	Map<String, Object> selectOption(BoardSearchOptionDto option) throws SQLException;

@@ -80,6 +80,11 @@ public class BoardRestController {
 			return new ResponseEntity<BoardDto>(HttpStatus.NO_CONTENT);
 	}
 	
+	@GetMapping("/{content_id}/reads")
+	ResponseEntity<Integer> updateReads(@PathVariable int content_id) throws SQLException {
+		return new ResponseEntity<Integer>(svc.updateReads(content_id), HttpStatus.OK);
+	}
+	
 	@PostMapping
 	ResponseEntity<Void> insert(@RequestBody BoardDto board) throws SQLException {
 		if (!jwtSvc.checkAuthor(board.getWritername())) {

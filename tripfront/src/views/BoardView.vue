@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>자유게시판</h3>
+    <h2>자유게시판</h2>
     <router-view />
   </div>
 </template>

@@ -26,7 +26,7 @@ public class BoardCommentDto {
 	
 	private String nickname;
 	
-	private List<BoardCommentDto> child = new ArrayList<>();
+	private List<BoardCommentDto> children = new ArrayList<>();
 
 	public BoardCommentDto(int comment_id, String comment, String writername, int content_id, int link, String createat,
 			String updateat, String deleteat, String nickname) {

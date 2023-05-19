@@ -35,7 +35,7 @@ public class BoardCommentServiceImpl implements BoardCommentService {
 				int parent_idx = map.getOrDefault(comment.getLink(), -1);
 				if (parent_idx != -1) {
 					BoardCommentDto parent = list.get(parent_idx);
-					parent.getChild().add(comment);
+					parent.getChildren().add(comment);
 				}
 			}
 		}

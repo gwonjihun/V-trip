@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3>공지사항</h3>
+    <h2>공지사항</h2>
     <router-view :notice="true" />
   </div>
 </template>

@@ -27,9 +27,12 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public BoardDto select(int content_id) throws SQLException {
 		BoardDto board = repo.select(content_id);
-		if (repo.updateReads(content_id) != 0)
-			board.setReads(board.getReads()+1);
 		return board;
+	}
+	
+	@Override
+	public int updateReads(int content_id) throws SQLException {
+		return repo.updateReads(content_id);
 	}
 
 	@Override
