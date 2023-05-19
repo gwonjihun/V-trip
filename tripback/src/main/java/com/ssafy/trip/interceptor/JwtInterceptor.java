@@ -27,8 +27,8 @@ public class JwtInterceptor implements HandlerInterceptor {
 		log.debug(method);
 		if (method.equals("GET") || method.equals("OPTIONS")) return true;
 
-		final String token = request.getHeader(HEADER_AUTH);		
-
+		final String token = request.getHeader(HEADER_AUTH);
+		
 		if(token != null && jwtSvc.checkToken(token)){
 			log.info("토큰 사용 가능 : {}", token);
 			return true;

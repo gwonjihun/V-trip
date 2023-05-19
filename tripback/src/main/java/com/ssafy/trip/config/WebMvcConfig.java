@@ -4,10 +4,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.ssafy.trip.exceptionresolver.JwtHandlerExceptionResolver;
 import com.ssafy.trip.interceptor.JwtInterceptor;
 
 import lombok.RequiredArgsConstructor;
@@ -39,5 +41,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		.allowedHeaders("*")
 		.allowCredentials(true)
 		.maxAge(MAX_AGE_SECS);
+	}
+	
+	@Override
+	public void extendHandlerExceptionResolvers(List<HandlerExceptionResolver> resolvers) {
+		resolvers.add(new JwtHandlerExceptionResolver());
 	}
 }

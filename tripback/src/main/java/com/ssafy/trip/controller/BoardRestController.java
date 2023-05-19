@@ -72,7 +72,9 @@ public class BoardRestController {
 	@GetMapping("/{content_id}")
 	ResponseEntity<BoardDto> list(@PathVariable int content_id) throws SQLException {
 		BoardDto board = svc.select(content_id);
-		if (board != null) {
+		log.debug(board.toString());
+		if (board != null && board.getDeleteat() == null) {
+			log.debug("ok");
 			return new ResponseEntity<BoardDto>(board, HttpStatus.OK);
 		} else
 			return new ResponseEntity<BoardDto>(HttpStatus.NO_CONTENT);

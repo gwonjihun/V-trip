@@ -45,6 +45,7 @@ export default {
       );
     },
     doLogout({ commit }) {
+      console.log("logout");
       logout(
         () => {
           commit("SET_IS_LOGIN", false);

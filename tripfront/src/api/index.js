@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 const API_BASE_URL = "http://localhost:8080/trip/tripapi";
 const OPEN_AREA_URL =
@@ -12,6 +13,14 @@ function apiInstance() {
       "Content-type": "application/json",
     },
   });
+  let token = sessionStorage.getItem("access-token");
+  if (token) {
+    if (jwtDecode(token).exp < Math.floor(Date.now() / 1000)) {
+      alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+      sessionStorage.removeItem("access-token");
+      sessionStorage.removeItem("trip");
+    }
+  }
   instance.defaults.headers.common["access-token"] = sessionStorage.getItem("access-token");
   return instance;
 }

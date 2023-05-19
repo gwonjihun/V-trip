@@ -4,8 +4,13 @@
       <h1>게시물 등록</h1>
       <b-form>
         <b-form-input type="text" id="title" v-model="board.title" placeholder="제목을 입력해주세요"></b-form-input>
-        <b-form-textarea type="textarea" id="content" v-model="board.content" placeholder="내용을 입력해주세요"></b-form-textarea>
-        <input type="hidden" id="userId" :value="userId" readonly />
+        <b-form-textarea
+          type="textarea"
+          id="content"
+          v-model="board.content"
+          placeholder="내용을 입력해주세요"
+        ></b-form-textarea>
+        <input type="hidden" id="userId" :value="userinfo.id" readonly />
         <b-button type="submit" @click="onSubmit" v-if="this.type === `register`">등록</b-button>
         <template v-else>
           <b-button type="submit" @click="onSubmit">수정</b-button>
@@ -20,42 +25,52 @@
 <script>
 import { mapState } from "vuex";
 import { insert, update, listDetail, delte } from "@/api/boardapi.js";
+import { HttpStatusCode } from "axios";
+
+const updateMsg = "수정에 성공했습니다.";
+const insertMsg = "등록에 성공했습니다.";
+const deleteMsg = "삭제에 성공했습니다.";
+const forbiddenMsg = "잘못된 유저정보입니다.";
+const updateFailMsg = "수정에 실패했습니다.";
+const insertFailMsg = "등록에 실패했습니다.";
+const deleteFailMsg = "삭제에 실패했습니다.";
+
 export default {
   data() {
     return {
       board: {
+        content_id: "",
         title: "",
         content: "",
       },
     };
   },
   props: {
-    type: { type: String, require: true, default: "modify" }
+    type: { type: String, require: true, default: "modify" },
   },
   computed: {
-    ...mapState("userStore", ["userId"]),
+    ...mapState("userStore", ["isLogin", "userinfo"]),
   },
-
   created() {
-    if (this.userId === "") this.$router.push("/board");
-    else console.log(`사용자 ID:` + this.userId);
+    if (!this.isLogin) {
+      alert("로그인 후에 이용해 주세요");
+      this.moveList();
+    }
+
     if (this.type === "modify") {
-      console.log(this.$route.query);
-      var param = this.$route.query.content_id;
-      //var param = this.$route.params.content_id;
-      listDetail(param,
+      var param = this.$route.params.content_id;
+      listDetail(
+        param,
         ({ data }) => {
-          console.log(data);
           this.board.title = data.title;
-          console.log(data.title);
-          console.log(this.board.title);
           this.board.content = data.content;
           this.board.content_id = data.content_id;
           this.board.writername = data.writername;
         },
         (err) => {
-          console.log(err)
-        });
+          console.log(err);
+        }
+      );
     }
   },
   methods: {
@@ -72,63 +87,72 @@ export default {
       else this.type === "register" ? this.registBoard() : this.modifyBoard();
     },
     registBoard() {
-
-      let msg = "등록을 실패했습니다.";
-
-
-      insert(this.board, (res) => {
-        console.log(res);
-        console.log(msg);
-      },
-        (err) => {
-          console.log("에러발생 : " + err);
-        });
-      // alert(msg);
-      // this.$router.push("/board");
-    },
-    modifyBoard() {
-      let msg = "수정을 실패했습니다.";
-
-      console.log("수정 요청을 위한 data" + this.board);
-      update(
+      insert(
         this.board,
-        (res) => {
-          console.log(res);
-          console.log(msg);
+        ({ status }) => {
+          if (status == HttpStatusCode.Forbidden) {
+            alert(forbiddenMsg);
+            return;
+          }
+          if (status == HttpStatusCode.NoContent) {
+            alert(insertFailMsg);
+            return;
+          }
+          alert(insertMsg);
         },
         (err) => {
           console.log("에러발생 : " + err);
-        });
-
-      // alert(msg);
-      // this.$router.push("/board");
+        }
+      );
+      this.moveList();
+    },
+    async modifyBoard() {
+      console.log("수정 요청을 위한 data" + this.board);
+      await update(
+        this.board,
+        ({ status }) => {
+          if (status == HttpStatusCode.Forbidden) {
+            alert(forbiddenMsg);
+            return;
+          }
+          if (status == HttpStatusCode.NoContent) {
+            alert(updateFailMsg);
+            return;
+          }
+          alert(updateMsg);
+        },
+        (err) => {
+          console.log("에러발생 : " + err);
+        }
+      );
+      this.moveList();
     },
 
     onDelete(event) {
       event.preventDefault();
-      let msg = "수정을 실패했습니다.";
-
-      var param = this.$route.query.content_id;
-      //var param = this.$route.params.content_id;
-      console.log(param);
-      delte(param,
-        (res) => {
-          console.log(res);
-          console.log(msg);
+      delte(
+        this.$route.params.content_id,
+        ({ status }) => {
+          if (status == HttpStatusCode.Forbidden) {
+            alert(forbiddenMsg);
+            return;
+          }
+          if (status == HttpStatusCode.NoContent) {
+            alert(deleteFailMsg);
+            return;
+          }
+          alert(deleteMsg);
         },
         (err) => {
           console.log("에러발생 : " + err);
-        });
-
-      // alert(msg);
-      // this.$router.push("/board");
+        }
+      );
+      this.moveList();
     },
     moveList() {
       this.$router.push("/board");
-    }
-
-
-  }
+    },
+  },
 };
 </script>
 

@@ -32,6 +32,7 @@
 
 <script>
 import { listDetail } from "@/api/boardapi";
+import { HttpStatusCode } from "axios";
 
 export default {
   name: "BoardDetail",
@@ -56,8 +57,12 @@ export default {
     };
   },
   created() {
-    listDetail(this.$route.params.content_id, ({ data }) => {
+    listDetail(this.$route.params.content_id, ({ data, status }) => {
       this.board = data;
+      if (status == HttpStatusCode.NoContent) {
+        alert("삭제되었거나 존재하지 않는 글입니다.");
+        this.$router.push("/board");
+      }
     });
   },
 };

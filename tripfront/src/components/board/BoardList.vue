@@ -53,7 +53,8 @@ export default {
             this.$router.push({ name: "boardList", params: { pgno: 1 } });
           }
         },
-        () => {
+        (error) => {
+          alert(error);
           alert("error");
         }
       );

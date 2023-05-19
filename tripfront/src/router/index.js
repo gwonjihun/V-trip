@@ -32,20 +32,25 @@ const routes = [
         component: () => import("@/components/board/BoardList"),
       },
       {
+        path: "regist",
+        name: "boardRegist",
+        component: () => import("@/components/board/BoardRegist"),
+      },
+      {
         path: ":content_id",
         name: "boardDetail",
         component: () => import("@/components/board/BoardDetail"),
       },
       {
-        path: "regist",
-        name: "boardRegist",
+        path: ":content_id/modify",
+        name: "boardModify",
         component: () => import("@/components/board/BoardRegist"),
       },
     ],
   },
   {
     path: "/notice",
-    name: "notice",
+    // name: "notice",
     component: () => import("@/views/NoticeView"),
     children: [
       {

@@ -10,7 +10,7 @@
 		<result column="reads" 			property="reads"/>
 		<result column="createat" 		property="createat"/>
 		<result column="updateat" 		property="updateat"/>
-		<result column="content.deleteat" property="deleteat"/>
+		<result column="deleteat" 		property="deleteat"/>
 		
 		<result column="comment_num" 	property="comment_num"/>
 		<result column="like_num" 		property="like_num"/>
@@ -22,16 +22,16 @@
 		select *, (
 			select count(*)
 			from comment
-			where comment.content_id = content.content_id
+			where comment.content_id = c.content_id
 				and comment.deleteat is null
 		) comment_num,(
 			select count(*)
 			from content_like
-			where content_like.content_id = content.content_id
+			where content_like.content_id = c.content_id
 		) like_num
-		from content
-			join users
-			on content.writername = users.id
+		from content as c
+			join users as u
+			on c.writername = u.id
 	</sql>
 	
 	<select id="select" resultMap="boardMap">
@@ -41,12 +41,12 @@
 	
 	<select id="selectAll" resultMap="boardMap">
 		<include refid="select" />
-		where content.deleteat is null and users.user_type != "admin";
+		where c.deleteat is null and u.user_type != "admin";
 	</select>
 	
 	<select id="selectNotice" resultMap="boardMap">
 		<include refid="select" />
-		where content.deleteat is null and users.user_type = "admin";
+		where c.deleteat is null and u.user_type = "admin";
 	</select>
 	
 	<sql id="option">
@@ -60,12 +60,12 @@
 				</if>
 			</if>
 			<if test="notice">
-				and users.user_type="admin"
+				and u.user_type="admin"
 			</if>
 			<if test="!notice">
-				and users.user_type!="admin"
+				and u.user_type!="admin"
 			</if>
-			and content.deleteat is null
+			and c.deleteat is null
 		</where>
 	</sql>
 	
@@ -77,9 +77,9 @@
 	
 	<select id="selectCount" resultType="int">
 		select count(content_id)
-		from content
-			join users
-			on content.writername = users.id
+		from content as c
+			join users as u
+			on c.writername = u.id
 		<include refid="option" />
 	</select>
 	
