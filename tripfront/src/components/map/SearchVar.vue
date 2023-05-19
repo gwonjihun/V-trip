@@ -11,19 +11,46 @@
 </template>
 
 <script>
-import { search } from "@/api/tripapi.js";
+import { search, sido } from "@/api/tripapi.js";
 export default {
   data() {
     return {
       word: "",
       kind: 0,
-      kind_options: [{ value: 0, text: '관광지 선택' }],
+      kind_options: [
+        { value: "0", text: '관광지 선택' },
+        { value: "12", text: '관광지' },
+        { value: "14", text: '문화시설' },
+        { value: "15", text: '축제공연행사' },
+        { value: "25", text: '여행코스' },
+        { value: "28", text: '레포츠' },
+        { value: "32", text: '숙박' },
+        { value: "38", text: '쇼핑' },
+        { value: "39", text: '음식점' },
+      ],
       sidocode: 0,
       sido_options: [
         { value: 0, text: '시군구 선택' },
       ],
       trips: []
     }
+  },
+  created() {
+    let msg = "조회을 실패했습니다.";
+    sido((res) => {
+
+      var arr = res.data.response.body.items.item;
+      console.log(arr);
+      arr.forEach((item) => {
+        this.sido_options.push({
+          "value": item.code, "text": item.name,
+        });
+      });
+    },
+      (err) => {
+        alert(msg);
+        console.log("에러발생 : " + err);
+      });
   },
   methods: {
     search(e) {

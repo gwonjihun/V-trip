@@ -2,9 +2,9 @@
   <div>
     <h2 style="padding-bottom: 5px;">지도야 나와랏!</h2>
 
-    <search-var class=".custom_typecontrol" style="position:relative;" @tripList="handletriplist"></search-var>
-    <kakao-map style="width:100%;height:100%;position:absolute;overflow:hidden;" :trips="tripList"></kakao-map>
-    <plan-table></plan-table>
+    <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
+    <kakao-map style="width:50%;height:50%;overflow:;" :trips="tripList" @plan="handleplan"></kakao-map>
+    <plan-table :plan="plan"></plan-table>
   </div>
 </template>
 
@@ -17,12 +17,16 @@ export default {
   name: "SearchView",
   data() {
     return {
-      tripList: {},
+      tripList: [{}],
+      plan: {},
     }
   },
   methods: {
     handletriplist(trips) {
       this.tripList = trips;
+    },
+    handleplan(plan) {
+      this.plan = plan;
     }
   }
 
