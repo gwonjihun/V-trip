@@ -61,14 +61,14 @@ public class UserRestController {
 	}
 	
 	@PostMapping("/regist")
-	ResponseEntity<String> regist(UserDto user) throws SQLException {
+	ResponseEntity<String> regist(@RequestBody UserDto user) throws SQLException {
 		if (svc.selectUser(user.getId()) != null)
-			return new ResponseEntity<String>(DUPLICATED, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>(DUPLICATED, HttpStatus.OK);
 		log.debug(user.toString());
 		if (svc.insertUser(user) != 0)
 			return new ResponseEntity<String>(SUCCESS, HttpStatus.CREATED);
 		else
-			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
+			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
 	@PutMapping

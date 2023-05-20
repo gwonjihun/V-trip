@@ -59,7 +59,6 @@ export default {
       this.selectBoards();
     },
     async selectBoards() {
-      console.log("selectBoards start " + this.pgno);
       await option(
         {
           pgno: this.pgno,

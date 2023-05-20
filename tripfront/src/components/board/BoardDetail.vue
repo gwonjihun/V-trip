@@ -30,6 +30,7 @@
       <b-col>
         <div class="float-right">
           <b-button v-if="userinfo.id == board.writername" @click="moveModify">수정하기</b-button>
+          <b-button @click="moveList">글목록</b-button>
           <b-button @click="toggleComment = !toggleComment">{{ toggleComment ? "댓글닫기" : "댓글보기" }}</b-button>
         </div>
       </b-col>
@@ -84,6 +85,9 @@ export default {
     },
     moveModify() {
       this.$router.push({ name: "boardModify", params: { content_id: this.board.content_id } });
+    },
+    moveList() {
+      this.$router.push({ name: "boardList" });
     },
   },
   created() {
