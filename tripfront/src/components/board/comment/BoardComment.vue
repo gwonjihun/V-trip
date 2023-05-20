@@ -1,14 +1,9 @@
 <template>
   <b-container class="mt-2">
     <!-- <b-table :items="comments" /> -->
-    <comment-item
-      v-for="comment in comments"
-      :key="comment.comment_id"
-      v-bind="comment"
-      @regist-comment="getCommentList"
-    />
+    <comment-item v-for="comment in comments" :key="comment.comment_id" v-bind="comment" />
     <br />
-    <comment-form :content_id="content_id" @regist-comment="getCommentList" />
+    <comment-form :content_id="content_id" />
   </b-container>
 </template>
 
@@ -16,6 +11,7 @@
 import { commentList } from "@/api/boardapi";
 import CommentItem from "./CommentItem.vue";
 import CommentForm from "./CommentForm.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   components: { CommentItem, CommentForm },
@@ -28,13 +24,23 @@ export default {
       comments: [],
     };
   },
+  computed: {
+    ...mapState("boardStore", ["isUpdate"]),
+  },
   methods: {
+    ...mapActions("boardStore", ["reload"]),
     getCommentList() {
       commentList(
         this.content_id,
         ({ data }) => (this.comments = data),
         (err) => console.log(err)
       );
+    },
+  },
+  watch: {
+    isUpdate: async function () {
+      this.getCommentList();
+      // await this.reload();
     },
   },
   created() {

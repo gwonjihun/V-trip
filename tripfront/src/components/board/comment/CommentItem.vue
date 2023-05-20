@@ -17,7 +17,7 @@
     </b-row>
     <div v-if="!isChild">
       <b-collapse :id="'arccordion-' + comment_id" accordion="comment-item">
-        <comment-form :content_id="content_id" :plink="comment_id" @regist-comment="$emit('regist-comment')" />
+        <comment-form :content_id="content_id" :plink="comment_id" />
       </b-collapse>
     </div>
   </div>
