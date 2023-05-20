@@ -4,7 +4,8 @@
 
     <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
     <kakao-map style="width:50%;height:50%;overflow:;" :trips="tripList" @plan="handleplan"></kakao-map>
-    <plan-table :plan="plan"></plan-table>
+    <plan-table @planinit = "handleplaninit"></plan-table>
+    <plan-list v-show="iscreate" :plan="plan_info"></plan-list>
   </div>
 </template>
 
@@ -12,13 +13,20 @@
 import KakaoMap from "@/components/map/KakaoMap.vue";
 import SearchVar from "@/components/map/SearchVar.vue";
 import PlanTable from "@/components/map/PlanTable.vue";
+import PlanList from"@/components/map/PlanList.vue";
 export default {
-  components: { KakaoMap, PlanTable, SearchVar },
+  components: { KakaoMap, PlanTable, SearchVar,PlanList },
   name: "SearchView",
   data() {
     return {
-      tripList: [{}],
-      plan: {},
+      iscreate:false,
+      tripList: [],
+      trip: {},
+      plan_info :{
+      title : "",
+      start_date: "",
+      end_date: "",
+      },
     }
   },
   methods: {
@@ -26,7 +34,11 @@ export default {
       this.tripList = trips;
     },
     handleplan(plan) {
-      this.plan = plan;
+      this.trip = plan;
+    },
+    handleplaninit(plan_init){
+      this.plan_info = plan_init;
+      this.iscreate = true;
     }
   }
 

@@ -147,7 +147,11 @@ export default {
           //   content_id: "",
           //   title: ""
           // }
-
+            console.log(position);
+            this.result.addr = position.addr;
+            this.result.content_id = position.content_id;
+            this.result.title = position.title;
+            console.log(this.result);
 
 
           /* 여기서 이제 전달할 tran_data 배열에 값을 저장시켜준다.그리고 idonclick에서 emit이벤트 처리를 저장해놔준다. */
@@ -166,6 +170,8 @@ export default {
           };
           let insta = document.getElementById("insta");
           insta.onclick = () => {
+            console.log("!@#######################");
+            console.log(this.result.title);
             let url = this.result.title.replace(" ", "");
             console.log(url);
             window.open(`https://www.instagram.com/explore/tags/${url}`);
@@ -174,11 +180,7 @@ export default {
 
           planadd.onclick = () => {
 
-            console.log(position);
-            this.result.addr = position.addr;
-            this.result.content_id = position.content_id;
-            this.result.title = position.title;
-            console.log(this.result);
+            
             this.$emit("plan", this.result);// 여기서 이제 plan-table vue로 저장될 데이터 전송
 
             console.log("!@#########");
