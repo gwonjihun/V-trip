@@ -1,17 +1,68 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="@/assets/logo.png" />
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+  <!-- <div class="container">
+    <br />
+    <div class="text-center">
+      <h1>{{ message }}</h1>
+    </div>
+    <br />
+    <user-search></user-search>
+  </div> -->
+  <div class="container">
+    <br />
+    <b-jumbotron>
+      <template #header>SSAFY USER</template>
+      <template #lead>
+        {{ message }}
+      </template>
+    </b-jumbotron>
+    <br />
+    <div>
+      <div>
+        <h3>최근 떠오르는 지역들</h3>
+      </div>
+      <div>
+        <!-- 여기서 사진들을 불러와서 넣어준다. -->
+        <div >
+          <img v-for="place in hotplaces" v-bind:key="place.content_id" :src="place.first_image" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from "@/components/HelloWorld.vue";
-
+import { hotplace } from "@/api/tripapi.js";
 export default {
-  name: "HomeView",
-  components: {
-    HelloWorld,
+  data() {
+    return {
+      message: "사용자 정보 사이트에 오신것을 환영합니다.",
+      hotplaces:[],
+    };
   },
+  created(){
+    let msg = "조회을 실패했습니다.";
+    hotplace((res)=>{
+      this.hotplaces = res.data;
+    },(err) => {
+        alert(msg);
+        console.log("에러발생 : " + err);
+      });
+  }
 };
 </script>
+<style>
+.text-center {
+  text-align: center;
+}
+
+.jumbotron {
+  background-image: url("@/assets/main.jpg");
+  color: red;
+}
+.container :hover {
+  opacity: 0.5;
+}
+.container .jumbotron :hover {
+  color: blue;
+}
+</style>
