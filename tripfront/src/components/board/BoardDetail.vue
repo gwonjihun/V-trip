@@ -30,6 +30,7 @@
       <b-col>
         <div class="float-right">
           <b-button v-if="userinfo.id == board.writername" @click="moveModify">수정하기</b-button>
+          <b-button @click="moveList">글목록</b-button>
           <b-button @click="toggleComment = !toggleComment">{{ toggleComment ? "댓글닫기" : "댓글보기" }}</b-button>
         </div>
       </b-col>
@@ -42,7 +43,7 @@
 <script>
 import { listDetail } from "@/api/boardapi";
 import { HttpStatusCode } from "axios";
-import { mapActions, mapState } from "vuex";
+import { mapState } from "vuex";
 import BoardComment from "./comment/BoardComment.vue";
 
 export default {
@@ -71,16 +72,8 @@ export default {
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
-    ...mapState("boardStore", ["isUpdate"]),
-  },
-  watch: {
-    isUpdate: async function () {
-      this.getDetail();
-      // await this.reload();
-    },
   },
   methods: {
-    ...mapActions("boardStore", ["reload"]),
     getDetail() {
       listDetail(this.$route.params.content_id, ({ data, status }) => {
         if (status == HttpStatusCode.NoContent) {
@@ -93,14 +86,20 @@ export default {
     moveModify() {
       this.$router.push({ name: "boardModify", params: { content_id: this.board.content_id } });
     },
+    moveList() {
+      this.$router.push({ name: "boardList" });
+    },
   },
   created() {
     this.getDetail();
+    this.$EventBus.$on("board-reload", () => {
+      this.getDetail();
+    });
   },
 };
 </script>
 
-<style scope>
+<style scoped>
 span {
   margin-right: 1rem;
 }

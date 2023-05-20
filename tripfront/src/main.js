@@ -15,6 +15,8 @@ Vue.use(IconsPlugin);
 
 Vue.config.productionTip = false;
 
+Vue.prototype.$EventBus = new Vue();
+
 new Vue({
   router,
   store,

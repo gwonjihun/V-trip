@@ -41,7 +41,7 @@ export default {
 };
 </script>
 
-<style scope>
+<style scoped>
 .row {
   text-align: right;
 }

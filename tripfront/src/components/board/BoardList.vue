@@ -1,8 +1,21 @@
 <template>
   <b-container>
+    <b-row align-v="center" align-h="end" class="button-space">
+      <b-button variant="primary" @click="moveRegist">글쓰기</b-button>
+    </b-row>
     <board-list-table :boards="boards" :start="start" :notice="notice" />
     <!-- search -->
     <!-- pagenation -->
+    <b-row align-h="center">
+      <b-pagination
+        v-model="pgno"
+        :total-rows="count"
+        :per-page="spp"
+        first-number
+        last-number
+        limit="10"
+      ></b-pagination>
+    </b-row>
   </b-container>
 </template>
 
@@ -15,11 +28,15 @@ export default {
   name: "BoardList",
   props: {
     notice: { type: Boolean, require: true, default: false },
+    boardPgno: Number,
+    searchKey: String,
+    searchWord: String,
   },
   data() {
     return {
       pgno: 1,
-      spp: 20,
+      // spp: 20,
+      spp: 2, // pagination test
       key: "",
       word: "",
       count: 0,
@@ -31,13 +48,23 @@ export default {
       return (this.pgno - 1) * this.spp + 1;
     },
   },
+  watch: {
+    pgno() {
+      this.changeOption();
+    },
+  },
   methods: {
+    changeOption() {
+      this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word });
+      this.selectBoards();
+    },
     async selectBoards() {
       await option(
         {
           pgno: this.pgno,
-          key: this.key,
-          word: this.word,
+          spp: this.spp,
+          key: this.searchKey,
+          word: this.searchKey,
           notice: this.notice,
         },
         ({ data }) => {
@@ -47,10 +74,6 @@ export default {
           } else if (this.count != 0) {
             alert("잘못된 페이지 번호 입니다.");
             this.pgno = 1;
-            this.key = "";
-            this.word = "";
-            this.selectBoards();
-            this.$router.push({ name: "boardList", params: { pgno: 1 } });
           }
         },
         (error) => {
@@ -59,18 +82,21 @@ export default {
         }
       );
     },
+    moveRegist() {
+      this.$router.push({ name: "boardRegist" });
+    },
   },
-  created() {
-    if (this.$route.query.pgno) {
-      this.pgno = this.$route.query.pgno;
-    }
-    if (this.$route.query.key) {
-      this.key = this.$route.query.key;
-      this.word = this.$route.query.word;
-    }
-    this.selectBoards();
+  async created() {
+    await this.selectBoards();
+    this.pgno = this.boardPgno;
+    this.key = this.searchKey;
+    this.word = this.searchWord;
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.button-space {
+  height: 4rem;
+}
+</style>
