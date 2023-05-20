@@ -14,7 +14,7 @@
         <b-navbar-nav>
           <b-nav-item v-if="isLogin" @click="doLogout">Logout</b-nav-item>
           <b-nav-item v-else v-b-modal.modal-login>Login</b-nav-item>
-          <b-nav-item v-if="isLogin">MyPage </b-nav-item>
+          <b-nav-item v-if="isLogin" @click="moveUserPage">MyPage </b-nav-item>
           <b-nav-item v-else v-b-modal.modal-regist>Regist </b-nav-item>
         </b-navbar-nav>
       </b-collapse>
@@ -35,7 +35,7 @@ export default {
   components: { LoginForm, RegistForm },
   name: "HeaderNav",
   computed: {
-    ...mapState("userStore", ["isLogin"]),
+    ...mapState("userStore", ["isLogin", "userinfo"]),
   },
   methods: {
     ...mapActions("userStore", ["doLogout"]),
@@ -44,6 +44,9 @@ export default {
     },
     regist() {
       console.log("regist");
+    },
+    moveUserPage() {
+      this.$router.push({ name: "userPage", params: { id: this.userinfo.id } });
     },
   },
 };

@@ -27,7 +27,7 @@ async function userDelete(userid, success, fail) {
 }
 
 async function userInfo(userid, success, fail) {
-  await api.post(`/user/${userid}`).then(success).catch(fail);
+  await api.get(`/user/${userid}`).then(success).catch(fail);
 }
 
 export { login, logout, regist, update, userInfo, userDelete };
