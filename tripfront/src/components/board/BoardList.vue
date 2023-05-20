@@ -9,13 +9,12 @@
     <b-row align-h="center">
       <b-pagination
         v-model="pgno"
-        :total-rows="maxPg"
+        :total-rows="count"
         :per-page="spp"
         first-number
         last-number
         limit="10"
       ></b-pagination>
-      <!-- <b-pagination :pageSetting="pageDataSetting(count, maxPg, spp, block)" /> -->
     </b-row>
   </b-container>
 </template>
@@ -37,7 +36,7 @@ export default {
     return {
       pgno: 1,
       // spp: 20,
-      spp: 1, // pagination test
+      spp: 2, // pagination test
       key: "",
       word: "",
       count: 0,
@@ -47,9 +46,6 @@ export default {
   computed: {
     start() {
       return (this.pgno - 1) * this.spp + 1;
-    },
-    maxPg() {
-      return Math.ceil(this.count / this.spp);
     },
   },
   watch: {
@@ -79,10 +75,6 @@ export default {
           } else if (this.count != 0) {
             alert("잘못된 페이지 번호 입니다.");
             this.pgno = 1;
-            // this.key = "";
-            // this.word = "";
-            // this.selectBoards();
-            // this.$router.push({ name: "boardList", params: { pgno: 1 } });
           }
         },
         (error) => {
@@ -100,13 +92,6 @@ export default {
     this.pgno = this.boardPgno;
     this.key = this.searchKey;
     this.word = this.searchWord;
-    // if (this.$route.query.pgno) {
-    //   this.pgno = this.$route.query.pgno;
-    // }
-    // if (this.$route.query.key) {
-    //   this.key = this.$route.query.key;
-    //   this.word = this.$route.query.word;
-    // }
   },
 };
 </script>

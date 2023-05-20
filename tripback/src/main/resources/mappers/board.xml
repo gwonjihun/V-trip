@@ -72,6 +72,7 @@
 	<select id="selectOption" resultMap="boardMap">
 		<include refid="select" />
 		<include refid="option" />
+		order by content_id desc
 		limit #{start}, #{spp}
 	</select>
 	

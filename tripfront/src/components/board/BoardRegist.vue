@@ -42,6 +42,7 @@ export default {
         content_id: "",
         title: "",
         content: "",
+        writername: "",
       },
     };
   },
@@ -72,6 +73,8 @@ export default {
         }
       );
     }
+
+    this.board.writername = this.userinfo.id;
   },
   methods: {
     onSubmit(event) {
@@ -87,6 +90,8 @@ export default {
       else this.type === "register" ? this.registBoard() : this.modifyBoard();
     },
     registBoard() {
+      console.log("등록 요청을 위한 data" + this.board);
+      console.log(this.board);
       insert(
         this.board,
         ({ status }) => {
