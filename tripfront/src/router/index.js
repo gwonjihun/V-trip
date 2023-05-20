@@ -34,6 +34,9 @@ const routes = [
       {
         path: "regist",
         name: "boardRegist",
+        props: {
+          type: "register",
+        },
         component: () => import("@/components/board/BoardRegist"),
       },
       {

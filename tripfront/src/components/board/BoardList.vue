@@ -1,5 +1,10 @@
 <template>
   <b-container>
+    <b-row align-v="center" align-h="end" class="button-space">
+      <!-- <b-col> -->
+      <b-button variant="primary" @click="moveRegist">글쓰기</b-button>
+      <!-- </b-col> -->
+    </b-row>
     <board-list-table :boards="boards" :start="start" :notice="notice" />
     <!-- search -->
     <!-- pagenation -->
@@ -59,6 +64,9 @@ export default {
         }
       );
     },
+    moveRegist() {
+      this.$router.push({ name: "boardRegist" });
+    },
   },
   created() {
     if (this.$route.query.pgno) {
@@ -73,4 +81,8 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.button-space {
+  height: 4rem;
+}
+</style>
