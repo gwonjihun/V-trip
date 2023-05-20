@@ -55,6 +55,7 @@ export default {
         },
         () => {
           this.update();
+          this.$EventBus.$emit("board-reload");
         },
         (err) => {
           alert(err);

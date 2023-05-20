@@ -11,7 +11,6 @@
 import { commentList } from "@/api/boardapi";
 import CommentItem from "./CommentItem.vue";
 import CommentForm from "./CommentForm.vue";
-import { mapActions, mapState } from "vuex";
 
 export default {
   components: { CommentItem, CommentForm },
@@ -24,11 +23,7 @@ export default {
       comments: [],
     };
   },
-  computed: {
-    ...mapState("boardStore", ["isUpdate"]),
-  },
   methods: {
-    ...mapActions("boardStore", ["reload"]),
     getCommentList() {
       commentList(
         this.content_id,
@@ -37,14 +32,11 @@ export default {
       );
     },
   },
-  watch: {
-    isUpdate: async function () {
-      this.getCommentList();
-      // await this.reload();
-    },
-  },
   created() {
     this.getCommentList();
+    this.$EventBus.$on("board-reload", () => {
+      this.getCommentList();
+    });
   },
 };
 </script>
