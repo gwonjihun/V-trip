@@ -5,8 +5,6 @@
 </template>
 
 <script>
-
-
 export default {
   name: "KakaoMap",
   components: {},
@@ -19,8 +17,8 @@ export default {
       result: {
         addr: "",
         content_id: "",
-        title: ""
-      }
+        title: "",
+      },
     };
   },
   /*
@@ -55,7 +53,7 @@ export default {
       }
     },
   },
-  created() { },
+  created() {},
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
     if (window.kakao && window.kakao.maps) {
@@ -84,7 +82,6 @@ export default {
         level: 30,
       };
       this.map = new window.kakao.maps.Map(container, options);
-
     },
     loadMaker() {
       // 현재 표시되어있는 marker들이 있다면 marker에 등록된 map을 없애준다.
@@ -106,12 +103,11 @@ export default {
         const marker = new kakao.maps.Marker({
           map: this.map, // 마커를 표시할 지도
           position: position.latlng, // 마커를 표시할 위치
-          clickable: true //마커클릭시 지도 클릭이벤트 방지
+          clickable: true, //마커클릭시 지도 클릭이벤트 방지
           //   image: markerImage, // 마커의 이미지
         });
 
-        var iwContent =
-          `
+        var iwContent = `
           <div class="temp" style="padding:5px;">
             <div >
             <div style ="width: 30%; heigh : 100%; display:inline;"><img src = "${position.first_image}" style="width:100px;heigh:100px; "></div>
@@ -133,7 +129,7 @@ export default {
         });
 
         // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(marker, 'click', () => {
+        kakao.maps.event.addListener(marker, "click", () => {
           // 마커 위에 인포윈도우를 표시합니다
           console.log("##############################");
           console.log(marker);
@@ -147,12 +143,6 @@ export default {
           //   content_id: "",
           //   title: ""
           // }
-            console.log(position);
-            this.result.addr = position.addr;
-            this.result.content_id = position.content_id;
-            this.result.title = position.title;
-            console.log(this.result);
-
 
           /* 여기서 이제 전달할 tran_data 배열에 값을 저장시켜준다.그리고 idonclick에서 emit이벤트 처리를 저장해놔준다. */
           infowindow.open(this.map, marker);
@@ -179,13 +169,16 @@ export default {
           let planadd = document.getElementById("planadd");
 
           planadd.onclick = () => {
+            console.log(position);
+            this.result.addr = position.addr;
+            this.result.content_id = position.content_id;
+            this.result.title = position.title;
+            console.log(this.result);
 
-            
-            this.$emit("plan", this.result);// 여기서 이제 plan-table vue로 저장될 데이터 전송
+            this.$emit("plan", this.result); // 여기서 이제 plan-table vue로 저장될 데이터 전송
 
             console.log("!@#########");
             console.log(this.result);
-
           };
 
           // console.log(infowindow.getContent());
@@ -195,18 +188,15 @@ export default {
         this.infoWindows.push(infowindow);
       });
       console.log("마커수 ::: " + this.markers.length);
-      //마커를 등록하면서 
+      //마커를 등록하면서
       // 4. 지도를 이동시켜주기
       // 배열.reduce( (누적값, 현재값, 인덱스, 요소)=>{ return 결과값}, 초기값);
 
       // 지도 중심을 부드럽게 이동시킵니다
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
       this.map.panTo(this.positions[0].latlng);
-
     },
-    closewindow() {
-
-    },
+    closewindow() {},
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);
       if (this.markers.length > 0) {
@@ -219,7 +209,6 @@ export default {
         this.infoWindows[i].close();
       }
     },
-
   },
 };
 </script>
