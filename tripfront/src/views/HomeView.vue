@@ -50,7 +50,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 .text-center {
   text-align: center;
 }
