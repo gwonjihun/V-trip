@@ -3,11 +3,11 @@
     {{ plan }}
     {{ plan_init }}
     {{ plans }}
-      <div v-for="(trip_lists, index) in plans" :key="index" draggable="false">
+      <div v-for="(trip_lists, index) in plans" :key="index">
         <h2>{{ index+1 }}일차 여행일정</h2>
         <div>{{ index }}</div>
-    <draggable v-model="plans">
-          <li v-for="(item, tindex) in trip_lists.trip_list" :key="tindex">
+    <draggable v-model="plans" group="test" >
+          <li v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
             {{ item }}
             <b-button type="button" @click="removeElement(tindex, index)"
               >삭제</b-button
