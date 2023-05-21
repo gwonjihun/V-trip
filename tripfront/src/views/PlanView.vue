@@ -48,7 +48,7 @@ export default {
     handleplan(plan) {
 
       if(this.iscreate){
-      const temp = plan;
+      const temp = {...plan};
       this.trip = temp;
       }else{
         console.log("여행 일정을 생성해 주세요."); 
