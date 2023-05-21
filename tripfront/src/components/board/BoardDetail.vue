@@ -17,6 +17,7 @@
         <p class="float-left">{{ board.content }}</p>
       </b-col>
     </b-row>
+    <board-like-button />
     <hr />
     <!-- under -->
     <b-row>
@@ -45,9 +46,10 @@ import { listDetail } from "@/api/boardapi";
 import { HttpStatusCode } from "axios";
 import { mapState } from "vuex";
 import BoardComment from "./comment/BoardComment.vue";
+import BoardLikeButton from "./BoardLikeButton.vue";
 
 export default {
-  components: { BoardComment },
+  components: { BoardComment, BoardLikeButton },
   name: "BoardDetail",
   data() {
     return {

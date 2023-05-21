@@ -5,6 +5,15 @@
     </b-row>
     <board-list-table :boards="boards" :start="start" :notice="notice" />
     <!-- search -->
+    <b-row align-h="center" class="m-2">
+      <b-col cols="2">
+        <b-form-select v-model="key" :options="options"></b-form-select>
+      </b-col>
+      <b-col cols="6">
+        <b-form-input id="search-word" v-model="word" :readonly="!modify"></b-form-input>
+      </b-col>
+      <b-button variant="primary">검색</b-button>
+    </b-row>
     <!-- pagenation -->
     <b-row align-h="center">
       <b-pagination
@@ -41,6 +50,11 @@ export default {
       word: "",
       count: 0,
       boards: [],
+      options: [
+        { value: "", text: "-----" },
+        { value: "title", text: "제목" },
+        { value: "writername", text: "작성자" },
+      ],
     };
   },
   computed: {
