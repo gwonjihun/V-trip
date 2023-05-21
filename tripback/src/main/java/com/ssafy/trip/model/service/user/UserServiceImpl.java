@@ -58,4 +58,9 @@ public class UserServiceImpl implements UserService{
 			return login;
 		return null;
 	}
+	
+	@Override
+	public List<UserDto> selectOption(String word, int spp) throws SQLException {
+		return repo.selectOption(word, spp);
+	}
 }

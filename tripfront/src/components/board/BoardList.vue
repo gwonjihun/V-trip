@@ -10,9 +10,9 @@
         <b-form-select v-model="key" :options="options"></b-form-select>
       </b-col>
       <b-col cols="6">
-        <b-form-input id="search-word" v-model="word" :readonly="!modify"></b-form-input>
+        <b-form-input id="search-word" v-model="word"></b-form-input>
       </b-col>
-      <b-button variant="primary">검색</b-button>
+      <b-button variant="primary" @click="changeOption">검색</b-button>
     </b-row>
     <!-- pagenation -->
     <b-row align-h="center">
@@ -51,7 +51,7 @@ export default {
       count: 0,
       boards: [],
       options: [
-        { value: "", text: "-----" },
+        { value: "", text: "---------" },
         { value: "title", text: "제목" },
         { value: "writername", text: "작성자" },
       ],
@@ -65,6 +65,7 @@ export default {
   watch: {
     pgno() {
       this.changeOption();
+      this.selectBoards();
     },
     searchKey() {
       this.selectBoards();
@@ -76,7 +77,6 @@ export default {
   methods: {
     changeOption() {
       this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word });
-      this.selectBoards();
     },
     async selectBoards() {
       await option(

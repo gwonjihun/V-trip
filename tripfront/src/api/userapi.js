@@ -30,4 +30,8 @@ async function userInfo(userid, success, fail) {
   await api.get(`/user/${userid}`).then(success).catch(fail);
 }
 
-export { login, logout, userRegist, userUpdate, userInfo, userDelete };
+async function selectUserOption(word, success, fail) {
+  await api.get(`/user/option?word=${word}&spp=10`).then(success).catch(fail);
+}
+
+export { login, logout, userRegist, userUpdate, userInfo, userDelete, selectUserOption };

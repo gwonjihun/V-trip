@@ -2,6 +2,7 @@ package com.ssafy.trip.controller;
 
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
@@ -98,5 +99,12 @@ public class UserRestController {
 		}
 		else
 			return new ResponseEntity<UserDto>(HttpStatus.NO_CONTENT);
+	}
+	
+	@GetMapping("/option")
+	ResponseEntity<List<UserDto>> selectUserOption(String word, int spp) throws SQLException {
+		log.debug("{}, {}", word, spp);
+		if (word == null) word = "";
+		return new ResponseEntity<List<UserDto>>(svc.selectOption(word, spp), HttpStatus.OK);
 	}
 }
