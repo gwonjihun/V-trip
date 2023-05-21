@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <b-row align-v="center" align-h="end" class="button-space">
-      <b-button variant="primary" @click="moveRegist">글쓰기</b-button>
+      <b-button v-if="!notice" variant="primary" @click="moveRegist">글쓰기</b-button>
     </b-row>
     <board-list-table :boards="boards" :start="start" :notice="notice" />
     <!-- search -->
@@ -52,6 +52,12 @@ export default {
     pgno() {
       this.changeOption();
     },
+    searchKey() {
+      this.selectBoards();
+    },
+    searchWord() {
+      this.selectBoards();
+    },
   },
   methods: {
     changeOption() {
@@ -64,7 +70,7 @@ export default {
           pgno: this.pgno,
           spp: this.spp,
           key: this.searchKey,
-          word: this.searchKey,
+          word: this.searchWord,
           notice: this.notice,
         },
         ({ data }) => {

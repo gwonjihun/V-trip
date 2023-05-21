@@ -48,6 +48,8 @@
       <b-button @click="handleUpdate" variant="success">수정하기</b-button>
       <b-button @click="modify = false">취소</b-button>
     </b-row>
+    <!-- user contents -->
+    <user-contents :user_id="id" />
   </b-container>
 </template>
 
@@ -55,8 +57,10 @@
 import { userDelete, userInfo, userUpdate } from "@/api/userapi";
 import { HttpStatusCode } from "axios";
 import { mapActions } from "vuex";
+import UserContents from "./UserContents.vue";
 
 export default {
+  components: { UserContents },
   name: "UserInfo",
   props: {
     isMyPage: { type: Boolean, default: false },
