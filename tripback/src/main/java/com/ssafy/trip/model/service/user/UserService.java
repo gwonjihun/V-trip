@@ -13,4 +13,6 @@ public interface UserService {
 	int insertUser(UserDto user) throws SQLException;
 	
 	UserDto loginUser(UserDto user) throws SQLException;
+
+	List<UserDto> selectOption(String word, int spp) throws SQLException;
 }

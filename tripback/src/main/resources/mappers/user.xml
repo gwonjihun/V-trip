@@ -55,4 +55,10 @@
 		insert into users(id, name, password, email, user_type, nickname, point)
 		values(#{id}, #{name}, #{password}, #{email}, #{user_type}, #{nickname}, #{point})
 	</insert>
+	
+	<select id="selectOption" resultMap="userMap">
+		<include refid="select"/>
+		where id like concat(#{word}, "%")
+		limit #{spp}
+	</select>
 </mapper>

@@ -14,4 +14,5 @@ public interface UserRepo {
 	int deleteUser(String id) throws SQLException;
 	int updateUser(UserDto user) throws SQLException;
 	int insertUser(UserDto user) throws SQLException;
+	List<UserDto> selectOption(String word, int spp) throws SQLException;
 }
