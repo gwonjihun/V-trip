@@ -71,8 +71,9 @@ public class UserRestController {
 			return new ResponseEntity<String>(FAIL, HttpStatus.OK);
 	}
 	
-	@PutMapping
+	@PutMapping("/update")
 	ResponseEntity<String> update(@RequestBody UserDto user, Model model) throws SQLException {
+		log.debug(user.toString());
 		if ( user == null || svc.updateUser(user) == 0) {
 			return new ResponseEntity<String>(FAIL, HttpStatus.NO_CONTENT);
 		} else {
@@ -82,7 +83,7 @@ public class UserRestController {
 	
 	@DeleteMapping("/delete/{id}")
 	ResponseEntity<String> delete(@PathVariable String id) throws SQLException {
-		if (svc.selectUser(id) == null)
+		if (svc.selectUser(id) == null || svc.deleteUser(id) == 0)
 			return new ResponseEntity<String>(NOT_EXIST, HttpStatus.NO_CONTENT);
 		return new ResponseEntity<String>(SUCCESS, HttpStatus.OK);
 	}
@@ -91,6 +92,7 @@ public class UserRestController {
 	ResponseEntity<UserDto> userInfo(@PathVariable String id) throws SQLException {
 		UserDto user = svc.selectUser(id);
 		if (user != null) {
+			log.debug(user.toString());
 			user.setPassword(null);
 			return new ResponseEntity<UserDto>(user, HttpStatus.OK);
 		}

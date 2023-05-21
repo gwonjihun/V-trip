@@ -10,7 +10,7 @@
 		<result column="user_type" property="user_type"/>
 		<result column="nickname" property="nickname"/>
 		<result column="point" property="point"/>
-		<result column="users.deleteat" property="deleteat"/>
+		<result column="deleteat" property="deleteat"/>
 	</resultMap>
 	
 	<sql id="select">

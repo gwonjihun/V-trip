@@ -36,5 +36,13 @@ public class UserDto {
 		this.id = id;
 		this.point = point;
 	}
+
+	public UserDto(String id, String password, String email, String nickname) {
+		super();
+		this.id = id;
+		this.password = password;
+		this.email = email;
+		this.nickname = nickname;
+	}
 }
 

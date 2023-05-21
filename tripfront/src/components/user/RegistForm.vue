@@ -65,7 +65,7 @@
 </template>
 
 <script>
-import { regist } from "@/api/userapi";
+import { userRegist } from "@/api/userapi";
 
 export default {
   name: "RegistForm",
@@ -103,7 +103,7 @@ export default {
       console.log(this.id);
       console.log(this.password);
       // axios 통신
-      regist(
+      userRegist(
         {
           id: this.id,
           name: this.name,
