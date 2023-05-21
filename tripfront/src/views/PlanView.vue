@@ -27,7 +27,7 @@ import PlanTable from "@/components/map/PlanTable.vue";
 import PlanList from "@/components/map/PlanList.vue";
 export default {
   components: { KakaoMap, PlanTable, SearchVar, PlanList },
-  name: "SearchView",
+  name: "PlanView",
   data() {
     return {
       iscreate: false,

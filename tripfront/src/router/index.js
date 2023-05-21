@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import SearchView from "../views/SearchView.vue";
+import PlanView from "../views/PlanView.vue";
 
 Vue.use(VueRouter);
 
@@ -14,12 +14,12 @@ const routes = [
   {
     path: "/search",
     name: "search",
-    component: SearchView,
+    component: PlanView,
   },
   {
     path: "/plan",
     name: "plan",
-    component: SearchView,
+    component: PlanView,
   },
   {
     path: "/board",

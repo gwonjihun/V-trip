@@ -67,7 +67,6 @@ export default {
       search(params, ({ data }) => {
         this.trips = data;
         console.log(this.trips);
-        console.log("!@#!@#!@#!@#!@#");
         if (this.trips.length > 0) this.$emit("tripList", this.trips);
         else this.$emit("tripList", []);
       },
