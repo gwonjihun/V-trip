@@ -52,8 +52,9 @@
 </template>
 
 <script>
-import { userInfo } from "@/api/userapi";
+import { userDelete, userInfo, userUpdate } from "@/api/userapi";
 import { HttpStatusCode } from "axios";
+import { mapActions } from "vuex";
 
 export default {
   name: "UserInfo",
@@ -67,28 +68,70 @@ export default {
       password: "",
       email: "",
       nickname: "",
+      point: 0,
       modify: false,
     };
   },
+  watch: {
+    $route() {
+      this.getUserInfo();
+    },
+  },
   methods: {
+    ...mapActions("userStore", ["doLogout"]),
+    getUserInfo() {
+      const user_id = this.$route.params.id;
+      userInfo(user_id, ({ data, status }) => {
+        if (status == HttpStatusCode.NoContent || data.deleteat != null) {
+          alert("존재하지 않거나 탈퇴한 회원입니다");
+          this.$router.push("/");
+        }
+        this.id = data.id;
+        this.name = data.name;
+        this.password = "";
+        this.email = data.email;
+        this.nickname = data.nickname;
+        this.point = data.point;
+      });
+    },
     handleDelete() {
-      console.log("delete");
+      if (confirm("정말로 탈퇴하시겠습니까?")) {
+        userDelete(this.id, ({ status }) => {
+          if (status == HttpStatusCode.Ok) {
+            alert("탈퇴하였습니다");
+            this.doLogout();
+            this.$router.push("/");
+          } else {
+            alert("탈퇴 중 문제가 발생했습니다");
+          }
+        });
+      }
     },
     handleUpdate() {
-      console.log("update");
+      userUpdate(
+        {
+          id: this.id,
+          password: this.password == "" ? null : this.password,
+          email: this.email,
+          nickname: this.nickname,
+        },
+        ({ status }) => {
+          if (status == HttpStatusCode.NoContent) {
+            alert("수정 실패");
+            return;
+          }
+          alert("수정 성공");
+          this.modify = false;
+          this.getUserInfo();
+        },
+        (err) => {
+          alert(err);
+        }
+      );
     },
   },
   created() {
-    userInfo(this.$route.params.id, ({ data, status }) => {
-      if (status == HttpStatusCode.NoContent) {
-        alert("잘못된 아이디입니다");
-        this.$router.push("/");
-      }
-      this.id = data.id;
-      this.name = data.name;
-      this.email = data.email;
-      this.nickname = data.nickname;
-    });
+    this.getUserInfo();
   },
 };
 </script>

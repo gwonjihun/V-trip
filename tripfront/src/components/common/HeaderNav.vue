@@ -46,7 +46,7 @@ export default {
       console.log("regist");
     },
     moveUserPage() {
-      this.$router.push({ name: "userPage", params: { id: this.userinfo.id } });
+      this.$router.push({ name: "userPage", params: { id: this.userinfo.id } }).catch(() => {});
     },
   },
 };
