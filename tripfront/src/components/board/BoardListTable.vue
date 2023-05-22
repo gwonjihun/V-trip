@@ -3,11 +3,14 @@
     <template #cell(index)="data">
       {{ data.index + start }}
     </template>
+    <template #cell(writer)="data">
+      {{ data.item.writername + "(" + data.item.nickname + ")" }}
+    </template>
   </b-table>
 </template>
 
 <script>
-import { updateReads } from '@/api/boardapi';
+import { updateReads } from "@/api/boardapi";
 
 export default {
   name: "BoardListTable",
@@ -28,7 +31,7 @@ export default {
           label: "제목",
         },
         {
-          key: "nickname",
+          key: "writer",
           label: "작성자",
         },
         {
