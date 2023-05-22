@@ -18,9 +18,13 @@ const routes = [
   },
   {
     path: "/plan",
-    name: "plan",
-    component: { PlaceView },
+    component: () => import("@/views/PlanView"),
     children: [
+      {
+        path: "",
+        name: "planList",
+        component: () => import("@/components/plan/PlanList"),
+      },
       {
         path: "regist",
         name: "planregist",

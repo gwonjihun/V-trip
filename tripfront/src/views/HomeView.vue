@@ -7,7 +7,7 @@
     <br />
     <user-search></user-search>
   </div> -->
-  <div class="container">
+  <div>
     <br />
     <b-jumbotron>
       <template #header>SSAFY USER</template>
@@ -20,11 +20,11 @@
       <div>
         <h3>최근 떠오르는 지역들</h3>
       </div>
-      <div>
+      <div class="img-space">
         <!-- 여기서 사진들을 불러와서 넣어준다. -->
-        <div >
-          <img v-for="place in hotplaces" v-bind:key="place.content_id" :src="place.first_image" />
-        </div>
+        <b-container class="w-50 p-1" v-for="place in hotplaces" v-bind:key="place.content_id">
+          <b-img rounded :src="place.first_image" />
+        </b-container>
       </div>
     </div>
   </div>
@@ -36,23 +36,38 @@ export default {
   data() {
     return {
       message: "사용자 정보 사이트에 오신것을 환영합니다.",
-      hotplaces:[],
+      hotplaces: [],
     };
   },
-  created(){
+  created() {
     let msg = "조회을 실패했습니다.";
-    hotplace((res)=>{
-      this.hotplaces = res.data;
-    },(err) => {
+    hotplace(
+      (res) => {
+        this.hotplaces = res.data;
+      },
+      (err) => {
         alert(msg);
         console.log("에러발생 : " + err);
-      });
-  }
+      }
+    );
+  },
 };
 </script>
 <style scoped>
 .text-center {
   text-align: center;
+}
+
+.img-space {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  align-content: flex-start;
+}
+img {
+  max-width: 100%;
 }
 
 .jumbotron {
