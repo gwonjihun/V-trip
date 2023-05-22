@@ -57,6 +57,7 @@ public class PlanRestController {
 	}
 	@GetMapping("/option")
 	ResponseEntity<Map<String, Object>> option(PlanConditionDto option) throws SQLException {
+		log.debug(option.toString());
 		Map<String, Object> result = svc.selectOption(option);
 		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 	}

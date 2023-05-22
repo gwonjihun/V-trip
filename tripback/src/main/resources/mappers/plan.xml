@@ -57,7 +57,7 @@
 	</select>
 
 	<select id="selectCount" resultType="int">
-		select count(*) from plan join users on users.id = plan.writername
+		select count(*) from plan
 		<where>
 			deleteat is null and share=0
 			<if test="key == 'title'">
