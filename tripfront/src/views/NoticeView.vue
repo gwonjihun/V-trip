@@ -17,7 +17,7 @@ export default {
   data() {
     return {
       pgno: 1,
-      key: "",
+      key: "none",
       word: "",
     };
   },

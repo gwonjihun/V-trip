@@ -3,7 +3,8 @@
     <b-row align-v="center" align-h="end" class="button-space">
       <b-button v-if="!notice" variant="primary" @click="moveRegist">글쓰기</b-button>
     </b-row>
-    <board-list-table :boards="boards" :start="start" :notice="notice" />
+    <board-list-table v-if="count" :boards="boards" :start="start" :notice="notice" />
+    <p v-else>검색결과가 없습니다.</p>
     <!-- search -->
     <b-row align-h="center" class="m-2">
       <b-col cols="2">
@@ -51,7 +52,7 @@ export default {
       count: 0,
       boards: [],
       options: [
-        { value: "", text: "---------" },
+        { value: "none", text: "---------" },
         { value: "title", text: "제목" },
         { value: "writername", text: "작성자" },
       ],
@@ -88,6 +89,7 @@ export default {
           notice: this.notice,
         },
         ({ data }) => {
+          console.log(data);
           this.count = data.count;
           if (data.boards) {
             this.boards = data.boards;
