@@ -1,7 +1,10 @@
 <template>
   <div id="app">
     <header-nav />
-    <router-view />
+    <b-container>
+      <br />
+      <router-view />
+    </b-container>
   </div>
 </template>
 
@@ -24,6 +27,8 @@ export default {
 
 nav {
   padding: 30px;
+  background-color: #42b983;
+  min-height: 60px;
 }
 
 nav a {
@@ -33,5 +38,12 @@ nav a {
 
 nav a.router-link-exact-active {
   color: #42b983;
+}
+</style>
+
+<style scoped>
+.container {
+  background-color: aliceblue;
+  min-height: calc(100vh - 60px);
 }
 </style>

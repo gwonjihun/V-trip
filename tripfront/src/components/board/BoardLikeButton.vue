@@ -1,7 +1,11 @@
 <template>
   <b-row align-h="center">
-    <b-button v-if="!isLike" variant="primary" :disabled="!isLogin" @click="insLike">좋아요</b-button>
-    <b-button v-else variant="danger" :disabled="!isLogin" @click="delLike">좋아요</b-button>
+    <b-button v-if="!isLike" variant="outline-primary" :disabled="!isLogin" @click="insLike"
+      ><b-icon icon="heart"
+    /></b-button>
+    <b-button v-else variant="outline-danger" :disabled="!isLogin" @click="delLike"
+      ><b-icon icon="heart-fill"
+    /></b-button>
   </b-row>
 </template>
 

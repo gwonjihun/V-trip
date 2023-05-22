@@ -18,13 +18,22 @@ const routes = [
   },
   {
     path: "/plan",
-    name: "plan",
-    component: { PlaceView },
+    component: () => import("@/views/PlanView"),
     children: [
       {
+        path: "",
+        name: "planList",
+        component: () => import("@/components/plan/PlanList"),
+      },
+      {
         path: "regist",
-        name: "planregist",
+        name: "planRegist",
         redirect: "/place",
+      },
+      {
+        path: ":plan_id",
+        name: "planDetail",
+        component: () => import("@/components/plan/PlanDetail"),
       },
     ],
   },
