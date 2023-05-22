@@ -34,6 +34,24 @@
 		<include refid="select" />
 		where plan_id=${plan_id} and deleteat is null and share =0
 	</select>
+	<select id="selectOption" resultMap="planMap">
+		<include refid="select" />
+		<where>
+			deleteat is null and share=0
+			<if test="key != 'none' and word != null and word !=''">
+				<if test="key == 'title'">
+					and	${key} like concat('%', #{word}, '%')
+				</if>
+				<if test="key != 'title'">
+					and ${key} = #{word}
+				</if>
+			</if>
+			<if test="sidocode!=0">
+				and sidocode=#{sidocode}
+			</if>
+		</where>
+		order by plan_id asc
+	</select>
 
 
 	<update id="delete">

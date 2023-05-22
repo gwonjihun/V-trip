@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.trip.dto.plan.PlanConditionDto;
 import com.ssafy.trip.dto.plan.PlanDto;
 import com.ssafy.trip.model.repo.plan.PlanRepo;
 
@@ -23,6 +24,10 @@ public class PlanSearviceImpl implements PlanSearvice{
 		return repo.selectAll();
 	}
 
+	@Override
+	public List<PlanDto> selectOption(PlanConditionDto option) throws SQLException{
+		return repo.selectOption(option);
+	}
 	@Override
 	public PlanDto select(int plan_id) throws SQLException {
 		// TODO Auto-generated method stub

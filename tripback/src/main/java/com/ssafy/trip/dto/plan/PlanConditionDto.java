@@ -11,13 +11,22 @@ import lombok.ToString;
 @ToString
 public class PlanConditionDto {
 	private int sido_code = 0;
-	private String title = "";
-	
-	public PlanConditionDto( String title) {
-		this.title = title;
-	}
+	private String key = "title";
+	private int sidocode = 0;
+	private String word = "";
+
 	public PlanConditionDto(int sido_code) {
 		this.sido_code = sido_code;
+	}
+	public PlanConditionDto(String key,String word) {
+		super();
+		this.key = key;
+		this.word = word;
+	}
+	public PlanConditionDto(int sido_code,String word) {
+		super();
+		this.sido_code = sido_code;
+		this.word = word;
 	}
 	
 	
