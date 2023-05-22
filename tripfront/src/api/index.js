@@ -22,7 +22,7 @@ function apiInstance() {
           alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
           sessionStorage.removeItem("access-token");
           sessionStorage.removeItem("trip");
-          Promise.reject();
+          throw new Error("토큰이 만료되었습니다. 다시 로그인해주세요.");
         }
         if (!config.headers["access-token"]) {
           config.headers["access-token"] = token;

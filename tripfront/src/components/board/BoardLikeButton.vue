@@ -1,17 +1,16 @@
 <template>
   <b-row align-h="center">
-    <b-button v-if="!isLike" variant="outline-primary" :disabled="!isLogin" @click="insLike"
-      ><b-icon icon="heart"
-    /></b-button>
-    <b-button v-else variant="outline-danger" :disabled="!isLogin" @click="delLike"
-      ><b-icon icon="heart-fill"
-    /></b-button>
+    <b-button v-if="!isLike" variant="outline-primary" :disabled="!isLogin" @click="insLike">
+      <b-icon icon="heart" font-scale="2" />
+    </b-button>
+    <b-button v-else variant="outline-danger" :disabled="!isLogin" @click="delLike" icon="heart-fill">
+      <b-icon icon="heart-fill" font-scale="2" />
+    </b-button>
   </b-row>
 </template>
 
 <script>
-import { likeDelete } from "@/api/boardapi";
-import { likeInsert, likeSelect } from "@/api/boardapi";
+import { likeInsert, likeSelect, likeDelete } from "@/api/boardapi";
 import { mapState } from "vuex";
 
 export default {
@@ -72,4 +71,4 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped></style>

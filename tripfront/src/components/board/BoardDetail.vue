@@ -15,7 +15,7 @@
     <b-row>
       <b-col>
         <div>
-          <pre>{{ board.content }}</pre>
+          <p>{{ board.content }}</p>
         </div>
       </b-col>
     </b-row>
@@ -34,12 +34,12 @@
         <div class="float-right">
           <b-button v-if="userinfo.id == board.writername" @click="moveModify">수정하기</b-button>
           <b-button @click="moveList">글목록</b-button>
-          <b-button @click="toggleComment = !toggleComment">{{ toggleComment ? "댓글닫기" : "댓글보기" }}</b-button>
+          <!-- <b-button @click="toggleComment = !toggleComment">{{ toggleComment ? "댓글닫기" : "댓글보기" }}</b-button> -->
         </div>
       </b-col>
     </b-row>
     <!-- comment -->
-    <board-comment v-if="toggleComment" :content_id="board.content_id" />
+    <board-comment :content_id="board.content_id" />
   </b-container>
 </template>
 
@@ -111,6 +111,10 @@ button {
   margin-right: 1rem;
 }
 pre {
+  text-align: start;
+}
+p {
+  white-space: pre;
   text-align: start;
 }
 </style>

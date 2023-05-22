@@ -1,7 +1,8 @@
 <template>
   <div class="comment-item">
     <b-row>
-      <b-col cols="8" class="content" :class="{ child: isChild }">{{ comment }}</b-col>
+      <!-- <b-col cols="8" class="content" :class="{ child: isChild }">{{ comment }}</b-col> -->
+      <b-col cols="8" class="content">{{ (isChild ? "└ " : "") + comment }}</b-col>
       <b-col cols="1">
         <span v-if="!isChild" v-b-toggle="'arccordion-' + comment_id" class="reply-comment-btn m-1">답글</span>
       </b-col>

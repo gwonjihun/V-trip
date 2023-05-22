@@ -59,5 +59,6 @@ export default {
 
 .logo {
   font-family: DOSPilgiMedium;
+  font-size: 1.8rem;
 }
 </style>
