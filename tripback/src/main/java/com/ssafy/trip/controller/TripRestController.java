@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -45,7 +46,16 @@ public class TripRestController {
 	}
 //		
 //	}
-	
+	@GetMapping("/search/{content_id}")
+	ResponseEntity<?> search(@PathVariable String content_id) throws SQLException{
+		log.debug(content_id);
+		AttractionInfoDto aa = svc.select(content_id);
+		if(aa != null) {
+		return new ResponseEntity<AttractionInfoDto>(aa,HttpStatus.OK);
+		}else {
+			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+	}
 	
 	@GetMapping("/hotplace")
 	protected ResponseEntity<?> selectHotplace()

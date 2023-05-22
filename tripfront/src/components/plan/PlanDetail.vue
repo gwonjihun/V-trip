@@ -2,7 +2,10 @@
   <b-container>
     <search-var v-if="ismodify"></search-var>
     <kakao-map></kakao-map>
-    
+     <b-button v-b-toggle.my-collapse>사용자 입력</b-button>
+      <b-collapse id="my-collapse">
+      <user-search v-if="ismodify"></user-search>
+    </b-collapse>
   </b-container>
 </template>
 
@@ -12,8 +15,9 @@ import { mapState } from "vuex";
 import { detail } from "@/api/planapi";
 import KakaoMap from "@/components/map/KakaoMap.vue";
 import SearchVar from "@/components/map/SearchVar.vue";
+import UserSearch from "@/components/user/UserSearch.vue";
 export default {
-  components : {KakaoMap, SearchVar}, 
+  components : {KakaoMap, SearchVar,UserSearch}, 
   name: "PlanDetail",
   data() {
     return {

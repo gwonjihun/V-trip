@@ -12,4 +12,5 @@ public interface AttractionInfoRepo {
 	List<AttractionInfoDto> selectAll()  throws SQLException;
 	List<AttractionInfoDto> selectKeyword(TripConditionDto tripConditionDto)  throws SQLException;
 	List<AttractionInfoDto> selectHotplace()  throws SQLException;
+	AttractionInfoDto select(int content_id) throws SQLException;
 }

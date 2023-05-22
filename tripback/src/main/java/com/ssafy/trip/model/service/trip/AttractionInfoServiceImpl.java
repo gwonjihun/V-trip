@@ -22,6 +22,10 @@ public class AttractionInfoServiceImpl implements AttractionInfoService {
 	public List<AttractionInfoDto> selectAll() throws SQLException {
 		return dao.selectAll();
 	}
+	@Override
+	public AttractionInfoDto select(String content_id) throws SQLException {
+		return dao.select(Integer.parseInt(content_id));
+	}
 
 
 	@Override

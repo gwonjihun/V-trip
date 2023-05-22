@@ -20,5 +20,8 @@
 		select * from
 		attraction_info where first_image !="" order by readcount;
 	</select>
-
+	<select id="select" resultType="AttractionInfoDto">
+		select * from
+		attraction_info where content_id= #{content_id}
+	</select>
 </mapper>
