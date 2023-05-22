@@ -72,6 +72,7 @@ export default {
       console.log(this.target);
       regist(this.target, () => {
         console.log("등록을 성공했습니다.");
+        this.$router.push("/plan");
       },
         (err) => {
           console.log("에러발생 : " + err);

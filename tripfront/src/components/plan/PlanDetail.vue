@@ -1,38 +1,8 @@
 <template>
   <b-container>
-    <b-row>
-      <b-col cols="8" align-self="center">
-        <h4 class="float-left">{{ plan.title }}</h4>
-      </b-col>
-      <b-col cols="4">
-        <p class="mb-1">작성자: {{ plan.writerid }}</p>
-        <p class="mb-1">작성일: {{ plan.createat }}</p>
-        <p class="mb-1" v-if="plan.updateat">수정일: {{ plan.updateat }}</p>
-      </b-col>
-    </b-row>
-    <hr />
-    <!-- content -->
-    <b-row>
-      <b-col>
-        <b-table :items="planlist" />
-      </b-col>
-    </b-row>
-    <hr />
-    <!-- under -->
-    <b-row>
-      <b-col>
-        <div class="float-left">
-          <span>조회수: {{ plan.reads }}</span>
-          <span>좋아요수: {{ plan.like_num }}</span>
-        </div>
-      </b-col>
-      <b-col>
-        <div class="float-right">
-          <b-button v-if="userinfo.id == plan.writerid" @click="moveModify">수정하기</b-button>
-          <b-button @click="moveList">글목록</b-button>
-        </div>
-      </b-col>
-    </b-row>
+    <search-var v-if="ismodify"></search-var>
+    <kakao-map></kakao-map>
+    
   </b-container>
 </template>
 
@@ -40,8 +10,10 @@
 import { HttpStatusCode } from "axios";
 import { mapState } from "vuex";
 import { detail } from "@/api/planapi";
-
+import KakaoMap from "@/components/map/KakaoMap.vue";
+import SearchVar from "@/components/map/SearchVar.vue";
 export default {
+  components : {KakaoMap, SearchVar}, 
   name: "PlanDetail",
   data() {
     return {
@@ -60,6 +32,7 @@ export default {
         nickname: "",
       },
       planlist: [],
+      ismodify : false, //수정 권한 여부 
     };
   },
   computed: {
