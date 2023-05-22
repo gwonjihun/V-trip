@@ -76,10 +76,16 @@ public class PlanRestController {
 		PlanDto plan = (PlanDto) map.get("plan");
 		List<PlanDetailDto> plan_list = (LinkedList<PlanDetailDto>) map.get("planlist");
 		
-		int plan_len = svc.insert(plan);
-		int plandetail_len = pdsvc.insert(plan_list);
-		
-		return new ResponseEntity<Void>(HttpStatus.OK);
+
+		if (jwtSvc.checkAuthor(plan.getWriterid())) {
+			int plan_len = svc.insert(plan);
+			pdsvc.insert(plan_list);
+			if (plan_len == 1)
+				return new ResponseEntity<Void>(HttpStatus.CREATED);
+			else
+				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+		}
+		return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
 	}
 	@DeleteMapping("/{plan_id}")
 	ResponseEntity<Void> delete(@PathVariable int plan_id,@RequestBody PlanDto plan) throws SQLException {

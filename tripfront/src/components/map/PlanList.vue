@@ -3,18 +3,18 @@
     {{ plan }}
     {{ plan_init }}
     {{ plans }}
-      <div v-for="(trip_lists, index) in plans" :key="index">
-        <h2>{{ index+1 }}일차 여행일정</h2>
-        <div>{{ index }}</div>
-    <draggable v-model="plans" group="test" >
-          <li v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
-            {{ item }}
-            <b-button type="button" @click="removeElement(tindex, index)"
-              >삭제</b-button
-            >
-          </li>
-    </draggable>
-      </div>
+    <div v-for="(trip_lists, index) in plans" :key="index">
+      <h2>{{ index + 1 }}일차 여행일정</h2>
+      <draggable :list="trip_lists.trip_list" group="test">
+        <li v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
+          {{ item }}
+          <b-button type="button" @click="removeElement(tindex, index)">삭제</b-button>
+        </li>
+      </draggable>
+    </div>
+    <div v-if="isplan">
+      <b-button type="button" @click="planregist">등록</b-button>
+    </div>
   </div>
 </template>
 
@@ -26,6 +26,7 @@ export default {
   },
   data() {
     return {
+      isplan: false,
       plans: [],
       day: Number,
       idx: Number,
@@ -33,6 +34,12 @@ export default {
     };
   },
   methods: {
+    planregist: function () {
+      for (let day of this.plans) {
+        console.log(day);
+
+      }
+    },
     removeElement: function (tindex, index) {
       this.$delete(this.plans[index].trip_list, tindex);
     },
@@ -72,6 +79,7 @@ export default {
             trip_list: [],
           });
         }
+        this.isplan = true;
       },
       deep: true,
     },
@@ -97,5 +105,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

@@ -2,21 +2,10 @@
   <div>
     <h2 style="padding-bottom: 5px">지도야 나와랏!</h2>
 
-    <search-var
-      class=".custom_typecontrol"
-      @tripList="handletriplist"
-    ></search-var>
-    <kakao-map
-      style="width: 50%; height: 50%; overflow: "
-      :trips="tripList"
-      @plan="handleplan"
-    ></kakao-map>
+    <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
+    <kakao-map style="width: 50%; height: 50%; overflow: " :trips="tripList" @plan="handleplan"></kakao-map>
     <plan-table @planinit="handleplaninit"></plan-table>
-    <plan-list
-      v-show="iscreate"
-      :plan_init="plan_info"
-      :plan="trip"
-    ></plan-list>
+    <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
   </div>
 </template>
 
@@ -47,11 +36,11 @@ export default {
     },
     handleplan(plan) {
 
-      if(this.iscreate){
-      const temp = {...plan};
-      this.trip = temp;
-      }else{
-        console.log("여행 일정을 생성해 주세요."); 
+      if (this.iscreate) {
+        const temp = { ...plan };
+        this.trip = temp;
+      } else {
+        alert("여행 일정을 생성해 주세요.");
       }
     },
     handleplaninit(plan_init) {
