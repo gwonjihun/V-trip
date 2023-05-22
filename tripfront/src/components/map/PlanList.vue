@@ -42,10 +42,10 @@ export default {
 
 
     planregist: function () {
-      // if (!this.isLogin) {
-      //   alert("로그인 후에 이용해 주세요");
-      //   return;
-      // }
+      if (!this.isLogin) {
+        alert("로그인 후에 이용해 주세요");
+        return;
+      }
       const pl = {
         endDate: this.plan_init.end_date,
         startDate: this.plan_init.start_date,
@@ -98,7 +98,7 @@ export default {
       title: "",
       start_date: "",
       end_date: "",
-      share: "1"
+      share: "0"
     },
   },
 
