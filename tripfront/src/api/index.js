@@ -13,15 +13,29 @@ function apiInstance() {
       "Content-type": "application/json",
     },
   });
-  let token = sessionStorage.getItem("access-token");
-  if (token) {
-    if (jwtDecode(token).exp < Math.floor(Date.now() / 1000)) {
-      alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
-      sessionStorage.removeItem("access-token");
-      sessionStorage.removeItem("trip");
+
+  instance.interceptors.request.use(
+    function (config) {
+      let token = sessionStorage.getItem("access-token");
+      if (token) {
+        if (jwtDecode(token).exp < Math.floor(Date.now() / 1000)) {
+          alert("토큰이 만료되었습니다. 다시 로그인해주세요.");
+          sessionStorage.removeItem("access-token");
+          sessionStorage.removeItem("trip");
+          Promise.reject();
+        }
+        if (!config.headers["access-token"]) {
+          config.headers["access-token"] = token;
+        }
+      }
+      return config;
+    },
+    function (error) {
+      console.log(error);
+      return Promise.reject(error);
     }
-  }
-  instance.defaults.headers.common["access-token"] = sessionStorage.getItem("access-token");
+  );
+
   return instance;
 }
 
