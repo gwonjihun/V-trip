@@ -25,6 +25,10 @@ export default {
           label: "제목",
         },
         {
+          key: "sidoname",
+          label: "여행지역",
+        },
+        {
           key: "writerid",
           label: "작성자",
         },

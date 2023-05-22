@@ -1,7 +1,13 @@
 <template>
   <div>
     <h2>여행계획 게시판</h2>
-    <router-view :plan-pgno="pgno" :search-key="key" :search-word="word" @change-option="handleOption" />
+    <router-view
+      :plan-pgno="pgno"
+      :search-key="key"
+      :search-word="word"
+      :search-sidocode="sidocode"
+      @change-option="handleOption"
+    />
   </div>
 </template>
 
@@ -11,8 +17,9 @@ export default {
   data() {
     return {
       pgno: 1,
-      key: "none",
+      key: "title",
       word: "",
+      sidocode: 0,
     };
   },
   methods: {
@@ -20,6 +27,7 @@ export default {
       this.pgno = option.pgno;
       this.key = option.key;
       this.word = option.word;
+      this.sidocode = option.sidocode;
     },
   },
 };

@@ -39,7 +39,7 @@ public class PlanSearviceImpl implements PlanSearvice{
 		map.put("count", count);
 		if (start < count) {
 			List<PlanDto> list = repo.selectOption(option);
-			map.put("boards", list);
+			map.put("plans", list);
 		} else {
 			map.put("msg", "pageover");
 		}

@@ -26,5 +26,9 @@ async function deletePlan(plan_id, map, success, fail) {
 async function updateDetail(plan_id, map, success, fail) {
   await api.put(`/plan/${plan_id}`, JSON.stringify(map)).then(success).catch(fail);
 }
+// 옵션 조회
+async function planSelectOption(params, success, fail) {
+  await api.get(`/plan/option`, { params }).then(success).catch(fail);
+}
 
-export { list, detail, regist, deletePlan, updateDetail };
+export { list, detail, regist, deletePlan, updateDetail, planSelectOption };

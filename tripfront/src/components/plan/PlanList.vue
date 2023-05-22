@@ -10,6 +10,9 @@
       <b-col cols="2">
         <b-form-select v-model="key" :options="options"></b-form-select>
       </b-col>
+      <b-col cols="2">
+        <b-form-select v-model="sidocode" :options="sido_options"></b-form-select>
+      </b-col>
       <b-col cols="6">
         <b-form-input id="search-word" v-model="word"></b-form-input>
       </b-col>
@@ -30,8 +33,9 @@
 </template>
 
 <script>
-import { list } from "@/api/planapi";
+import { planSelectOption } from "@/api/planapi";
 import PlanListTable from "./PlanListTable.vue";
+import { sido } from "@/api/tripapi";
 
 export default {
   components: { PlanListTable },
@@ -40,6 +44,7 @@ export default {
     planPgno: Number,
     searchKey: String,
     searchWord: String,
+    searchSidocode: Number,
   },
   data() {
     return {
@@ -48,13 +53,14 @@ export default {
       spp: 2, // pagination test
       key: "",
       word: "",
+      sidocode: 0,
       count: 0,
       plans: [],
       options: [
-        { value: "none", text: "---------" },
         { value: "title", text: "제목" },
         { value: "writername", text: "작성자" },
       ],
+      sido_options: [{ value: 0, text: "시군구 선택" }],
     };
   },
   computed: {
@@ -73,23 +79,26 @@ export default {
     searchWord() {
       this.getPlans();
     },
+    searchSidocode() {
+      this.getPlans();
+    },
   },
   methods: {
     changeOption() {
-      this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word });
+      this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word, sidocode: this.sidocode });
     },
     async getPlans() {
-      await list(
-        // {
-        //   pgno: this.pgno,
-        //   spp: this.spp,
-        //   key: this.searchKey,
-        //   word: this.searchWord,
-        //   notice: this.notice,
-        // },
+      await planSelectOption(
+        {
+          pgno: this.pgno,
+          spp: this.spp,
+          key: this.searchKey,
+          word: this.searchWord,
+          sidocode: this.sidocode,
+        },
         ({ data }) => {
-          console.log(data);
-          this.count = data.plans.length;
+          // console.log(data);
+          this.count = data.count;
           if (data) {
             this.plans = data.plans;
           } else if (this.count != 0) {
@@ -112,6 +121,25 @@ export default {
     this.pgno = this.planPgno;
     this.key = this.searchKey;
     this.word = this.searchWord;
+    this.sidocode = this.searchSidocode;
+    await sido(
+      (res) => {
+        var arr = res.data.response.body.items.item;
+        arr.forEach((item) => {
+          this.sido_options.push({
+            value: Number(item.code),
+            text: item.name,
+          });
+          // console.log(item);
+        });
+        // console.log(this.sido_options);
+      },
+      (err) => {
+        let msg = "조회을 실패했습니다.";
+        alert(msg);
+        console.log("에러발생 : " + err);
+      }
+    );
   },
 };
 </script>
