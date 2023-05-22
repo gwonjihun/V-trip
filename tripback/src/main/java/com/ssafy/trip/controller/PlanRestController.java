@@ -20,10 +20,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.trip.dto.plan.PlanDetailDto;
 import com.ssafy.trip.dto.plan.PlanDto;
+import com.ssafy.trip.dto.plan.PlanInsertDto;
 import com.ssafy.trip.model.service.plan.PlanDetailService;
 import com.ssafy.trip.model.service.plan.PlanSearvice;
 import com.ssafy.trip.model.service.user.JwtService;
 
+import ch.qos.logback.classic.Logger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -71,18 +73,25 @@ public class PlanRestController {
 	}
 	@Transactional
 	@PostMapping("")
-	ResponseEntity<Void> regist(@RequestBody Map<String,Object> map) throws SQLException {
+	ResponseEntity<Void> regist(@RequestBody PlanInsertDto tn_in) throws SQLException {
 		// plan 세부 조회
-		PlanDto plan = (PlanDto) map.get("plan");
-		List<PlanDetailDto> plan_list = (LinkedList<PlanDetailDto>) map.get("planlist");
+//		log.debug(map.toString());
 		
-
+		PlanDto plan = tn_in.getPlan();
+		log.debug(plan.toString());
+		List<PlanDetailDto> planlist = tn_in.getPlanlist();
+		log.debug(planlist.toString());
+	
+		
+		log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		
 		if (jwtSvc.checkAuthor(plan.getWriterid())) {
 			int plan_id = svc.insert(plan);
-			for(PlanDetailDto plandetail : plan_list) {
+			for(PlanDetailDto plandetail : planlist) {
+				log.debug(plan.getPlan_id());
 				plandetail.setPlan_id(Integer.parseInt(plan.getPlan_id()));
 			}
-			int detail_len = pdsvc.insert(plan_list);
+			int detail_len = pdsvc.insert(planlist);
 			if (detail_len >0)
 				return new ResponseEntity<Void>(HttpStatus.CREATED);
 			else

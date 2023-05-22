@@ -27,6 +27,7 @@ export default {
         title: "1",
         start_date: "2020-02-02",
         end_date: "2020-02-03",
+        share: "0"
       },
       title: "1",
       start_date: "2020-02-02",

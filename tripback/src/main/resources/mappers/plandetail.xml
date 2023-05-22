@@ -12,8 +12,8 @@
 		INSERT INTO plandetail (plan_id, content_id,days,plandetail.index)
 		VALUES
 		<foreach collection="list" item="item" separator=" , ">
-			(#{item.plan_id}, #{item.content_id}, #{item.days},
-			#{item.index})
+			(${item.plan_id}, ${item.content_id}, ${item.days},
+			${item.index})
 		</foreach>
 	</insert>
 

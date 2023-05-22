@@ -75,8 +75,7 @@
 		where plan_id = ${plan_id}
 	</update>
 	
-	<insert id="insert" useGeneratedKeys="true" > insert into plan(writerid, title, share,sidocode,startdate,enddate)
+	<insert id="insert" useGeneratedKeys="true" keyProperty="plan_id" keyColumn="plan_id" > insert into plan(writerid, title, share,sidocode,startdate,enddate)
 		values('${writerid}', '${title}', ${share}, ${sidocode},'${startDate}', '${endDate}') 
-		<selectKey keyProperty="planMap" resultType="com.ssafy.trip.dto.plan.PlanDto"/>
 	</insert>
 </mapper>

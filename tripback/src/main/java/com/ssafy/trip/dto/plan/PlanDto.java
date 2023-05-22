@@ -27,7 +27,7 @@ public class PlanDto {
 	
 	
 	public PlanDto(String writerid,String title,int Share, String sidocode, String startDate, String endDate) {
-		
+		//그러면은 
 		this.writerid = writerid;
 		this.title = title;
 		this.sidocode = sidocode;

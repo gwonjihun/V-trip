@@ -163,6 +163,7 @@ export default {
             this.result.addr = position.addr;
             this.result.content_id = position.content_id;
             this.result.title = position.title;
+            this.result.sidocode = position.sido_code;
             console.log(this.result);
 
             this.$emit("plan", this.result); // 여기서 이제 plan-table vue로 저장될 데이터 전송
