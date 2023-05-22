@@ -1,5 +1,5 @@
 <template>
-  <b-table striped hover no-border-collapse :fields="fields" :items="boards" @row-clicked="clickRow">
+  <b-table striped hover no-border-collapse :fields="fields" :items="plans" @row-clicked="clickRow">
     <template #cell(index)="data">
       {{ data.index + start }}
     </template>
@@ -12,9 +12,8 @@ import { updateReads } from "@/api/boardapi";
 export default {
   name: "PlanListTable",
   props: {
-    boards: [],
+    plans: [],
     start: Number,
-    notice: { type: Boolean, require: true, default: false },
   },
   data() {
     return {
@@ -28,7 +27,7 @@ export default {
           label: "제목",
         },
         {
-          key: "nickname",
+          key: "writerid",
           label: "작성자",
         },
         {
@@ -36,11 +35,7 @@ export default {
           label: "조회수",
         },
         {
-          key: "comment_num",
-          label: "댓글수",
-        },
-        {
-          key: "like_num",
+          key: "likes",
           label: "좋아요수",
         },
         {
@@ -53,13 +48,13 @@ export default {
   methods: {
     async clickRow(item) {
       console.log(item.content_id);
-      let route = this.notice ? "notice" : "board";
       await updateReads(
         item.content_id,
         () => {},
         (err) => console.log(err)
       );
-      this.$router.push({ name: `${route}Detail`, params: { content_id: item.content_id } });
+      console.log(this);
+      // this.$router.push({ name: `$planDetail`, params: { writerid: item.content_id } });
     },
   },
 };

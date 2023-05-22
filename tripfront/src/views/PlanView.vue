@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>여행계획 게시판</h2>
-    <router-view :board-pgno="pgno" :search-key="key" :search-word="word" @change-option="handleOption" />
+    <router-view :plan-pgno="pgno" :search-key="key" :search-word="word" @change-option="handleOption" />
   </div>
 </template>
 

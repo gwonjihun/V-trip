@@ -27,7 +27,7 @@ const routes = [
       },
       {
         path: "regist",
-        name: "planregist",
+        name: "planRegist",
         redirect: "/place",
       },
     ],

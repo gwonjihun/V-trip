@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { option } from "@/api/boardapi";
+import { boardOption } from "@/api/boardapi";
 import BoardListTable from "./BoardListTable.vue";
 
 export default {
@@ -80,7 +80,7 @@ export default {
       this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word });
     },
     async selectBoards() {
-      await option(
+      await boardOption(
         {
           pgno: this.pgno,
           spp: this.spp,

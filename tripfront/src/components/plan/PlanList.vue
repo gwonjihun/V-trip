@@ -1,9 +1,9 @@
 <template>
   <b-container>
     <b-row align-v="center" align-h="end" class="button-space">
-      <b-button v-if="!notice" variant="primary" @click="moveRegist">글쓰기</b-button>
+      <b-button variant="primary" @click="moveRegist">여행계획하기</b-button>
     </b-row>
-    <plan-list-table v-if="count" :boards="boards" :start="start" :notice="notice" />
+    <plan-list-table v-if="count" :plans="plans" :start="start" />
     <p v-else>검색결과가 없습니다.</p>
     <!-- search -->
     <b-row align-h="center" class="m-2">
@@ -30,15 +30,14 @@
 </template>
 
 <script>
-import { option } from "@/api/boardapi";
+import { list } from "@/api/planapi";
 import PlanListTable from "./PlanListTable.vue";
 
 export default {
   components: { PlanListTable },
   name: "PlanList",
   props: {
-    notice: { type: Boolean, require: true, default: false },
-    boardPgno: Number,
+    planPgno: Number,
     searchKey: String,
     searchWord: String,
   },
@@ -50,7 +49,7 @@ export default {
       key: "",
       word: "",
       count: 0,
-      boards: [],
+      plans: [],
       options: [
         { value: "none", text: "---------" },
         { value: "title", text: "제목" },
@@ -66,33 +65,33 @@ export default {
   watch: {
     pgno() {
       this.changeOption();
-      this.selectBoards();
+      this.getPlans();
     },
     searchKey() {
-      this.selectBoards();
+      this.getPlans();
     },
     searchWord() {
-      this.selectBoards();
+      this.getPlans();
     },
   },
   methods: {
     changeOption() {
       this.$emit("change-option", { pgno: this.pgno, key: this.key, word: this.word });
     },
-    async selectBoards() {
-      await option(
-        {
-          pgno: this.pgno,
-          spp: this.spp,
-          key: this.searchKey,
-          word: this.searchWord,
-          notice: this.notice,
-        },
+    async getPlans() {
+      await list(
+        // {
+        //   pgno: this.pgno,
+        //   spp: this.spp,
+        //   key: this.searchKey,
+        //   word: this.searchWord,
+        //   notice: this.notice,
+        // },
         ({ data }) => {
           console.log(data);
-          this.count = data.count;
-          if (data.boards) {
-            this.boards = data.boards;
+          this.count = data.plans.length;
+          if (data) {
+            this.plans = data.plans;
           } else if (this.count != 0) {
             alert("잘못된 페이지 번호 입니다.");
             this.pgno = 1;
@@ -105,12 +104,12 @@ export default {
       );
     },
     moveRegist() {
-      this.$router.push({ name: "boardRegist" });
+      this.$router.push({ name: "planRegist" });
     },
   },
   async created() {
-    await this.selectBoards();
-    this.pgno = this.boardPgno;
+    await this.getPlans();
+    this.pgno = this.planPgno;
     this.key = this.searchKey;
     this.word = this.searchWord;
   },

@@ -8,7 +8,7 @@ async function list(success, fail) {
 async function notice(success, fail) {
   await api.get("/board/notice").then(success).catch(fail);
 }
-async function option(param, success, fail) {
+async function boardOption(param, success, fail) {
   await api.get("/board/option", { params: param }).then(success).catch(fail);
 }
 async function listDetail(content_id, success, fail) {
@@ -63,5 +63,5 @@ export {
   updateReads,
   notice,
   update,
-  option,
+  boardOption,
 };

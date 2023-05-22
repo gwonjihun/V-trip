@@ -96,7 +96,6 @@ export default {
         word,
         ({ data }) => {
           this.options = data.map((item) => item.id);
-          console.log(this.options);
         },
         (err) => {
           alert(err);
