@@ -38,7 +38,7 @@ export default {
           commit("SET_IS_LOGIN", true);
           commit("SET_USERINFO", data.userinfo);
           window.sessionStorage.setItem("access-token", data["access-token"]);
-          location.reload();
+          // location.reload();
         },
         () => {
           alert("login error");
@@ -52,7 +52,7 @@ export default {
           commit("SET_IS_LOGIN", false);
           commit("SET_USERINFO", {});
           window.sessionStorage.removeItem("access-token");
-          location.reload();
+          // location.reload();
         },
         () => {
           alert("logout error");

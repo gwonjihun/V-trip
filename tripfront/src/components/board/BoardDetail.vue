@@ -14,7 +14,9 @@
     <!-- content -->
     <b-row>
       <b-col>
-        <p class="float-left">{{ board.content }}</p>
+        <div>
+          <pre>{{ board.content }}</pre>
+        </div>
       </b-col>
     </b-row>
     <board-like-button />
@@ -107,5 +109,8 @@ span {
 }
 button {
   margin-right: 1rem;
+}
+pre {
+  text-align: start;
 }
 </style>

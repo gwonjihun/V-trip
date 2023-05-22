@@ -114,6 +114,9 @@ export default {
     this.key = this.searchKey;
     this.word = this.searchWord;
   },
+  async mounted() {
+    await this.selectBoards();
+  },
 };
 </script>
 

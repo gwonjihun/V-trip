@@ -17,6 +17,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: "DOSPilgiMedium";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/DOSPilgiMedium.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

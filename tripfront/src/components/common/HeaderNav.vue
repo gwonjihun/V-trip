@@ -1,7 +1,7 @@
 <template>
   <header>
     <b-navbar toggleable="lg">
-      <b-navbar-brand to="/" class="w20">V-Trip</b-navbar-brand>
+      <b-navbar-brand to="/" class="w20 logo">V-Trip</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="m-auto">
@@ -55,5 +55,9 @@ export default {
 <style scoped>
 .w20 {
   width: 20vw;
+}
+
+.logo {
+  font-family: DOSPilgiMedium;
 }
 </style>
