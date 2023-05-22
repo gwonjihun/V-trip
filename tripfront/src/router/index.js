@@ -30,6 +30,11 @@ const routes = [
         name: "planRegist",
         redirect: "/place",
       },
+      {
+        path: ":plan_id",
+        name: "planDetail",
+        component: () => import("@/components/plan/PlanDetail"),
+      },
     ],
   },
   {

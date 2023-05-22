@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { updateReads } from "@/api/boardapi";
-
 export default {
   name: "PlanListTable",
   props: {
@@ -47,14 +45,13 @@ export default {
   },
   methods: {
     async clickRow(item) {
-      console.log(item.content_id);
-      await updateReads(
-        item.content_id,
-        () => {},
-        (err) => console.log(err)
-      );
-      console.log(this);
-      // this.$router.push({ name: `$planDetail`, params: { writerid: item.content_id } });
+      console.log(item.plan_id);
+      // await updateReads(
+      //   item.plan_id,
+      //   () => {},
+      //   (err) => console.log(err)
+      // );
+      this.$router.push({ name: `planDetail`, params: { plan_id: item.plan_id } });
     },
   },
 };
