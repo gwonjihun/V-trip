@@ -26,4 +26,9 @@ public class PlanDetailDto {
 		this.days = days;
 		this.index = index;
 	}
+	public PlanDetailDto(int content_id, int days, int index){
+		this.content_id = content_id;
+		this.days = days;
+		this.index = index;
+	}
 }

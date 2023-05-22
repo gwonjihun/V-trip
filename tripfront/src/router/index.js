@@ -1,7 +1,7 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import HomeView from "../views/HomeView.vue";
-import PlanView from "../views/PlanView.vue";
+import PlaceView from "../views/PlaceView.vue";
 
 Vue.use(VueRouter);
 
@@ -12,14 +12,21 @@ const routes = [
     component: HomeView,
   },
   {
-    path: "/search",
-    name: "search",
-    component: PlanView,
+    path: "/place",
+    name: "place",
+    component: PlaceView,
   },
   {
     path: "/plan",
     name: "plan",
-    component: PlanView,
+    component: { PlaceView },
+    children: [
+      {
+        path: "regist",
+        name: "planregist",
+        redirect: "/place",
+      },
+    ],
   },
   {
     path: "/board",

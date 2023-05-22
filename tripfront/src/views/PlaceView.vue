@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2 style="padding-bottom: 5px">지도야 나와랏!</h2>
+    <h2 style="padding-bottom: 5px">여행 계획</h2>
 
     <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
     <kakao-map style="width: 50%; height: 50%; overflow: " :trips="tripList" @plan="handleplan"></kakao-map>

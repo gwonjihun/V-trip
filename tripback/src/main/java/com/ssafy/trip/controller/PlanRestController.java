@@ -78,9 +78,12 @@ public class PlanRestController {
 		
 
 		if (jwtSvc.checkAuthor(plan.getWriterid())) {
-			int plan_len = svc.insert(plan);
-			pdsvc.insert(plan_list);
-			if (plan_len == 1)
+			int plan_id = svc.insert(plan);
+			for(PlanDetailDto plandetail : plan_list) {
+				plandetail.setPlan_id(Integer.parseInt(plan.getPlan_id()));
+			}
+			int detail_len = pdsvc.insert(plan_list);
+			if (detail_len >0)
 				return new ResponseEntity<Void>(HttpStatus.CREATED);
 			else
 				return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);

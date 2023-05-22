@@ -1,7 +1,7 @@
 <template>
   <div>
-    {{ plan }}
-    {{ plan_init }}
+    <!-- {{ plan }} -->
+    <!-- {{ plan_init }} -->
     {{ plans }}
     <div v-for="(trip_lists, index) in plans" :key="index">
       <h2>{{ index + 1 }}일차 여행일정</h2>
@@ -35,9 +35,14 @@ export default {
   },
   methods: {
     planregist: function () {
+      var plan = { plan: this.plan_init, planlist: [] };
+      console.log(plan);
       for (let day of this.plans) {
         console.log(day);
-
+        // let a = {
+        //   plan_id: "",
+        //   content_id: "",
+        // }
       }
     },
     removeElement: function (tindex, index) {
@@ -72,12 +77,27 @@ export default {
         var btMs = end.getTime() - start.getTime();
         this.day = btMs / (1000 * 60 * 60 * 24) + 1;
         console.log(this.btDay);
-        this.plans = [];
-        for (let i = 0; i < this.day; i++) {
-          this.plans.push({
-            day: i + 1,
-            trip_list: [],
-          });
+        if (this.plans.length > 0) {
+          console.log(1);
+          //여기는 기존 일정이 있는경우
+          if (this.plans.length < this.day) {
+            for (let i = this.plans.length + 1; i <= this.day; i++) {
+              this.plans.push({
+                day: i,
+                trip_list: [],
+              });
+            }
+          }
+          else {
+            this.plans.splice(this.day, this.plans.length - this.day);
+          }
+        } else {
+          for (let i = 1; i <= this.day; i++) {
+            this.plans.push({
+              day: i,
+              trip_list: [],
+            });
+          }
         }
         this.isplan = true;
       },

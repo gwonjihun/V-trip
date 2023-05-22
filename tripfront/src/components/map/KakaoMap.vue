@@ -143,16 +143,16 @@ export default {
           let naver = document.getElementById("naver");
           naver.onclick = () => {
             console.log("!@#######################");
-            console.log(this.result.title);
-            let url = this.result.title.replace(" ", "");
+            console.log(position.title);
+            let url = position.title.replace(" ", "");
             console.log(url);
             window.open(`https://search.naver.com/search.naver?query=${url}`);
           };
           let insta = document.getElementById("insta");
           insta.onclick = () => {
             console.log("!@#######################");
-            console.log(this.result.title);
-            let url = this.result.title.replace(" ", "");
+            console.log(position.title);
+            let url = position.title.replace(" ", "");
             console.log(url);
             window.open(`https://www.instagram.com/explore/tags/${url}`);
           };
