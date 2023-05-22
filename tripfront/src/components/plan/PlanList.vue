@@ -58,7 +58,7 @@ export default {
       plans: [],
       options: [
         { value: "title", text: "제목" },
-        { value: "writername", text: "작성자" },
+        { value: "writerid", text: "작성자" },
       ],
       sido_options: [{ value: 0, text: "시군구 선택" }],
     };

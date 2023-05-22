@@ -4,7 +4,13 @@
       <board-list :board-pgno="b_pgno" :search-key="b_key" :search-word="user_id" @change-option="b_handleOption" />
     </b-tab>
     <b-tab title="여행계획">
-      <plan-list :plan-pgno="p_pgno" :search-key="p_key" :search-word="user_id" @change-option="p_handleOption" />
+      <plan-list
+        :plan-pgno="p_pgno"
+        :search-key="p_key"
+        :search-word="user_id"
+        :search-sidocode="sidocode"
+        @change-option="p_handleOption"
+      />
     </b-tab>
   </b-tabs>
 </template>
@@ -26,8 +32,9 @@ export default {
       b_word: "",
 
       p_pgno: 1,
-      p_key: "writername",
+      p_key: "writerid",
       p_word: "",
+      sidocode: 0,
     };
   },
   methods: {
@@ -40,6 +47,7 @@ export default {
       this.p_pgno = option.pgno;
       this.p_key = option.key;
       this.p_word = option.word;
+      this.sidocode = option.sidocode;
     },
   },
 };
