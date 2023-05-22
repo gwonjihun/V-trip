@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.trip.dto.board.BoardSearchOptionDto;
+import com.ssafy.trip.dto.plan.PlanConditionDto;
 import com.ssafy.trip.dto.plan.PlanDetailDto;
 import com.ssafy.trip.dto.plan.PlanDto;
 import com.ssafy.trip.dto.plan.PlanInsertDto;
@@ -53,7 +55,11 @@ public class PlanRestController {
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.NO_CONTENT);
 		}
 	}
-
+	@GetMapping("/option")
+	ResponseEntity<Map<String, Object>> option(PlanConditionDto option) throws SQLException {
+		Map<String, Object> result = svc.selectOption(option);
+		return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
+	}
 	@GetMapping("/{plan_id}")
 	ResponseEntity<Map<String, Object>> detail(@PathVariable int plan_id) throws SQLException {
 		// plan 세부 조회

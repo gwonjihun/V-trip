@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.ssafy.trip.dto.board.BoardSearchOptionDto;
 import com.ssafy.trip.dto.plan.PlanConditionDto;
 import com.ssafy.trip.dto.plan.PlanDto;
 
@@ -14,6 +15,7 @@ public interface PlanRepo {
 	List<PlanDto> selectAll() throws SQLException;//d
 	PlanDto select(int plan_id) throws SQLException;//d
 	List<PlanDto> selectOption(PlanConditionDto option) throws SQLException;
+	int selectCount(PlanConditionDto option) throws SQLException;
 	int delete(int plan_id) throws SQLException;//d
 	int updateread(int plan_id) throws SQLException;//d
 	int updatePlan(PlanDto plan) throws SQLException;

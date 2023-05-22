@@ -10,24 +10,38 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class PlanConditionDto {
-	private int sido_code = 0;
-	private String key = "title";
+
+	private int pgno = 1;
+	private int spp = 20;
 	private int sidocode = 0;
+	private String key = "title";
 	private String word = "";
 
-	public PlanConditionDto(int sido_code) {
-		this.sido_code = sido_code;
+	public PlanConditionDto(int pgno, int spp, int sidocode) {
+		this.sidocode = sidocode;
+		this.pgno = pgno;
+		this.spp = spp;
 	}
-	public PlanConditionDto(String key,String word) {
+
+	public PlanConditionDto(int pgno, String key, String word) {
 		super();
+		this.pgno = pgno;
 		this.key = key;
 		this.word = word;
 	}
-	public PlanConditionDto(int sido_code,String word) {
+
+	public PlanConditionDto(int pgno, int spp) {
 		super();
-		this.sido_code = sido_code;
-		this.word = word;
+		this.pgno = pgno;
+		this.spp = spp;
+	}
+
+	public PlanConditionDto(int sidocode) {
+		super();
+		this.sidocode = sidocode;
 	}
 	
-	
+	public int getStart() {
+		return (pgno-1)*spp;
+	}
 }

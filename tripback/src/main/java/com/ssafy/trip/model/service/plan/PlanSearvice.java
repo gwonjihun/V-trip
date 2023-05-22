@@ -13,11 +13,11 @@ public interface PlanSearvice {
 	List<PlanDto> selectAll() throws SQLException;//d
 	PlanDto select(int plan_id) throws SQLException;//d
 
-	List<PlanDto> selectOption(PlanConditionDto option) throws SQLException;
+	Map<String, Object> selectOption(PlanConditionDto option) throws SQLException;
 //	List<PlanDto> selectHotplace() throws SQLException;
 	int delete(int content_id) throws SQLException;//d
 	int updateread(int content_id) throws SQLException;//d
 	int insert(PlanDto plan) throws SQLException;
-
+	int selectCount(PlanConditionDto option) throws SQLException;
 	int updatePlan(PlanDto plan) throws SQLException;
 }
