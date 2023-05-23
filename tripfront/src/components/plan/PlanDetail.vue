@@ -1,15 +1,11 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map :plan_info="plan_list"></kakao-map>
-    <!-- kakao-map에는 그걸 넣어줘야하는데 그게 뭐냐면 바로
-      여행 세부 데이터를 전달해줘야함 ->그래야 세부 데이터로 infowindow
-      형성할 수 있고,
+    <kakao-map v-if="planlist.length" :input_plan_info="planlist"></kakao-map>
 
-    -->
-    <plan-nav></plan-nav>
+    <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
-    <plan-info></plan-info>
+    <plan-info :plan_init="plan" :init_list="plan_list"></plan-info>
     <!-- 여행의 세부데이터 전달하고 -->
     <b-button v-b-toggle.my-collapse>사용자 입력</b-button>
     <b-collapse id="my-collapse">
@@ -22,7 +18,7 @@
 import { HttpStatusCode } from "axios";
 import { mapState } from "vuex";
 import { detail } from "@/api/planapi";
-import KakaoMap from "@/components/map/KakaoMap.vue";
+import KakaoMap from "@/components/plan/KakaoMap.vue";
 import SearchVar from "@/components/map/SearchVar.vue";
 import UserSearch from "@/components/user/UserSearch.vue";
 import PlanNav from "./PlanNav.vue";
@@ -143,8 +139,8 @@ export default {
           console.log(data);
           this.planlist[i].addr1 = data.addr1;
           this.planlist[i].title = data.title;
-          this.planlist[i].latitude = data.latitude;
-          this.planlist[i].longitude = data.longitude;
+          this.planlist[i].latitude = Number(data.latitude);
+          this.planlist[i].longitude = Number(data.longitude);
           this.planlist[i].first_image = data.first_image;
           this.planlist[i].sido_code = data.sido_code;
           // this.planlist[i].push(data);
@@ -161,6 +157,8 @@ export default {
           this.$router.push("/plan");
         }
         this.plan = data.plan;
+        this.plan.endDate = this.plan.endDate.split(" ")[0];
+        this.plan.startDate = this.plan.startDate.split(" ")[0];
         this.planlist = data.planlist;
         console.log("여기가 오니?");
       });
@@ -190,7 +188,7 @@ trip_list : {
       this.$router.push({ name: "planList" });
     },
   },
-  async created() {
+  async mounted() {
     await this.getDetail();
     this.$EventBus.$on("plan-reload", () => {
       this.getDetail();

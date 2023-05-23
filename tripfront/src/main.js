@@ -19,7 +19,7 @@ Vue.filter("dateFilter", dateFilter);
 Vue.config.productionTip = false;
 
 Vue.prototype.$EventBus = new Vue();
-
+Vue.prototype.$kakao = () => window.kakao.maps.load(this.loadMap);
 new Vue({
   router,
   store,

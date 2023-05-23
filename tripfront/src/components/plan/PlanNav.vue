@@ -1,9 +1,9 @@
 <template>
   <div>
     <b-form @submit="createplan">
-      <b-form-input type="date" v-model="start_date" />
-      <b-form-input type="date" v-model="end_date" />
-      <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" />
+      <b-form-input type="date" v-model="a.startDate" :readonly="!ismodify" />
+      <b-form-input type="date" v-model="a.endDate" :readonly="!ismodify" />
+      <b-form-input type="text" v-model="a.title" placeholder="여행 제목을 입력해주세요" :readonly="!ismodify" />
       <b-button type="submit">일정 변경</b-button>
 
     </b-form>
@@ -24,6 +24,12 @@
 export default {
   data() {
     return {
+      a: {
+        startDate: "",
+        endDate: "",
+        title: "",
+
+      },
       plan_init: {
         title: "",
         start_date: "",
@@ -39,22 +45,32 @@ export default {
   },
   props: {
     plan: {
-      createat: "2023-05-23 11:36:12",
-      deleteat: null,
-      endDate: "2020-02-03 00:00:00",
-      likes: 0,
-      plan_id: "16",
-      reads: 6,
-      share: 0,
-      sidocode: "37",
-      sidoname: "전라북도",
-      startDate: "2020-02-02 00:00:00",
-      title: "test1",
-      updateat: null,
-      writerid: "ssafy",
+      plan_id: 0,
+      title: "",
+      writerid: "",
+      reads: 0,
+      createat: "",
+      updateat: "",
+      deleteat: "",
+      endDate: "",
+      startDate: "",
+      comment_num: 0,
+      like_num: 0,
 
+      nickname: "",
+    },
 
-    }
+    ismodify: { type: Boolean, require: true, default: false }
+  },
+  watch: {
+    plan() {
+      this.a.endDate = this.plan.endDate;
+      this.a.title = this.plan.title;
+      this.a.startDate = this.plan.startDate;
+    },
+    ismodify() {
+      this.ismodi = this.ismodify;
+    },
   },
   methods: {
     createplan(event) {
