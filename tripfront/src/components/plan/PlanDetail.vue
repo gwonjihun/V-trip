@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map :trips="plan_list"></kakao-map>
+    <kakao-map :plan_info="plan_list"></kakao-map>
     <!-- kakao-map에는 그걸 넣어줘야하는데 그게 뭐냐면 바로
       여행 세부 데이터를 전달해줘야함 ->그래야 세부 데이터로 infowindow
       형성할 수 있고,
@@ -77,18 +77,20 @@ export default {
       for (let i = 1; i <= day; i++) {
         this.plan_list.push({
           days: i,
-          trip_list: {}
+          trip_list: []
         });
       }
       for (var a of this.planlist) {
-        this.plan_list[a.days - 1].content_id = a.content_id;
-        this.plan_list[a.days - 1].addr1 = a.addr1;
-        this.plan_list[a.days - 1].first_image = a.first_image;
-        this.plan_list[a.days - 1].latitude = a.latitude;
-        this.plan_list[a.days - 1].longitude = a.longitude;
-        this.plan_list[a.days - 1].plan_id = a.plan_id;
-        this.plan_list[a.days - 1].sido_code = a.sido_code;
-        this.plan_list[a.days - 1].title = a.title;
+        var temp = {};
+        temp.content_id = a.content_id;
+        temp.addr1 = a.addr1;
+        temp.first_image = a.first_image;
+        temp.latitude = a.latitude;
+        temp.longitude = a.longitude;
+        temp.plan_id = a.plan_id;
+        temp.sido_code = a.sido_code;
+        temp.title = a.title;
+        this.plan_list[a.days - 1].trip_list.push(temp);
       }
     },
     // planupdate: function () {
