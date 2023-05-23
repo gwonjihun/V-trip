@@ -1,10 +1,10 @@
 <template>
-  <div>
+  <b-container class="main">
     <h2>{{ isMyPage ? "마이페이지" : "유저정보" }}</h2>
     <user-info :isMyPage="isMyPage" />
     <!-- test -->
     <user-search />
-  </div>
+  </b-container>
 </template>
 
 <script>

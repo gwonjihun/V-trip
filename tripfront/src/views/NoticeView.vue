@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="main">
     <h2>공지사항</h2>
     <router-view
       :board-pgno="pgno"
@@ -8,7 +8,7 @@
       @change-option="handleOption"
       :notice="true"
     />
-  </div>
+  </b-container>
 </template>
 
 <script>
