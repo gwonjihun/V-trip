@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div id="map"></div>
+    <div id="map"><slot></slot></div>
+    <img src="@/assets/icon/naver.png" />
+    <b-icon icon="instagram"></b-icon>
   </div>
 </template>
 
 <script>
 export default {
   name: "KakaoMap",
-  components: {},
   data() {
     return {
       map: null,
@@ -98,18 +99,20 @@ export default {
         });
 
         var iwContent = `
-          <div class="temp" style="padding:5px;">
-            <div >
-            <div style ="width: 30%; heigh : 100%; display:inline;"><img src = "${position.first_image}" style="width:100px;heigh:100px; "></div>
-            <div style ="width: 70%; heigh : 100%">
-              ${position.title}<br>
-              ${position.addr1}
+          <div class="info-window">
+            <div class="info-window-info">
+              <div><img src = "${position.first_image}" style="width:100px;heigh:100px; "></div>
+              <div>
+                ${position.title}<br>
+                ${position.addr1}
               </div>
             </div>
-            <button id ="planadd"> 방문하기</button>
-            <button id = "insta" type="button" >인스타 아이콘</button>
-            <button id = "naver" type="button">네이버 아이콘</button>
-            <button id = "close" type="button">닫기</button>
+            <div class="info-window-button">
+              <button id ="planadd" class="btn btn-primary"> 방문하기</button>
+              <button id = "insta" type="button" class="btn"><img src="icon/instagram.png"></button>
+              <button id = "naver" type="button" class="btn"><img src="icon/naver.png"></button>
+              <button id = "close" type="button" class="btn btn-danger">닫기</button>
+            </div>
           </div>
           `;
         // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
@@ -208,5 +211,21 @@ export default {
 #map {
   width: 100%;
   height: 400px;
+}
+</style>
+
+<style>
+.info-window {
+  padding: 5px;
+  min-width: 200px;
+  min-height: 150px;
+}
+.info-window-info {
+  display: flex;
+  /* height: calc(100% - 50px); */
+  height: 100%;
+}
+.info-window-button {
+  height: 50px;
 }
 </style>
