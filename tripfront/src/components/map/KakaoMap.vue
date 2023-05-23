@@ -30,7 +30,6 @@ export default {
     trips: [],
   },
   watch: {
-
     trips() {
       this.positions = [];
       if (this.trips.length > 0) {
@@ -48,13 +47,12 @@ export default {
       }
     },
   },
-  created() { },
+  created() {},
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
     if (window.kakao && window.kakao.maps) {
       this.loadMap();
-    }
-    else {
+    } else {
       this.loadScript();
     }
   },
@@ -63,10 +61,11 @@ export default {
     loadScript() {
       const script = document.createElement("script");
       script.type = "text/javascript";
+      script.id="map";
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
 
       /* global kakao */
-      script.onload = () => window.kakao.maps.load(this.loadMap);
+      script.onload = () => kakao.maps.load(this.loadMap);
 
       document.head.appendChild(script);
     }, // 이거는 고정
@@ -74,8 +73,8 @@ export default {
     loadMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new window.kakao.maps.LatLng(34.480701, 127.570667),
-        level: 30,
+        center: new window.kakao.maps.LatLng(36.480701, 127.570667),
+        level: 12,
       };
       this.map = new window.kakao.maps.Map(container, options);
     },
@@ -214,7 +213,7 @@ export default {
 <style scoped>
 #map {
   width: 100%;
-  height: 400px;
+  height: 800px;
 }
 </style>
 

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="main">
     <h2>여행계획 게시판</h2>
     <router-view
       :plan-pgno="pgno"
@@ -8,7 +8,7 @@
       :search-sidocode="sidocode"
       @change-option="handleOption"
     />
-  </div>
+  </b-container>
 </template>
 
 <script>

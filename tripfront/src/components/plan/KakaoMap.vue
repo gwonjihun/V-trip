@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map">
+    <div id="map" @load="loadMaker">
       <slot></slot>
     </div>
   </div>
@@ -27,63 +27,50 @@ export default {
   },
 
   props: {
-    trips: [],
     input_plan_info: [],
+    isfinish:{type:Boolean,deep:true},
   },
 
   watch: {
+    isfinish(){
+      console.log("kakao checking watch");
+      console.log(kakao); 
+      this.loadMaker();
+    },
     plan_info: {
       handler() {
         this.positions = [];
         console.log(this.plan_info);
-        this.temp();
+        // this.temp();
       },
       deep: true,
     },
-    input_plan_info() {
-      console.log("watch input_plan_info", this.input_plan_info);
-    }
-    // trips() {
-    //   this.positions = [];
-    //   if (this.trips.length > 0) {
-    //     this.trips.forEach((trip) => {
-    //       let obj = {};
-    //       obj = trip;
-    //       console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-    //       obj.latlng = new window.kakao.maps.LatLng(trip.latitude, trip.longitude);
-
-    //       this.positions.push(obj);
-    //     });
-
-    //     this.loadMaker();
-    //   } else {
-    //     this.deleteMarker();
-    //   }
-    // },
+    input_plan_info: {
+      hander() {
+        console.log("watch input_plan_info", this.input_plan_info);
+      },
+      deep: true,
+    },
   },
 
-
-  created() { },
-
+  created() {},
 
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
-    console.log("마운트 시작");
-    // console.log(window.kakao);
-    // console.log(window.kakao.maps)
-    if (window.kakao && window.kakao.maps) {
-      this.loadMap();
-    }
-    // else {
-    //   this.loadScript();
-    // }
-    // this.temp();
-    this.plan_info = this.input_plan_info;
-    console.log(this.input_plan_info);
-    console.log(this.plan_info);
-    console.log("마운트 끝");
-  },
+      console.log("마운트 시작");
+      console.log(window.kakao);
+      // console.log(window.kakao.maps)
+      if (window.kakao) {
+        this.loadMap();
+        console.log("load map으로 시작");
+      } else {
+        this.loadScript();
+        console.log("loadscript로 시작");
+      }
 
+
+      // this.loadMaker();
+  },
 
   methods: {
     temp() {
@@ -94,47 +81,42 @@ export default {
         this.plan_info.forEach((plan) => {
           let obj = {};
           obj = plan;
-          obj.latlng = new window.kakao.maps.LatLng(plan.latitude, plan.longitude);
+          obj.latlng = new window.kakao.maps.LatLng(
+            plan.latitude,
+            plan.longitude
+          );
           console.log(typeof plan.latitude);
           this.positions.push(obj);
         });
-
-
       }
-      this.loadMaker();
+      // this.loadMaker();
     },
     // api 불러오기
-    // loadScript() {
-    //   const script = document.createElement("script");
-    //   script.type = "text/javascript";
-    //   script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
-    //   // /* global kakao */
-    //   script.onload = () => window.kakao.maps.load(this.loadMap);
-    //   // console.log(kakao);
-    //   document.head.appendChild(script);
+    loadScript() {
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      script.id="plan";
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
+      /* global kakao */
+      script.onload = () => kakao.maps.load(this.loadMap);
 
-    // this.loadMaker();
-    // }, // 이거는 고정
+      document.head.appendChild(script);
+
+      this.loadMaker();
+    }, // 이거는 고정
     // 맵 출력하기
     loadMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new window.kakao.maps.LatLng(34.480701, 127.570667),
+        center: new kakao.maps.LatLng(36.480701, 127.570667),
         level: 13,
       };
-      this.map = new window.kakao.maps.Map(container, options);
+      this.map = new kakao.maps.Map(container, options);
     },
     loadMaker() {
-      // 현재 표시되어있는 marker들이 있다면 marker에 등록된 map을 없애준다.
-      // console.log(this.trips);
       this.deleteMarker();
-      // this.temp();
-      // 마커 이미지를 생성합니다
-      //   const imgSrc = require("@/assets/map/markerStar.png");
-      // 마커 이미지의 이미지 크기 입니다
-      //   const imgSize = new kakao.maps.Size(24, 35);
-      //   const markerImage = new kakao.maps.MarkerImage(imgSrc, imgSize);
-
+      this.plan_info = this.input_plan_info;
+      this.temp();
       // 마커를 생성합니다
       this.markers = [];
       console.log(this.positions);
@@ -211,7 +193,6 @@ export default {
             this.result.sidocode = position.sido_code;
 
             this.$emit("plan", this.result); // 여기서 이제 plan-table vue로 저장될 데이터 전송
-
           };
 
           // console.log(infowindow.getContent());
@@ -226,7 +207,7 @@ export default {
 
       // 지도 중심을 부드럽게 이동시킵니다
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
-      this.map.panTo(this.positions[0].latlng);
+      if (this.positions.length > 0) this.map.panTo(this.positions[0].latlng);
     },
     deleteMarker() {
       if (this.markers.length > 0) {
