@@ -37,6 +37,25 @@ export default {
 
     }
   },
+  props: {
+    plan: {
+      createat: "2023-05-23 11:36:12",
+      deleteat: null,
+      endDate: "2020-02-03 00:00:00",
+      likes: 0,
+      plan_id: "16",
+      reads: 6,
+      share: 0,
+      sidocode: "37",
+      sidoname: "전라북도",
+      startDate: "2020-02-02 00:00:00",
+      title: "test1",
+      updateat: null,
+      writerid: "ssafy",
+
+
+    }
+  },
   methods: {
     createplan(event) {
       event.preventDefault();
