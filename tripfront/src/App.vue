@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <header-nav />
-    <b-container>
-      <br />
-      <router-view />
-    </b-container>
+    <!-- <b-container> -->
+    <br />
+    <router-view />
+    <!-- </b-container> -->
   </div>
 </template>
 

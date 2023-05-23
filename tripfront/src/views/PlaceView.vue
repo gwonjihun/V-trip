@@ -1,19 +1,19 @@
 <template>
   <div>
     <h2 style="padding-bottom: 5px">여행 계획</h2>
-    <b-container class="mt-5">
-      <b-row>
-        <b-col>
-          <kakao-map :trips="tripList" @plan="handleplan">
-            <search-var @tripList="handletriplist"></search-var>
-          </kakao-map>
-        </b-col>
-        <b-col lg="4">
-          <plan-table @planinit="handleplaninit"></plan-table>
-          <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
-        </b-col>
-      </b-row>
-    </b-container>
+    <!-- <b-container class="mt-5"> -->
+    <b-row>
+      <b-col>
+        <kakao-map :trips="tripList" @plan="handleplan">
+          <search-var @tripList="handletriplist"></search-var>
+        </kakao-map>
+      </b-col>
+      <b-col lg="4">
+        <plan-table @planinit="handleplaninit"></plan-table>
+        <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
+      </b-col>
+    </b-row>
+    <!-- </b-container> -->
   </div>
 </template>
 
