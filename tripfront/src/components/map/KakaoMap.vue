@@ -24,7 +24,7 @@ export default {
 
   props: {
     trips: [],
-    plan_info: [],
+    // plan_info: [],
   },
   watch: {
     trips() {
@@ -44,7 +44,7 @@ export default {
       }
     },
   },
-  created() {},
+  created() { },
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
     if (window.kakao && window.kakao.maps) {
@@ -187,7 +187,7 @@ export default {
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
       this.map.panTo(this.positions[0].latlng);
     },
-    closewindow() {},
+    closewindow() { },
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);
       if (this.markers.length > 0) {

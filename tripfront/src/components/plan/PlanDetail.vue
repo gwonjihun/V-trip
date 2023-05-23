@@ -1,15 +1,11 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map :plan_info="plan_list"></kakao-map>
-    <!-- kakao-map에는 그걸 넣어줘야하는데 그게 뭐냐면 바로
-      여행 세부 데이터를 전달해줘야함 ->그래야 세부 데이터로 infowindow
-      형성할 수 있고,
+    <kakao-map :planlist="trips"></kakao-map>
 
-    -->
-    <plan-nav></plan-nav>
+    <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
-    <plan-info></plan-info>
+    <plan-info :plan_init="plan" :init_list="plan_list"></plan-info>
     <!-- 여행의 세부데이터 전달하고 -->
     <b-button v-b-toggle.my-collapse>사용자 입력</b-button>
     <b-collapse id="my-collapse">
@@ -85,8 +81,8 @@ export default {
         temp.content_id = a.content_id;
         temp.addr1 = a.addr1;
         temp.first_image = a.first_image;
-        temp.latitude = a.latitude;
-        temp.longitude = a.longitude;
+        temp.latitude = a.longitude;
+        temp.longitude = a.latitude;
         temp.plan_id = a.plan_id;
         temp.sido_code = a.sido_code;
         temp.title = a.title;
@@ -161,6 +157,8 @@ export default {
           this.$router.push("/plan");
         }
         this.plan = data.plan;
+        this.plan.endDate = this.plan.endDate.split(" ")[0];
+        this.plan.startDate = this.plan.startDate.split(" ")[0];
         this.planlist = data.planlist;
         console.log("여기가 오니?");
       });

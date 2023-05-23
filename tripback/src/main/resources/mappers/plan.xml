@@ -52,7 +52,7 @@
 				and sidocode=#{sidocode}
 			</if>
 		</where>
-		order by plan_id asc
+		order by plan_id desc
 		limit #{start}, #{spp}
 	</select>
 
