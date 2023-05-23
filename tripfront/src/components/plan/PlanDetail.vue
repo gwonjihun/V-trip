@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map :planlist="trips"></kakao-map>
+    <kakao-map v-if="planlist.length" :input_plan_info="planlist"></kakao-map>
 
     <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
@@ -18,7 +18,7 @@
 import { HttpStatusCode } from "axios";
 import { mapState } from "vuex";
 import { detail } from "@/api/planapi";
-import KakaoMap from "@/components/map/KakaoMap.vue";
+import KakaoMap from "@/components/plan/KakaoMap.vue";
 import SearchVar from "@/components/map/SearchVar.vue";
 import UserSearch from "@/components/user/UserSearch.vue";
 import PlanNav from "./PlanNav.vue";
@@ -81,8 +81,8 @@ export default {
         temp.content_id = a.content_id;
         temp.addr1 = a.addr1;
         temp.first_image = a.first_image;
-        temp.latitude = a.longitude;
-        temp.longitude = a.latitude;
+        temp.latitude = a.latitude;
+        temp.longitude = a.longitude;
         temp.plan_id = a.plan_id;
         temp.sido_code = a.sido_code;
         temp.title = a.title;
@@ -139,8 +139,8 @@ export default {
           console.log(data);
           this.planlist[i].addr1 = data.addr1;
           this.planlist[i].title = data.title;
-          this.planlist[i].latitude = data.latitude;
-          this.planlist[i].longitude = data.longitude;
+          this.planlist[i].latitude = Number(data.latitude);
+          this.planlist[i].longitude = Number(data.longitude);
           this.planlist[i].first_image = data.first_image;
           this.planlist[i].sido_code = data.sido_code;
           // this.planlist[i].push(data);
@@ -188,7 +188,7 @@ trip_list : {
       this.$router.push({ name: "planList" });
     },
   },
-  async created() {
+  async mounted() {
     await this.getDetail();
     this.$EventBus.$on("plan-reload", () => {
       this.getDetail();
