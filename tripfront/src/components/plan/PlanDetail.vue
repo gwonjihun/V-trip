@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map v-if="planlist.length" :input_plan_info="planlist"></kakao-map>
+    <kakao-map v-if="planlist.length" :isfinish="isfinish" :input_plan_info="planlist"></kakao-map>
 
     <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
@@ -32,6 +32,7 @@ export default {
     return {
       //이게 여행 권한
       plan: {
+        isfinish:false,
         plan_id: 0,
         title: "",
         writerid: "",
@@ -44,7 +45,7 @@ export default {
         comment_num: 0,
         like_num: 0,
 
-        nickname: "",
+        nickname: ""
       },
       //이게 여행 경로들
       planlist: [],
@@ -56,6 +57,9 @@ export default {
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
+  },
+  mounted(){
+    this.isfinish = true;
   },
   methods: {
     setData() {
@@ -188,7 +192,7 @@ trip_list : {
       this.$router.push({ name: "planList" });
     },
   },
-  async mounted() {
+  async created() {
     await this.getDetail();
     this.$EventBus.$on("plan-reload", () => {
       this.getDetail();
