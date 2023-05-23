@@ -4,7 +4,7 @@
       <b-form-input type="date" v-model="start_date" />
       <b-form-input type="date" v-model="end_date" />
       <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" />
-      <b-button type="submit">검색</b-button>
+      <b-button type="submit">생성</b-button>
     </b-form>
     <!-- 
     <draggable>

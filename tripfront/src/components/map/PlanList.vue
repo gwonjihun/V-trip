@@ -3,11 +3,11 @@
     <!-- {{ plan }} -->
     <!-- {{ plan_init }} -->
     <div v-for="(trip_lists, index) in plans" :key="index">
-      <h2>{{ index + 1 }}일차 여행일정</h2>
+      <h4>{{ index + 1 }}일차 여행일정</h4>
       <b-list-group>
         <draggable :list="trip_lists.trip_list" group="test">
           <b-list-group-item v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
-            {{ item }}
+            {{ item.title }}
             <b-button type="button" @click="removeElement(tindex, index)">삭제</b-button>
           </b-list-group-item>
         </draggable>
@@ -166,4 +166,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.list-group {
+  min-height: 1rem;
+  border: 1px solid;
+}
+</style>

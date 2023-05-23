@@ -3,13 +3,12 @@
     <h2 style="padding-bottom: 5px">여행 계획</h2>
     <b-container class="mt-5">
       <b-row>
-        <b-col lg="3">
-          <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
-        </b-col>
         <b-col>
-          <kakao-map :trips="tripList" @plan="handleplan"></kakao-map>
+          <kakao-map :trips="tripList" @plan="handleplan">
+            <search-var @tripList="handletriplist"></search-var>
+          </kakao-map>
         </b-col>
-        <b-col lg="3">
+        <b-col lg="4">
           <plan-table @planinit="handleplaninit"></plan-table>
           <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
         </b-col>
@@ -80,17 +79,17 @@ body {
   border: 1px solid #919191;
   border-radius: 5px;
 }
-
+/*
 .custom_typecontrol {
   position: absolute;
   top: 10px;
   left: 10px;
   overflow: hidden;
-  width: 130px;
+  width: 200px;
   height: 30px;
   margin: 0;
   padding: 0;
-  z-index: 1;
+  z-index: 2;
   font-size: 12px;
   font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
 }
@@ -103,5 +102,5 @@ body {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
-}
+} */
 </style>
