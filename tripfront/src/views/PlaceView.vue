@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <b-container class="main">
     <h2 style="padding-bottom: 5px">여행 계획</h2>
     <!-- <b-container class="mt-5"> -->
     <b-row>
@@ -8,13 +8,13 @@
           <search-var @tripList="handletriplist"></search-var>
         </kakao-map>
       </b-col>
-      <b-col lg="4">
+      <b-col lg="4" class="mt-3 mt-lg-0">
         <plan-table @planinit="handleplaninit"></plan-table>
         <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
       </b-col>
     </b-row>
     <!-- </b-container> -->
-  </div>
+  </b-container>
 </template>
 
 <script>
@@ -102,5 +102,18 @@ body {
   text-align: center;
   line-height: 30px;
   cursor: pointer;
+} */
+</style>
+
+<style scoped>
+.main {
+  /* margin-top: 0;
+  padding-top: 2rem;
+  background-color: #e4feff;
+  min-height: calc(100vh - 4.5rem); */
+  max-width: 100vw;
+}
+/* .contaier {
+  width: 100%;
 } */
 </style>

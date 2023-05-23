@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <b-container class="main">
     <h2>자유게시판</h2>
     <router-view :board-pgno="pgno" :search-key="key" :search-word="word" @change-option="handleOption" />
-  </div>
+  </b-container>
 </template>
 
 <script>

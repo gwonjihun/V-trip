@@ -2,7 +2,7 @@
   <div>
     <!-- {{ plan }} -->
     <!-- {{ plan_init }} -->
-    <div v-for="(trip_lists, index) in plans" :key="index">
+    <div v-for="(trip_lists, index) in plans" :key="index" class="mt-2">
       <h4>{{ index + 1 }}일차 여행일정</h4>
       <b-list-group>
         <draggable :list="trip_lists.trip_list" group="test">
@@ -19,7 +19,7 @@
         </draggable>
       </b-list-group>
     </div>
-    <div v-if="isplan">
+    <div v-if="isplan" class="mt-2">
       <b-button type="button" @click="planregist">등록</b-button>
     </div>
   </div>

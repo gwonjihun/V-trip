@@ -1,10 +1,7 @@
 <template>
   <div id="app">
     <header-nav />
-    <!-- <b-container> -->
-    <br />
     <router-view />
-    <!-- </b-container> -->
   </div>
 </template>
 
@@ -33,6 +30,13 @@ export default {
   font-family: "OAGothic-ExtraBold";
   src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/OAGothic-ExtraBold.woff2") format("woff2");
   font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: "NeoDunggeunmoPro-Regular";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2302@1.0/NeoDunggeunmoPro-Regular.woff2")
+    format("woff2");
+  font-weight: normal;
   font-style: normal;
 }
 
@@ -67,11 +71,18 @@ nav a {
 nav a.router-link-exact-active {
   color: #1faed3;
 }
-</style>
 
-<style scoped>
-.container {
+.nav-link {
+  font-size: x-large;
+  font-family: "NeoDunggeunmoPro-Regular";
+}
+
+.container.main {
+  margin-top: 0;
+  padding-top: 2rem;
   background-color: #e4feff;
   min-height: calc(100vh - 4.5rem);
 }
 </style>
+
+<style scoped></style>
