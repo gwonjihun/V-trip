@@ -2,15 +2,16 @@
   <div>
     <!-- {{ plan }} -->
     <!-- {{ plan_init }} -->
-    {{ plans }}
     <div v-for="(trip_lists, index) in plans" :key="index">
       <h2>{{ index + 1 }}일차 여행일정</h2>
-      <draggable :list="trip_lists.trip_list" group="test">
-        <li v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
-          {{ item }}
-          <b-button type="button" @click="removeElement(tindex, index)">삭제</b-button>
-        </li>
-      </draggable>
+      <b-list-group>
+        <draggable :list="trip_lists.trip_list" group="test">
+          <b-list-group-item v-for="(item, tindex) in plans[index].trip_list" :key="tindex">
+            {{ item }}
+            <b-button type="button" @click="removeElement(tindex, index)">삭제</b-button>
+          </b-list-group-item>
+        </draggable>
+      </b-list-group>
     </div>
     <div v-if="isplan">
       <b-button type="button" @click="planregist">등록</b-button>

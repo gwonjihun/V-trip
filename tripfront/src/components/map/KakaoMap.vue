@@ -24,6 +24,7 @@ export default {
 
   props: {
     trips: [],
+    // plan_info: [],
   },
   watch: {
     trips() {
