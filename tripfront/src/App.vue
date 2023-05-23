@@ -55,7 +55,7 @@ h2 {
 
 nav {
   padding: 30px;
-  background-color: #42b983;
+  background-color: #00a6e3;
   min-height: 4.5rem;
 }
 
@@ -65,13 +65,13 @@ nav a {
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #1faed3;
 }
 </style>
 
 <style scoped>
 .container {
-  background-color: aliceblue;
+  background-color: #e4feff;
   min-height: calc(100vh - 4.5rem);
 }
 </style>

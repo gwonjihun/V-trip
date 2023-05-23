@@ -1,15 +1,15 @@
 <template>
   <b-card>
-    <b-form>
+    <b-container>
       <b-row>
-        <b-col cols="10">
+        <b-col cols="10" class="px-0">
           <b-input type="text" v-model="comment" />
         </b-col>
-        <b-col cols="2">
+        <b-col cols="2" class="px-0 pl-2">
           <b-button variant="primary" @click="registComment">등록</b-button>
         </b-col>
       </b-row>
-    </b-form>
+    </b-container>
   </b-card>
 </template>
 

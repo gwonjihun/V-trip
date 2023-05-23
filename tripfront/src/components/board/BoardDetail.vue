@@ -1,10 +1,10 @@
 <template>
   <b-container>
-    <b-row>
-      <b-col cols="8" align-self="center">
-        <h4 class="float-left">{{ board.title }}</h4>
+    <b-row class="mt-5" align-content="">
+      <b-col lg="8">
+        <h4 class="title float-left">{{ board.title }}</h4>
       </b-col>
-      <b-col cols="4">
+      <b-col lg="4" class="mt-3 mt-lg-0">
         <p class="mb-1">작성자: {{ board.nickname }}</p>
         <p class="mb-1">작성일: {{ board.createat }}</p>
         <p class="mb-1" v-if="board.updateat">수정일: {{ board.updateat }}</p>
@@ -15,7 +15,7 @@
     <b-row>
       <b-col>
         <div>
-          <p>{{ board.content }}</p>
+          <p class="content mt-3 mb-5 mx-3 mx-lg-5">{{ board.content }}</p>
         </div>
       </b-col>
     </b-row>
@@ -24,7 +24,7 @@
     <!-- under -->
     <b-row>
       <b-col>
-        <div class="float-left">
+        <div class="float-left mx-3">
           <span>조회수: {{ board.reads }}</span>
           <span>좋아요수: {{ board.like_num }}</span>
           <span>댓글수: {{ board.comment_num }}</span>
@@ -39,7 +39,7 @@
       </b-col>
     </b-row>
     <!-- comment -->
-    <board-comment :content_id="board.content_id" />
+    <board-comment :content_id="board.content_id" class="mx-1" />
   </b-container>
 </template>
 
@@ -114,7 +114,15 @@ pre {
   text-align: start;
 }
 p {
+  text-align: start;
+}
+
+.content {
   white-space: pre;
   text-align: start;
+}
+.title {
+  font-weight: bold;
+  font-size: 1.8rem;
 }
 </style>

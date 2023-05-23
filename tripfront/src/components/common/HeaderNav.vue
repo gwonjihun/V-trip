@@ -11,7 +11,7 @@
           <b-nav-item to="/board">Board</b-nav-item>
           <b-nav-item to="/notice">Notice</b-nav-item>
         </b-navbar-nav>
-        <b-navbar-nav class="w20 ml-auto ml-lg-0">
+        <b-navbar-nav class="w20 ml-auto ml-lg-0 p-auto">
           <b-nav-item v-if="isLogin" @click="doLogout">Logout</b-nav-item>
           <b-nav-item v-else v-b-modal.modal-login>Login</b-nav-item>
           <b-nav-item v-if="isLogin" @click="moveUserPage">MyPage </b-nav-item>

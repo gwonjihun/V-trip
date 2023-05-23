@@ -3,6 +3,9 @@
     <template #cell(index)="data">
       {{ data.index + start }}
     </template>
+    <template #cell(createat)="data">
+      {{ data.item.createat | dateFilter }}
+    </template>
   </b-table>
 </template>
 
@@ -19,6 +22,7 @@ export default {
         {
           key: "index",
           label: "번호",
+          class: "tw10",
         },
         {
           key: "title",
@@ -27,22 +31,27 @@ export default {
         {
           key: "sidoname",
           label: "여행지역",
+          class: "tw10",
         },
         {
           key: "writerid",
           label: "작성자",
+          class: "tw10",
         },
         {
           key: "reads",
           label: "조회수",
+          class: "tw10",
         },
         {
           key: "likes",
           label: "좋아요수",
+          class: "tw10",
         },
         {
           key: "createat",
           label: "작성일",
+          class: "tw15",
         },
       ],
     };
