@@ -22,6 +22,8 @@
 
 import { toStringByFormatting } from "@/util/utils";
 
+const dayMiliSec = 1000 * 60 * 60 * 24;
+
 export default {
   data() {
     return {
@@ -33,7 +35,7 @@ export default {
       },
       title: "1",
       start_date: toStringByFormatting(new Date()),
-      end_date: toStringByFormatting(new Date(Date.now() + 1000 * 60 * 60 * 24)),
+      end_date: toStringByFormatting(new Date(Date.now() + dayMiliSec * 1)),
       //아래 데이터는 여행 경로 데이터 구조
     };
   },
