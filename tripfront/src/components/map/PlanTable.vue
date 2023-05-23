@@ -20,6 +20,8 @@
 <script>
 // import draggable from "vuedraggable";
 
+import { toStringByFormatting } from "@/util/utils";
+
 export default {
   data() {
     return {
@@ -27,14 +29,13 @@ export default {
         title: "1",
         start_date: "2020-02-02",
         end_date: "2020-02-03",
-        share: "0"
+        share: "0",
       },
       title: "1",
-      start_date: "2020-02-02",
-      end_date: "2020-02-03",
+      start_date: toStringByFormatting(new Date()),
+      end_date: toStringByFormatting(new Date(Date.now() + 1000 * 60 * 60 * 24)),
       //아래 데이터는 여행 경로 데이터 구조
-
-    }
+    };
   },
   methods: {
     createplan(event) {

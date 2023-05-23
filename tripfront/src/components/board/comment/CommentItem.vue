@@ -2,13 +2,13 @@
   <div class="comment-item">
     <b-row>
       <!-- <b-col cols="8" class="content" :class="{ child: isChild }">{{ comment }}</b-col> -->
-      <b-col cols="8" class="content">{{ (isChild ? "└ " : "") + comment }}</b-col>
-      <b-col cols="1">
-        <span v-if="!isChild" v-b-toggle="'arccordion-' + comment_id" class="reply-comment-btn m-1">답글</span>
+      <b-col cols="7" class="content">{{ (isChild ? "└ " : "") + comment }}</b-col>
+      <b-col cols="2">
+        <span v-if="!isChild" v-b-toggle="'arccordion-' + comment_id" class="reply-comment-btn">답글</span>
       </b-col>
       <b-col cols="1">{{ nickname }}</b-col>
       <b-col cols="2">
-        {{ createat }}
+        {{ createat | dateFilter }}
       </b-col>
     </b-row>
     <b-row v-if="children">

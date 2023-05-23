@@ -4,7 +4,12 @@
       {{ data.index + start }}
     </template>
     <template #cell(writer)="data">
-      {{ data.item.writername + "(" + data.item.nickname + ")" }}
+      <span class="link" @click="moveUserPage(data.item.writername)">
+        {{ data.item.writername + "(" + data.item.nickname + ")" }}
+      </span>
+    </template>
+    <template #cell(createat)="data">
+      {{ data.item.createat | dateFilter }}
     </template>
   </b-table>
 </template>
@@ -25,6 +30,7 @@ export default {
         {
           key: "index",
           label: "번호",
+          class: "tw10",
         },
         {
           key: "title",
@@ -33,22 +39,27 @@ export default {
         {
           key: "writer",
           label: "작성자",
+          class: "tw15",
         },
         {
           key: "reads",
           label: "조회수",
+          class: "tw10",
         },
         {
           key: "comment_num",
           label: "댓글수",
+          class: "tw10",
         },
         {
           key: "like_num",
           label: "좋아요수",
+          class: "tw10",
         },
         {
           key: "createat",
           label: "작성일",
+          class: "tw15",
         },
       ],
     };
@@ -64,8 +75,37 @@ export default {
       );
       this.$router.push({ name: `${route}Detail`, params: { content_id: item.content_id } });
     },
+    moveUserPage(user_id) {
+      this.$router.push({ name: "userPage", params: { id: user_id } }).catch(() => {});
+    },
   },
 };
 </script>
 
-<style></style>
+<style scoped>
+.link:hover {
+  color: blue;
+  cursor: pointer;
+}
+</style>
+
+<style>
+.tw05 {
+  width: 5%;
+}
+.tw10 {
+  width: 10%;
+}
+.tw15 {
+  width: 15%;
+}
+.tw20 {
+  width: 20%;
+}
+.tw25 {
+  width: 25%;
+}
+.tw30 {
+  width: 30%;
+}
+</style>

@@ -44,7 +44,7 @@ export default {
       }
     },
   },
-  created() { },
+  created() {},
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
     if (window.kakao && window.kakao.maps) {
@@ -58,8 +58,7 @@ export default {
     loadScript() {
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.src =
-        "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
+      script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
       /* global kakao */
       script.onload = () => window.kakao.maps.load(this.loadMap);
 
@@ -188,7 +187,7 @@ export default {
       // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
       this.map.panTo(this.positions[0].latlng);
     },
-    closewindow() { },
+    closewindow() {},
     deleteMarker() {
       console.log("마커 싹 지우자!!!", this.markers.length);
       if (this.markers.length > 0) {
@@ -207,7 +206,7 @@ export default {
 
 <style scoped>
 #map {
-  width: 70%;
+  width: 100%;
   height: 400px;
 }
 </style>
