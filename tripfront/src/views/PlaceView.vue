@@ -1,11 +1,20 @@
 <template>
   <div>
     <h2 style="padding-bottom: 5px">여행 계획</h2>
-
-    <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
-    <kakao-map style="width: 50%; height: 50%; overflow: " :trips="tripList" @plan="handleplan"></kakao-map>
-    <plan-table @planinit="handleplaninit"></plan-table>
-    <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
+    <b-container class="mt-5">
+      <b-row>
+        <b-col lg="3">
+          <search-var class=".custom_typecontrol" @tripList="handletriplist"></search-var>
+        </b-col>
+        <b-col>
+          <kakao-map :trips="tripList" @plan="handleplan"></kakao-map>
+        </b-col>
+        <b-col lg="3">
+          <plan-table @planinit="handleplaninit"></plan-table>
+          <plan-list v-show="iscreate" :plan_init="plan_info" :plan="trip"></plan-list>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -35,7 +44,6 @@ export default {
       this.tripList = temp;
     },
     handleplan(plan) {
-
       if (this.iscreate) {
         const temp = { ...plan };
         this.trip = temp;
