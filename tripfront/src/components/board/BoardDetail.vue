@@ -23,14 +23,14 @@
     <hr />
     <!-- under -->
     <b-row>
-      <b-col>
+      <b-col cols="12" sm="8">
         <div class="float-left mx-3">
           <span>조회수: {{ board.reads }}</span>
           <span>좋아요수: {{ board.like_num }}</span>
           <span>댓글수: {{ board.comment_num }}</span>
         </div>
       </b-col>
-      <b-col>
+      <b-col cols="12" sm="4">
         <div class="float-right">
           <b-button v-if="userinfo.id == board.writername" @click="moveModify">수정하기</b-button>
           <b-button @click="moveList">글목록</b-button>
