@@ -19,8 +19,8 @@ async function regist(map, success, fail) {
   await api.post(`/plan`, JSON.stringify(map)).then(success).catch(fail);
 }
 //삭제
-async function deletePlan(plan_id, map, success, fail) {
-  await api.delete(`/plan/${plan_id}`, JSON.stringify(map)).then(success).catch(fail);
+async function deletePlan(plan_id, success, fail) {
+  await api.delete(`/plan/${plan_id}`).then(success).catch(fail);
 }
 //수정
 async function updateDetail(plan_id, map, success, fail) {
@@ -30,5 +30,14 @@ async function updateDetail(plan_id, map, success, fail) {
 async function planSelectOption(params, success, fail) {
   await api.get(`/plan/option`, { params }).then(success).catch(fail);
 }
+async function sharedelete(params, success, fail) {
+  await api.delete(`/plan/share`, { params }).then(success).catch(fail);
+}
+async function sharesearch(params, success, fail) {
+  await api.get(`/plan/share/${params}`).then(success).catch(fail);
+}
+async function shareinsert(params, success, fail) {
+  await api.post(`/plan/share`, { params }).then(success).catch(fail);
+}
 
-export { list, detail, regist, deletePlan, updateDetail, planSelectOption };
+export { list, detail, regist, deletePlan, updateDetail, planSelectOption,sharedelete,sharesearch,shareinsert };

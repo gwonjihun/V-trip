@@ -49,6 +49,12 @@ export default {
   },
   props: {
     ismodify: { type: Boolean, default: false },
+    userlist:[],
+  },
+  watch:{
+    userlist(){
+      
+    }
   },
   computed: {
     criteria() {

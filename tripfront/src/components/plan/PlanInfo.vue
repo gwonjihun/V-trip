@@ -44,6 +44,7 @@
     </div>
     <div v-if="ismodi" class="mt-2">
       <b-button class="mr-3" type="button" @click="updateplan">등록</b-button>
+      <b-button class="mr-3" type="button" @click="deletesend">삭제</b-button>
       <b-button type="button" @click="movelist">목록</b-button>
     </div>
   </div>
@@ -52,7 +53,7 @@
 <script>
 import { mapState } from "vuex";
 import draggable from "vuedraggable";
-import { updateDetail } from "@/api/planapi.js";
+import { updateDetail,deletePlan,sharesearch } from "@/api/planapi.js";
 export default {
   components: {
     draggable,
@@ -61,6 +62,9 @@ export default {
     return {
       //plan : 여행 일자 이름 
       isplan: false,
+
+      //수정가능 객체
+      shareuser : [],
 
       plan: {},
       plans_data: [{
@@ -91,6 +95,7 @@ export default {
     ismodify: { type: Boolean, require: true, default: false }
   },
   watch: {
+
     //수정
     ismodify() { this.ismodi = this.ismodify; },
 
@@ -115,11 +120,20 @@ export default {
         this.plan.startDate = this.plan_init.startDate;
         this.plan.endDate = this.plan_init.endDate;
         this.plan.share = this.plan_init.share;
+        this.plan.writerid = this.plan_init.writerid;
       }
       , deep: true,
     }
   },
   methods: {
+    deletesend(){
+      deletePlan(this.plan.plan_id,()=>{
+        console.log("삭제 성공");
+      },()=>{
+        console.log("삭제 오류");
+      });
+      this.$router.push("/plan");
+    },
     //이거 의밈없는 함수임 결국 업데이트로 전환해야하는 함수이다.
     updateplan() {
       if (!this.isLogin) {
@@ -170,13 +184,38 @@ export default {
     },
     modifyflag(event) {
       event.preventDefault();
-      // if (!this.isLogin) {
-      //   alert("로그인 후에 이용해 주세요");
-      //   return;
-      // }
+      if (!this.isLogin) {
+        alert("로그인 후에 이용해 주세요");
+        return;
+      }
+      /* 여기서 사용자 정보를 불러와 줘야한다. */
+      console.log("사용자 명");
+      console.log(this.plan.writerid);
+      console.log( this.userinfo.id);
+      sharesearch(this.plan.plan_id,(req)=>{
+        console.log(req);
+        this.shareuser = req.data;
+      })
+      var contain = false;
+      this.shareuser.array.forEach(element => {
+        if(this.userinfo.id=== element.user_id){
+          contain=true;
+        }
+      });
+      if(this.plan.writerid === this.userinfo.id|| contain){
+
+      // 여기서 
+      // 수정버튼을 누를때 가장 먼저 사용자 로그인 확인을 진행한다
+      // 사용가능자일 경우에만 modifyhander를 동작하게 해주고 
+      // modify가 되면 그떄가서 유저를 등록할 수 있도록 진행해준다.
+      // 사용자 확인이 끝나면 writerid를 확인해온다
       this.ismodi = !this.ismodi;
       this.$emit("modifyhandler", this.ismodi);
-
+      this.$emit("shareusers", this.shareuser);
+        // this.movelist();
+      }else{
+        alert("수정 권한이 없습니다.");
+      }
     },
   },
 

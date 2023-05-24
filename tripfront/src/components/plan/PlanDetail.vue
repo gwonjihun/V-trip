@@ -9,11 +9,11 @@
     <b-col lg="4" class ="mt-3 mt-lg-0">
     <div >
     <plan-nav class ="ml-3 mr-3 mt-3" :plan="plan" :ismodify="ismodify" @planinit="handleplaninit"></plan-nav>
-    <user-search  class ="ml-3 mr-3 mb-3 " :ismodify="ismodify"></user-search>
+    <user-search  class ="ml-3 mr-3 mb-3 " :ismodify="ismodify" :userlist="userlist" ></user-search>
     </div>
     <!-- plan-nav에는 여행의 큰 데이터 -->
     <plan-info :plan_init="plan" :init_list="plan_list" :trip="trip" :ismodify="ismodify"
-      @modifyhandler="handelmodify"></plan-info>
+      @modifyhandler="handelmodify" @shareusers="senduser"></plan-info>
     <!-- 여행의 세부데이터 전달하고 -->
     </b-col>
     </b-row>
@@ -40,6 +40,8 @@ export default {
       isfinish: false,
       plan: { plan_id: 0, title: "", writerid: "", reads: 0, createat: "", updateat: "", deleteat: "", endDate: "", startDate: "", comment_num: 0, like_num: 0, nickname: "", },
       //이게 여행 경로들
+      userlist :[],
+      //공유사용자 정보 저장
       planlist: [],
       ismodify: false, //수정 권한 여부
       //세부 경로에 대한 정보를 저장해놨네
@@ -56,6 +58,10 @@ export default {
     ...mapState("userStore", ["userinfo"]),
   },
   methods: {
+    
+    senduser(userlist){
+      this.userlist = userlist;
+    },
     inputtrip(input_trip) {
       //여기서는 선택한 여행지 추가를 위한 이벤트
       this.trip = { ...input_trip };

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.ssafy.trip.dto.board.BoardDto;
 import com.ssafy.trip.dto.plan.PlanConditionDto;
 import com.ssafy.trip.dto.plan.PlanDto;
+import com.ssafy.trip.model.repo.plan.PlanDetailRepo;
 import com.ssafy.trip.model.repo.plan.PlanRepo;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,9 @@ public class PlanSearviceImpl implements PlanSearvice{
 	
 	@Autowired
 	private PlanRepo repo;
+	
+	@Autowired
+	private PlanDetailRepo drepo;
 	@Override
 	public List<PlanDto> selectAll() throws SQLException {
 		// TODO Auto-generated method stub
@@ -56,7 +60,7 @@ public class PlanSearviceImpl implements PlanSearvice{
 	@Override
 	public int delete(int content_id) throws SQLException {
 		// TODO Auto-generated method stub
-		return repo.delete(content_id);
+		return repo.delete(content_id)+drepo.delete(content_id) ;
 	}
 
 	@Override
