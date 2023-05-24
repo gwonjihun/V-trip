@@ -76,6 +76,7 @@ export default {
         level: 12,
       };
       this.map = new window.kakao.maps.Map(container, options);
+      this.$EventBus.$emit("kakao-map-load");
     },
     loadMaker() {
       // 현재 표시되어있는 marker들이 있다면 marker에 등록된 map을 없애준다.

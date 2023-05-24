@@ -8,7 +8,7 @@
         <b-form-input id="userpage-id" v-model="id" readonly></b-form-input>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="isMyPage">
       <b-col md="4">
         <p class="user-header">이름</p>
       </b-col>
@@ -16,7 +16,7 @@
         <b-form-input id="userpage-name" v-model="name" readonly></b-form-input>
       </b-col>
     </b-row>
-    <b-row>
+    <b-row v-if="isMyPage">
       <b-col md="4">
         <p class="user-header">비밀번호</p>
       </b-col>

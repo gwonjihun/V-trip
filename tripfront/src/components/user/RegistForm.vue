@@ -71,12 +71,12 @@ export default {
   name: "RegistForm",
   data() {
     return {
-      id: "test",
-      name: "test",
-      password: "1234",
-      repw: "1234",
-      email: "test@test.com",
-      nickname: "test",
+      id: "",
+      name: "",
+      password: "",
+      repw: "",
+      email: "",
+      nickname: "",
     };
   },
   props: {

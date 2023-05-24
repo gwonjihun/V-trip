@@ -1,12 +1,13 @@
 <template>
   <b-container>
-    <div class="border">
-      <h1>게시물 등록</h1>
+    <div>
+      <h3>{{ type === "modify" ? "게시물 수정" : "게시물 등록" }}</h3>
       <b-form>
         <b-form-input type="text" id="title" v-model="board.title" placeholder="제목을 입력해주세요"></b-form-input>
         <b-form-textarea
           type="textarea"
           id="content"
+          rows="10"
           v-model="board.content"
           placeholder="내용을 입력해주세요"
         ></b-form-textarea>

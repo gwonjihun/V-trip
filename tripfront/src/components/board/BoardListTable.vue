@@ -82,14 +82,13 @@ export default {
 };
 </script>
 
-<style scoped>
-.link:hover {
+<style scoped></style>
+
+<style>
+span.link:hover {
   color: blue;
   cursor: pointer;
 }
-</style>
-
-<style>
 .tw05 {
   width: 5%;
 }

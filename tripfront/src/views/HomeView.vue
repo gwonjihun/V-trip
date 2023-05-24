@@ -27,7 +27,7 @@
       >
         <b-carousel-slide v-for="place in hotplaces" v-bind:key="place.content_id">
           <template #img>
-            <b-container class="hot-place" :id="'hotplace-' + place.content_id">
+            <b-container class="hot-place" :id="'hotplace-' + place.content_id" @click="movePlace(place.title)">
               <b-img rounded :src="place.first_image" />
             </b-container>
           </template>
@@ -60,6 +60,11 @@ export default {
       hotplaces: [],
       slide: 0,
     };
+  },
+  methods: {
+    movePlace(title) {
+      this.$router.push({ name: "place", query: { searchTitle: title } });
+    },
   },
   created() {
     let msg = "조회을 실패했습니다.";
@@ -95,13 +100,16 @@ export default {
   align-content: flex-start;
 }
 img {
-  max-width: 100%;
-  max-height: 50vh;
+  /* max-width: 100%; */
+  height: 50vh;
 }
 
 .jumbotron {
   height: 270px;
   background-image: url("@/assets/summer.jpg");
+  background-position-y: -600px;
+  background-position-x: center;
+  background-repeat-x: no-repeat;
   color: rgb(0, 0, 0);
   border-radius: 0;
 }
