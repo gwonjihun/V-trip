@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div id="map" @load="loadMaker">
+    <div id="map">
       <slot></slot>
     </div>
   </div>
@@ -40,7 +40,7 @@ export default {
     plan_info: {
       handler() {
         this.positions = [];
-        console.log(this.plan_info);
+        console.log("watch plan_info", this.plan_info);
         // this.temp();
       },
       deep: true,
@@ -53,7 +53,7 @@ export default {
     },
   },
 
-  created() { },
+  created() {},
 
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
@@ -61,13 +61,12 @@ export default {
     console.log(window.kakao);
     // console.log(window.kakao.maps)
     if (window.kakao) {
-      this.loadMap();
+      kakao.maps.load(this.loadMap);
       console.log("load map으로 시작");
     } else {
       this.loadScript();
       console.log("loadscript로 시작");
     }
-
 
     // this.loadMaker();
   },
@@ -78,16 +77,18 @@ export default {
       console.log(this.plan_info);
 
       if (this.plan_info.length > 0) {
+        console.log(window.kakao.maps.LatLng);
         this.plan_info.forEach((plan) => {
-          let obj = {};
-          obj = plan;
-          obj.latlng = new window.kakao.maps.LatLng(
-            plan.latitude,
-            plan.longitude
-          );
+          let obj = JSON.parse(JSON.stringify(plan));
+          console.log(plan, obj);
+          console.log(obj === plan);
+          console.log(obj == plan);
+          console.log(obj.latitude, obj.longitude);
+          obj.latlng = new kakao.maps.LatLng(obj.latitude, obj.longitude);
           console.log(typeof plan.latitude);
           this.positions.push(obj);
         });
+        console.log(this.positions);
       }
       // this.loadMaker();
     },
@@ -98,7 +99,7 @@ export default {
       script.id = "plan";
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
       /* global kakao */
-      script.onload = () => kakao.maps.load(this.loadMap);
+      script.onload = () => window.kakao.maps.load(this.loadMap);
 
       document.head.appendChild(script);
 
@@ -108,10 +109,11 @@ export default {
     loadMap() {
       const container = document.getElementById("map");
       const options = {
-        center: new kakao.maps.LatLng(36.480701, 127.570667),
+        center: new window.kakao.maps.LatLng(36.480701, 127.570667),
         level: 13,
       };
-      this.map = new kakao.maps.Map(container, options);
+      console.log(container);
+      this.map = new window.kakao.maps.Map(container, options);
       this.loadMaker();
     },
     loadMaker() {

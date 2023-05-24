@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <search-var v-if="ismodify"></search-var>
-    <kakao-map v-if="planlist.length" :isfinish="isfinish" :input_plan_info="planlist"></kakao-map>
+    <kakao-map v-if="isfinish" :isfinish="isfinish" :input_plan_info="planlist"></kakao-map>
 
     <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
@@ -31,8 +31,8 @@ export default {
   data() {
     return {
       //이게 여행 권한
+      isfinish: false,
       plan: {
-        isfinish:false,
         plan_id: 0,
         title: "",
         writerid: "",
@@ -45,22 +45,19 @@ export default {
         comment_num: 0,
         like_num: 0,
 
-        nickname: ""
+        nickname: "",
       },
       //이게 여행 경로들
       planlist: [],
-      ismodify: false, //수정 권한 여부 
-      plan_list: [
-      ],
-      send_data: [] // 이건 plan nav 에 전달용
+      ismodify: false, //수정 권한 여부
+      plan_list: [],
+      send_data: [], // 이건 plan nav 에 전달용
     };
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
   },
-  mounted(){
-    this.isfinish = true;
-  },
+  mounted() {},
   methods: {
     setData() {
       console.log(this.plan.startDate);
@@ -77,7 +74,7 @@ export default {
       for (let i = 1; i <= day; i++) {
         this.plan_list.push({
           days: i,
-          trip_list: []
+          trip_list: [],
         });
       }
       for (var a of this.planlist) {
@@ -116,7 +113,7 @@ export default {
     //         content_id: this.plans[i].trip_list[j].content_id,
     //         days: this.plans[i].day,
     //         index: j,
-    //       }; //여기는 plandetail값이 들어가야한다. 
+    //       }; //여기는 plandetail값이 들어가야한다.
     //       this.target.planlist.push(a);
     //     }
     //   }
@@ -138,21 +135,27 @@ export default {
       for (let i = 0; i < this.planlist.length; i++) {
         // this.planlist.forEach((data) => {
         console.log(this.planlist[i]);
-        await search_title(this.planlist[i].content_id, ({ data }) => {
-          console.log("title result");
-          console.log(data);
-          this.planlist[i].addr1 = data.addr1;
-          this.planlist[i].title = data.title;
-          this.planlist[i].latitude = Number(data.latitude);
-          this.planlist[i].longitude = Number(data.longitude);
-          this.planlist[i].first_image = data.first_image;
-          this.planlist[i].sido_code = data.sido_code;
-          // this.planlist[i].push(data);
-          console.log("data");
-          console.log(this.planlist[i]);
-        }, () => { console.log("에러발생"); });
+        await search_title(
+          this.planlist[i].content_id,
+          ({ data }) => {
+            console.log("title result");
+            console.log(data);
+            this.planlist[i].addr1 = data.addr1;
+            this.planlist[i].title = data.title;
+            this.planlist[i].latitude = Number(data.latitude);
+            this.planlist[i].longitude = Number(data.longitude);
+            this.planlist[i].first_image = data.first_image;
+            this.planlist[i].sido_code = data.sido_code;
+            // this.planlist[i].push(data);
+            console.log("data");
+            console.log(this.planlist[i]);
+          },
+          () => {
+            console.log("에러발생");
+          }
+        );
       }
-
+      this.isfinish = true;
     },
     async getDetail() {
       await detail(this.$route.params.plan_id, ({ data, status }) => {
@@ -164,6 +167,7 @@ export default {
         this.plan.endDate = this.plan.endDate.split(" ")[0];
         this.plan.startDate = this.plan.startDate.split(" ")[0];
         this.planlist = data.planlist;
+        console.log(this.planlist.latitude);
         console.log("여기가 오니?");
       });
       //이제 여기서 plannav랑 planinfo에 세부 정보를 보내주기 위한 props를 설정해준다.
@@ -194,12 +198,9 @@ trip_list : {
   },
   async created() {
     await this.getDetail();
-    this.$EventBus.$on("plan-reload", () => {
-      this.getDetail();
-    });
     await this.getTitle();
     console.log("그럼 여기는?");
-    await this.setData();//여기서 필요한 데이터 양식으로 전환한다.
+    await this.setData(); //여기서 필요한 데이터 양식으로 전환한다.
     console.log(this.plan_list.length);
   },
 };
