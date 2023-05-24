@@ -95,7 +95,7 @@ public class PlanRestController {
 		if (jwtSvc.checkAuthor(plan.getWriterid())) {
 			int plan_id = svc.insert(plan);
 			for(PlanDetailDto plandetail : planlist) {
-				log.debug(plan.getPlan_id());
+				log.debug(plan.toString());
 				plandetail.setPlan_id(Integer.parseInt(plan.getPlan_id()));
 			}
 			int detail_len = pdsvc.insert(planlist);
@@ -126,7 +126,7 @@ public class PlanRestController {
 	}
 	@Transactional
 	@PutMapping("/{plan_id}")
-	ResponseEntity<Void> detail_update(@PathVariable int plan_id, @RequestBody Map<String, Object> map) throws SQLException {
+	ResponseEntity<Void> detail_update(@PathVariable int plan_id, @RequestBody PlanInsertDto  tn_in) throws SQLException {
 		/*
 		 * { plan :{ plan dto 정보}. planlist : [{plandetaildto}.....] } 으로 데이터를 받자
 		 * 1. plan_id를 통해서 plan이 있는지 확인 2. plan과 session아이디가 동일
@@ -135,16 +135,23 @@ public class PlanRestController {
 		 * 5. plan_detail insert #
 		 * 3,4,5는 하나의 트랜잭션이다.
 		 */
+	
+		
+		log.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 		Map<String, Object> result = new HashMap<String, Object>();
 		PlanDto plan = svc.select(plan_id); // 기존 데이터
 		if (plan == null) {
 			return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 		}
 		if (jwtSvc.checkAuthor(plan.getWriterid())) {
-			PlanDto plan_in = (PlanDto) map.get("plan");
-			List<PlanDetailDto> plan_list = (LinkedList<PlanDetailDto>) map.get("planlist");
+			PlanDto plan_in = (PlanDto) tn_in.getPlan();
+			List<PlanDetailDto> plan_list = tn_in.getPlanlist();
 			svc.updatePlan(plan_in);
 			pdsvc.delete(plan_id);
+			System.out.println(plan_list);
+			for(PlanDetailDto a : plan_list) 
+			log.debug(a.toString());
+			log.debug("여기가 문제인걸까?");
 			pdsvc.insert(plan_list);
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} else {

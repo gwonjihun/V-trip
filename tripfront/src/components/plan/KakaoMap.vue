@@ -28,7 +28,7 @@ export default {
   },
 
   props: {
-    trips: [],
+    trips: {},
     input_plan_info: [],
     isfinish: { type: Boolean, deep: true },
   },
@@ -229,9 +229,10 @@ export default {
             this.result.content_id = position.content_id;
             this.result.title = position.title;
             this.result.sidocode = position.sido_code;
+            this.result.first_image = position.first_image;
             console.log(this.result);
-
-            this.$emit("plan", this.result); // 여기서 이제 plan-table vue로 저장될 데이터 전송
+            console.log("계획 추가 데이터 전송 emit 발생");
+            this.$emit("trip", this.result); // 여기서 이제 plan-table vue로 저장될 데이터 전송
 
             console.log("!@#########");
             console.log(this.result);

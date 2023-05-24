@@ -1,11 +1,11 @@
 <template>
   <b-container>
-    <kakao-map v-if="isfinish" :trips="trips" :isfinish="isfinish" :input_plan_info="planlist">
+    <kakao-map v-if="isfinish" :trips="trips" :isfinish="isfinish" :input_plan_info="planlist" @trip="inputtrip">
       <search-var @tripList="searchList" v-if="ismodify"></search-var>
     </kakao-map>
 
     <user-search :ismodify="ismodify"></user-search>
-    <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
+    <plan-nav :plan="plan" :ismodify="ismodify" @planinit="handleplaninit"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
     <plan-info :plan_init="plan" :init_list="plan_list" :trip="trip" :ismodify="ismodify"
       @modifyhandler="handelmodify"></plan-info>
@@ -31,34 +31,34 @@ export default {
     return {
       //이게 여행 권한
       isfinish: false,
-      plan: {
-        plan_id: 0,
-        title: "",
-        writerid: "",
-        reads: 0,
-        createat: "",
-        updateat: "",
-        deleteat: "",
-        endDate: "",
-        startDate: "",
-        comment_num: 0,
-        like_num: 0,
-
-        nickname: "",
-      },
+      plan: { plan_id: 0, title: "", writerid: "", reads: 0, createat: "", updateat: "", deleteat: "", endDate: "", startDate: "", comment_num: 0, like_num: 0, nickname: "", },
       //이게 여행 경로들
       planlist: [],
       ismodify: false, //수정 권한 여부
+      //세부 경로에 대한 정보를 저장해놨네
       plan_list: [],
       send_data: [], // 이건 plan nav 에 전달용
-      trips: [],
+      //trips -> 여행지 등록으로 인한 추가 정보를 전달하기 위함.
+      trips: {},
+
+      //이건 map에서 추가한 여행 정보
+      trip: {},
     };
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
   },
-  mounted() { },
   methods: {
+    inputtrip(input_trip) {
+      //여기서는 선택한 여행지 추가를 위한 이벤트
+      this.trip = { ...input_trip };
+      console.log("click", this.trips);
+    },
+    handleplaninit(plan_init) {
+      const temp = plan_init;
+      this.plan_info = temp;
+      this.iscreate = true;
+    },
     handelmodify() {
       this.ismodify = !this.ismodify;
     },
@@ -78,12 +78,15 @@ export default {
       var end = new Date(end_arr[0], end_arr[1], end_arr[2]);
       var btMs = end.getTime() - start.getTime();
       var day = btMs / (1000 * 60 * 60 * 24) + 1;
+
       for (let i = 1; i <= day; i++) {
         this.plan_list.push({
           days: i,
           trip_list: [],
         });
       }
+      //여기서 초기 데이터 가공 진행
+      //plan_list는 여행 경로에 대한 값이고
       for (var a of this.planlist) {
         var temp = {};
         temp.content_id = a.content_id;
@@ -97,46 +100,6 @@ export default {
         this.plan_list[a.days - 1].trip_list.push(temp);
       }
     },
-    // planupdate: function () {
-    // if (!this.isLogin) {
-    //     alert("로그인 후에 이용해 주세요");
-    //     return;
-    //   }
-    //   const pl = {
-    //     endDate: this.plan_init.end_date,
-    //     startDate: this.plan_init.start_date,
-    //     title: this.plan_init.title,
-    //     share: this.plan_init.share,
-    //   }
-    //   this.target = { plan: pl, planlist: [] };
-    //   console.log(this.target.plan);
-    //   console.log(typeof (this.target.plan));
-    //   this.target.plan.sidocode = this.plans[0].trip_list[0].sidocode;
-    //   this.target.plan.writerid = this.userinfo.id;
-    //   for (let i = 0; i < this.plans.length; i++) {
-    //     console.log(i);
-    //     for (let j = 0; j < this.plans[i].trip_list.length; j++) {
-    //       let a = {
-    //         content_id: this.plans[i].trip_list[j].content_id,
-    //         days: this.plans[i].day,
-    //         index: j,
-    //       }; //여기는 plandetail값이 들어가야한다.
-    //       this.target.planlist.push(a);
-    //     }
-    //   }
-    //   let msg = "등록을 실패하였습니다. 로그인을 확인해주세요.";
-    //   console.log(this.target);
-    //   updateDetail(this.plan.plan_id, this.target, () => {
-    //     console.log("등록을 성공했습니다.");
-    //     this.$router.push("/plan");
-    //   },
-    //     (err) => {
-    //       console.log("에러발생 : " + err);
-    //       console.log(msg);
-    //     });
-    //   console.log(this.target);
-
-    // },
     async getTitle() {
       console.log(this.planlist);
       for (let i = 0; i < this.planlist.length; i++) {
@@ -165,22 +128,25 @@ export default {
       this.isfinish = true;
     },
     async getDetail() {
+      //여기선 plan table에 있는 계획 큰 정보
       await detail(this.$route.params.plan_id, ({ data, status }) => {
         if (status == HttpStatusCode.NoContent) {
           alert("삭제되었거나 존재하지 않는 글입니다.");
           this.$router.push("/plan");
         }
         this.plan = data.plan;
+        console.log(data);
         this.plan.endDate = this.plan.endDate.split(" ")[0];
         this.plan.startDate = this.plan.startDate.split(" ")[0];
         this.planlist = data.planlist;
-        console.log(this.planlist.latitude);
         console.log("여기가 오니?");
       });
+
       //이제 여기서 plannav랑 planinfo에 세부 정보를 보내주기 위한 props를 설정해준다.
       /*
       1. plannav에서 사용하던 데이터 구조는 
 contentid: 가 들어가있지
+plan_id : ""
 end_date:"2020-02-03"
 share:"0"
 start_date:"2020-02-02"
@@ -191,7 +157,7 @@ day : string,
 trip_list : {
   content_id : "",
   sido_code : int,
-  title : ""
+  title : "",
 }
 }]
       */

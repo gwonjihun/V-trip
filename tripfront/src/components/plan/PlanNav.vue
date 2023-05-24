@@ -1,9 +1,9 @@
 <template>
   <div>
-    <b-form>
-      <b-form-input type="date" v-model="start_date" />
-      <b-form-input type="date" v-model="end_date" />
-      <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" />
+    <b-form @submit="(e) => { e.preventDefault(); }">
+      <b-form-input type="date" v-model="start_date" :readonly="!ismodify" />
+      <b-form-input type="date" v-model="end_date" :readonly="!ismodify" />
+      <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" :readonly="!ismodify" />
 
     </b-form>
     <!-- 
@@ -28,8 +28,8 @@ export default {
       plan_init: {
         plan_id: "",
         title: "",
-        start_date: "2020-02-02",
-        end_date: "2020-02-03",
+        start_date: "",
+        end_date: "",
         share: "0",
       },
       title: "",
@@ -40,7 +40,8 @@ export default {
     };
   },
   props: {
-    plan: {}
+    plan: {},
+    ismodify: { type: Boolean, default: false },
   },
   computed: {
     start_date_obj() {
@@ -54,6 +55,7 @@ export default {
     plan() {
       this.start_date = this.plan.startDate;
       this.end_date = this.plan.endDate;
+      this.title = this.plan.title;
     },
     start_date() {
       this.end_date = toStringByFormatting(new Date(this.start_date_obj.getTime() + this.plan_days * dayMiliSec));
