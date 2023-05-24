@@ -27,16 +27,21 @@
       >
         <b-carousel-slide v-for="place in hotplaces" v-bind:key="place.content_id">
           <template #img>
-            <b-container class="hot-place" :id="'hotplace-' + place.content_id" @click="movePlace(place.title)">
-              <b-img rounded :src="place.first_image" />
+            <b-container class="hot-place">
+              <b-img
+                rounded
+                :src="place.first_image"
+                :id="'hotplace-' + place.content_id"
+                @click="movePlace(place.title)"
+              />
             </b-container>
           </template>
           <template>
             <h2>{{ place.title }}</h2>
             <p>{{ place.addr1 }}</p>
-            <b-popover :target="'hotplace-' + place.content_id" triggers="hover">
+            <b-popover :target="'hotplace-' + place.content_id" triggers="hover" class="trip-popover">
               <template #title>{{ place.title }}</template>
-              {{ place.overview }}
+              {{ place.overview | tooLongText(500) }}
             </b-popover>
           </template>
         </b-carousel-slide>
@@ -109,15 +114,19 @@ img {
   background-image: url("@/assets/summer.jpg");
   background-position-y: -600px;
   background-position-x: center;
-  background-repeat-x: no-repeat;
+  background-repeat: no-repeat;
   color: rgb(0, 0, 0);
   border-radius: 0;
 }
 .hot-place :hover {
   opacity: 0.5;
+  cursor: pointer;
 }
 .hot-place .jumbotron :hover {
   color: blue;
+}
+.trip-popover {
+  color: red;
 }
 
 h1 {

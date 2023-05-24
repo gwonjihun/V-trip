@@ -51,6 +51,7 @@ export default {
 * {
   font-family: NeoDunggeunmoPro-Regular;
   font-weight: 1000;
+  color: #003352;
 }
 
 h2 {
@@ -80,7 +81,7 @@ nav a.router-link-exact-active {
 .container.main {
   margin-top: 0;
   padding-top: 2rem;
-  background-color: #e4feff;
+  background-color: #e6f4f1;
   min-height: calc(100vh - 4.5rem);
 }
 </style>

@@ -6,4 +6,9 @@ function dateFilter(value) {
   return split[0];
 }
 
-export { dateFilter };
+function tooLongText(value, length) {
+  if (value.length < length) return value;
+  return value.slice(0, length) + "...";
+}
+
+export { dateFilter, tooLongText };
