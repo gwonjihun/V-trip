@@ -18,7 +18,14 @@
 	</select>
 	<select id="selectHotplace" resultType="AttractionInfoDto" >
 		select * from
-		attraction_info where first_image !="" order by readcount;
+		attraction_info
+        natural join (select sido_code, max(readcount) readcount
+			from attraction_info
+            where first_image != "" and title != ""
+            group by sido_code) as count
+		natural join attraction_description
+		where first_image !="" and title != ""
+		order by readcount;
 	</select>
 	<select id="select" resultType="AttractionInfoDto">
 		select * from

@@ -95,10 +95,10 @@ export default {
 
 <style scoped>
 .search-input {
-  width: 145px;
+  width: calc(100% - 60px);
 }
 .search-button {
-  width: 55px;
+  width: 60px;
 }
 
 .row {
@@ -110,8 +110,8 @@ export default {
   top: 10px;
   left: 10px;
   overflow: hidden;
-  width: 200px;
-  /* height: 30px; */
+  width: 25%;
+  min-width: 200px;
   opacity: 0.5;
   margin: 0;
   padding: 0;

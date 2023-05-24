@@ -22,6 +22,8 @@ public class AttractionInfoDto implements Comparable<AttractionInfoDto>{
 	private String latitude;
 	private String longitude;
 	private String mlevel;
+	
+	private String overview;
 
 	@Override
 	public String toString() {
@@ -45,6 +47,27 @@ public class AttractionInfoDto implements Comparable<AttractionInfoDto>{
 		return Integer.compare(this.readcount, o1.readcount);
 		
 	
+	}
+
+	public AttractionInfoDto(String content_id, int content_type_id, String title, String addr1, String addr2,
+			String zipcode, String tel, String first_image, String first_image2, int readcount, int sido_code,
+			int gugun_code, String latitude, String longitude, String mlevel) {
+		super();
+		this.content_id = content_id;
+		this.content_type_id = content_type_id;
+		this.title = title;
+		this.addr1 = addr1;
+		this.addr2 = addr2;
+		this.zipcode = zipcode;
+		this.tel = tel;
+		this.first_image = first_image;
+		this.first_image2 = first_image2;
+		this.readcount = readcount;
+		this.sido_code = sido_code;
+		this.gugun_code = gugun_code;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.mlevel = mlevel;
 	}
 
 

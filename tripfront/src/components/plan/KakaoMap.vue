@@ -234,7 +234,7 @@ export default {
 </style>
 
 <style>
-.info-window {
+/* .info-window {
   padding: 5px;
   min-width: 200px;
   min-height: 150px;
@@ -242,11 +242,10 @@ export default {
 
 .info-window-info {
   display: flex;
-  /* height: calc(100% - 50px); */
   height: 100%;
 }
 
 .info-window-button {
   height: 50px;
-}
+} */
 </style>

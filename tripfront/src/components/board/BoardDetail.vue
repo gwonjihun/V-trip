@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row class="mt-5" align-content="">
+    <b-row class="mt-5">
       <b-col lg="8">
         <h4 class="title float-left">{{ board.title }}</h4>
       </b-col>

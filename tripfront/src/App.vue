@@ -49,7 +49,7 @@ export default {
 }
 
 * {
-  font-family: Dovemayo_gothic;
+  font-family: NeoDunggeunmoPro-Regular;
   font-weight: 1000;
 }
 

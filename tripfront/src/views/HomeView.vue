@@ -16,12 +16,37 @@
     </b-jumbotron>
     <b-container class="main pt-5">
       <h3>최근 떠오르는 지역들</h3>
-      <div class="img-space">
-        <!-- 여기서 사진들을 불러와서 넣어준다. -->
-        <b-container class="w-50 p-1" v-for="place in hotplaces" v-bind:key="place.content_id">
-          <b-img rounded :src="place.first_image" />
-        </b-container>
-      </div>
+      <b-carousel
+        v-model="slide"
+        :interval="4000"
+        controls
+        indicators
+        background="#ababab"
+        img-width="100"
+        img-height="100"
+      >
+        <b-carousel-slide v-for="place in hotplaces" v-bind:key="place.content_id">
+          <template #img>
+            <b-container class="hot-place" :id="'hotplace-' + place.content_id">
+              <b-img rounded :src="place.first_image" />
+            </b-container>
+          </template>
+          <template>
+            <h2>{{ place.title }}</h2>
+            <p>{{ place.addr1 }}</p>
+            <b-popover :target="'hotplace-' + place.content_id" triggers="hover">
+              <template #title>{{ place.title }}</template>
+              {{ place.overview }}
+            </b-popover>
+          </template>
+        </b-carousel-slide>
+      </b-carousel>
+      <!-- <div class="img-space"> -->
+      <!-- 여기서 사진들을 불러와서 넣어준다. -->
+      <!-- <b-container class="hot-place w-50 p-1" v-for="place in hotplaces" v-bind:key="place.content_id"> -->
+      <!-- <b-img rounded :src="place.first_image" /> -->
+      <!-- </b-container> -->
+      <!-- </div> -->
     </b-container>
   </div>
 </template>
@@ -33,6 +58,7 @@ export default {
     return {
       message: "당신의 즐거운 여행을 위한 사이트",
       hotplaces: [],
+      slide: 0,
     };
   },
   created() {
@@ -40,6 +66,7 @@ export default {
     hotplace(
       (res) => {
         this.hotplaces = res.data;
+        this.slide = this.hotplaces.length;
       },
       (err) => {
         alert(msg);
@@ -51,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+.container.main {
+  min-height: calc(100vh - 4.5rem - 270px);
+}
+
 .text-center {
   text-align: center;
 }
@@ -65,17 +96,19 @@ export default {
 }
 img {
   max-width: 100%;
+  max-height: 50vh;
 }
 
 .jumbotron {
+  height: 270px;
   background-image: url("@/assets/summer.jpg");
   color: rgb(0, 0, 0);
   border-radius: 0;
 }
-.container :hover {
+.hot-place :hover {
   opacity: 0.5;
 }
-.container .jumbotron :hover {
+.hot-place .jumbotron :hover {
   color: blue;
 }
 

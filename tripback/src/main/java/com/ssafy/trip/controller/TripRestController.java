@@ -63,7 +63,8 @@ public class TripRestController {
 		log.debug("hotplace  search starts");
 		List<AttractionInfoDto> Attrations = svc.selectHotplace();
 		log.debug(Integer.toString(Attrations.size()));
-		List<AttractionInfoDto> Hotplaces = sortHotplace(Attrations);
+//		List<AttractionInfoDto> Hotplaces = sortHotplace(Attrations);
+		List<AttractionInfoDto> Hotplaces = Attrations;
 		if(Hotplaces!=null ) {
 			return new ResponseEntity<List<AttractionInfoDto>>(Hotplaces,HttpStatus.OK);
 		}else {
