@@ -3,6 +3,11 @@
     <template #cell(index)="data">
       {{ data.index + start }}
     </template>
+    <template #cell(writerid)="data">
+      <span class="link" @click="moveUserPage(data.item.writerid)">
+        {{ data.item.writerid }}
+      </span>
+    </template>
     <template #cell(createat)="data">
       {{ data.item.createat | dateFilter }}
     </template>
@@ -65,6 +70,9 @@ export default {
       //   (err) => console.log(err)
       // );
       this.$router.push({ name: `planDetail`, params: { plan_id: item.plan_id } });
+    },
+    moveUserPage(user_id) {
+      this.$router.push({ name: "userPage", params: { id: user_id } }).catch(() => {});
     },
   },
 };

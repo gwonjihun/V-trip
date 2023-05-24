@@ -53,4 +53,15 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+.tab-content {
+  background: white;
+  border-left: 1px solid #dee2e6;
+  border-right: 1px solid #dee2e6;
+  border-bottom: 1px solid #dee2e6;
+  border-start-end-radius: 5px;
+  border-end-start-radius: 5px;
+  border-end-end-radius: 5px;
+  padding: 5px;
+}
+</style>
