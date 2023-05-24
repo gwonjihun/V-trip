@@ -3,26 +3,47 @@
     <div v-for="(trip_lists, index) in init_list" :key="index">
       <h2>{{ index + 1 }}일차 여행일정</h2>
       <b-list-group>
-        <draggable :list="trip_lists.trip_list" group="test">
+
+        <draggable v-if="ismodi" :list="trip_lists.trip_list" group="test">
           <b-list-group-item v-for="(item, tindex) in init_list[index].trip_list" :key="tindex">
             <b-row align-v="center">
               <b-col cols="12">
-                <img src="item.first_image">
-                {{ item.first_image }}
+                <img :src='item.first_image' style="width: 5%; height: 5%;">
+
               </b-col>
               <b-col cols="9">
                 {{ item.title }}
               </b-col>
               <b-col cols="3">
-                <b-button type="button" variant="danger" @click="removeElement(tindex, index)"><b-icon-x /></b-button>
+                <b-button v-show="ismodi" type="button" variant="danger"
+                  @click="removeElement(tindex, index)"><b-icon-x /></b-button>
               </b-col>
             </b-row>
           </b-list-group-item>
         </draggable>
+        <b-list-group-item v-else v-for="(item, tindex) in init_list[index].trip_list" :key="tindex">
+          <b-row align-v="center">
+            <b-col cols="12">
+              <img :src="item.first_image" style="width: 5%; height: 5%;">
+            </b-col>
+            <b-col cols="9">
+              {{ item.title }}
+            </b-col>
+            <b-col cols="3">
+              <b-button v-show="ismodi" type="button" variant="danger"
+                @click="removeElement(tindex, index)"><b-icon-x /></b-button>
+            </b-col>
+          </b-row>
+        </b-list-group-item>
       </b-list-group>
     </div>
-    <div v-if="isplan">
+    <div v-if="!ismodi">
+      <b-button type="button" @click="modifyflag">수정</b-button>
+      <b-button type="button" @click="movelist">목록</b-button>
+    </div>
+    <div v-if="ismodi">
       <b-button type="button" @click="planregist">등록</b-button>
+      <b-button type="button" @click="movelist">목록</b-button>
     </div>
   </div>
 </template>
@@ -45,7 +66,7 @@ export default {
         plan: {},
         planlist: [],
       },
-      ismodi: Boolean,
+      ismodi: false,
     };
   },
   methods: {
@@ -92,7 +113,20 @@ export default {
       console.log(this.target);
     },
     removeElement: function (tindex, index) {
-      this.$delete(this.plans[index].trip_list, tindex);
+      this.$delete(this.init_list[index].trip_list, tindex);
+    },
+    movelist() {
+      this.$router.push("/plan");
+    },
+    modifyflag(event) {
+      event.preventDefault();
+      // if (!this.isLogin) {
+      //   alert("로그인 후에 이용해 주세요");
+      //   return;
+      // }
+      this.ismodi = !this.ismodi;
+      this.$emit("modifyhandler", this.ismodi);
+
     },
   },
   computed: {
@@ -116,6 +150,7 @@ export default {
 
   watch: {
     ismodify() {
+
       this.ismodi = this.ismodify;
     },
     plan_init() {

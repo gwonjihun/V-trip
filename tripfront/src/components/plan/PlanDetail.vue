@@ -1,16 +1,15 @@
 <template>
   <b-container>
-    <search-var v-if="ismodify"></search-var>
-    <kakao-map v-if="isfinish" :isfinish="isfinish" :input_plan_info="planlist"></kakao-map>
+    <kakao-map v-if="isfinish" :trips="trips" :isfinish="isfinish" :input_plan_info="planlist">
+      <search-var @tripList="searchList" v-if="ismodify"></search-var>
+    </kakao-map>
 
+    <user-search :ismodify="ismodify"></user-search>
     <plan-nav :plan="plan" :ismodify="ismodify"></plan-nav>
     <!-- plan-nav에는 여행의 큰 데이터 -->
-    <plan-info :plan_init="plan" :init_list="plan_list"></plan-info>
+    <plan-info :plan_init="plan" :init_list="plan_list" :trip="trip" :ismodify="ismodify"
+      @modifyhandler="handelmodify"></plan-info>
     <!-- 여행의 세부데이터 전달하고 -->
-    <b-button v-b-toggle.my-collapse>사용자 입력</b-button>
-    <b-collapse id="my-collapse">
-      <user-search v-if="ismodify"></user-search>
-    </b-collapse>
   </b-container>
 </template>
 
@@ -52,13 +51,21 @@ export default {
       ismodify: false, //수정 권한 여부
       plan_list: [],
       send_data: [], // 이건 plan nav 에 전달용
+      trips: [],
     };
   },
   computed: {
     ...mapState("userStore", ["userinfo"]),
   },
-  mounted() {},
+  mounted() { },
   methods: {
+    handelmodify() {
+      this.ismodify = !this.ismodify;
+    },
+    searchList(trips) {
+      this.trips = trips;
+      console.log("검색후 결과에 대한 이벤트 처리");
+    },
     setData() {
       console.log(this.plan.startDate);
       console.log(typeof this.plan.endDate);
@@ -81,7 +88,7 @@ export default {
         var temp = {};
         temp.content_id = a.content_id;
         temp.addr1 = a.addr1;
-        temp.first_image = a.first_image;
+        temp.first_image = a.first_image !== "" ? a.first_image : "https://inssago.net/static/img/notimage.jpg";
         temp.latitude = a.latitude;
         temp.longitude = a.longitude;
         temp.plan_id = a.plan_id;
