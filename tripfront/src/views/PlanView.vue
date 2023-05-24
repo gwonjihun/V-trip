@@ -33,4 +33,61 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.map_wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+}
+
+.radius_border {
+  border: 1px solid #919191;
+  border-radius: 5px;
+}
+/*
+.custom_typecontrol {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  width: 200px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  font-size: 12px;
+  font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+.custom_typecontrol span {
+  display: block;
+  width: 65px;
+  height: 30px;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+} */
+</style>
+
+<style scoped>
+.main {
+  /* margin-top: 0;
+  padding-top: 2rem;
+  background-color: #e4feff;
+  min-height: calc(100vh - 4.5rem); */
+  max-width: 100vw;
+}
+/* .contaier {
+  width: 100%;
+} */
+</style>

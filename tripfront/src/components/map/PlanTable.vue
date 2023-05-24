@@ -1,9 +1,15 @@
 <template>
   <div>
     <b-form @submit="handleSubmit">
+      <b-row>
+      <b-col>
       <b-form-input type="date" v-model="start_date" />
+      </b-col>
+      <b-col>
       <b-form-input type="date" v-model="end_date" />
-      <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" />
+      </b-col>
+      </b-row>
+      <b-form-input class="mt-2" type="text" v-model="title" placeholder="여행 제목을 입력해주세요" />
       <!-- <b-button type="submit">생성</b-button> -->
     </b-form>
     <!-- 
