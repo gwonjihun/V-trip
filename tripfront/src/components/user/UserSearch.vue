@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-form-group label="유저 선택" label-for="user-search-dropdown">
+    <b-form-group label="동반자" label-for="user-search-dropdown">
       <b-form-tags id="user-search-dropdown" v-model="value" no-outer-focus class="mb-2">
         <template v-slot="{ tags, disabled, addTag, removeTag }">
           <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
@@ -11,33 +11,18 @@
             </li>
           </ul>
 
-          <b-dropdown size="sm" variant="outline-secondary" block menu-class="w-100">
-            <template #button-content> <b-icon icon="person-fill"></b-icon> 추가할 사용자 </template>
-            <b-dropdown-form @submit.stop.prevent="() => {}">
-              <b-form-group
-                label="Search tags"
-                label-for="tag-search-input"
-                label-cols-md="auto"
-                class="mb-0"
-                label-size="sm"
-                :description="searchDesc"
-                :disabled="disabled"
-              >
-                <b-form-input
-                  v-model="search"
-                  id="tag-search-input"
-                  type="search"
-                  size="sm"
-                  autocomplete="off"
-                ></b-form-input>
+          <b-dropdown v-if="ismodify" size="sm" variant="outline-secondary" block menu-class="w-100">
+            <template #button-content> <b-icon icon="person-fill"></b-icon> 공유 중인 사용자 </template>
+            <b-dropdown-form @submit.stop.prevent="() => { }">
+              <b-form-group label="Search tags" label-for="tag-search-input" label-cols-md="auto" class="mb-0"
+                label-size="sm" :description="searchDesc" :disabled="disabled">
+                <b-form-input v-model="search" id="tag-search-input" type="search" size="sm"
+                  autocomplete="off"></b-form-input>
               </b-form-group>
             </b-dropdown-form>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item-button
-              v-for="option in availableOptions"
-              :key="option"
-              @click="onOptionClick({ option, addTag })"
-            >
+            <b-dropdown-item-button v-for="option in availableOptions" :key="option"
+              @click="onOptionClick({ option, addTag })">
               {{ option }}
             </b-dropdown-item-button>
             <b-dropdown-text v-if="availableOptions.length === 0">
@@ -61,6 +46,9 @@ export default {
       search: "",
       value: [],
     };
+  },
+  props: {
+    ismodify: { type: Boolean, default: false },
   },
   computed: {
     criteria() {
