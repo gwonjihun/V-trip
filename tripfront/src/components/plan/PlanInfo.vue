@@ -5,8 +5,18 @@
       <b-list-group>
         <draggable :list="trip_lists.trip_list" group="test">
           <b-list-group-item v-for="(item, tindex) in init_list[index].trip_list" :key="tindex">
-            {{ item }}
-            <b-button type="button" @click="removeElement(tindex, index)">삭제</b-button>
+            <b-row align-v="center">
+              <b-col cols="12">
+                <img src="item.first_image">
+                {{ item.first_image }}
+              </b-col>
+              <b-col cols="9">
+                {{ item.title }}
+              </b-col>
+              <b-col cols="3">
+                <b-button type="button" variant="danger" @click="removeElement(tindex, index)"><b-icon-x /></b-button>
+              </b-col>
+            </b-row>
           </b-list-group-item>
         </draggable>
       </b-list-group>

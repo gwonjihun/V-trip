@@ -47,7 +47,7 @@ export default {
       }
     },
   },
-  created() {},
+  created() { },
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
     if (window.kakao && window.kakao.maps) {
@@ -61,7 +61,6 @@ export default {
     loadScript() {
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.id="map";
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
 
       /* global kakao */

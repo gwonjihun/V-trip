@@ -28,13 +28,13 @@ export default {
 
   props: {
     input_plan_info: [],
-    isfinish:{type:Boolean,deep:true},
+    isfinish: { type: Boolean, deep: true },
   },
 
   watch: {
-    isfinish(){
+    isfinish() {
       console.log("kakao checking watch");
-      console.log(kakao); 
+      console.log(kakao);
       this.loadMaker();
     },
     plan_info: {
@@ -53,23 +53,23 @@ export default {
     },
   },
 
-  created() {},
+  created() { },
 
   mounted() {
     // api 스크립트 소스 불러오기 및 지도 출력
-      console.log("마운트 시작");
-      console.log(window.kakao);
-      // console.log(window.kakao.maps)
-      if (window.kakao) {
-        this.loadMap();
-        console.log("load map으로 시작");
-      } else {
-        this.loadScript();
-        console.log("loadscript로 시작");
-      }
+    console.log("마운트 시작");
+    console.log(window.kakao);
+    // console.log(window.kakao.maps)
+    if (window.kakao) {
+      this.loadMap();
+      console.log("load map으로 시작");
+    } else {
+      this.loadScript();
+      console.log("loadscript로 시작");
+    }
 
 
-      // this.loadMaker();
+    // this.loadMaker();
   },
 
   methods: {
@@ -95,14 +95,14 @@ export default {
     loadScript() {
       const script = document.createElement("script");
       script.type = "text/javascript";
-      script.id="plan";
+      script.id = "plan";
       script.src = "//dapi.kakao.com/v2/maps/sdk.js?appkey=377be3df509834a1bb6080cfbb519dba&autoload=false";
       /* global kakao */
       script.onload = () => kakao.maps.load(this.loadMap);
 
       document.head.appendChild(script);
 
-      this.loadMaker();
+      // this.loadMaker();
     }, // 이거는 고정
     // 맵 출력하기
     loadMap() {
@@ -112,6 +112,7 @@ export default {
         level: 13,
       };
       this.map = new kakao.maps.Map(container, options);
+      this.loadMaker();
     },
     loadMaker() {
       this.deleteMarker();
