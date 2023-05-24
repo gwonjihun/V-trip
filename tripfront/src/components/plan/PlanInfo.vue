@@ -1,35 +1,36 @@
 <template>
   <div>
-    <div v-for="(trip_lists, index) in plans_data" :key="index">
+    <div class = "mt-2" v-for="(trip_lists, index) in plans_data" :key="index">
       <h2>{{ index + 1 }}일차 여행일정</h2>
-      <b-list-group>
+      <b-list-group class="mt-3">
 
         <draggable v-if="ismodi" :list="trip_lists.trip_list" group="test">
-          <b-list-group-item v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
+          <b-list-group-item  class="plan-list-item" v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
+            
             <b-row align-v="center">
-              <b-col cols="12">
-                <img :src='item.first_image' style="width: 5%; height: 5%;">
+              <b-col  cols="3">
+                <img :src='item.first_image' style="width: 80%; height: 100%;">
 
               </b-col>
-              <b-col cols="9">
+              <b-col cols="5">
                 {{ item.title }}
               </b-col>
-              <b-col cols="3">
-                <b-button v-show="ismodi" type="button" variant="danger"
+              <b-col cols="2">
+                <b-button  v-show="ismodi" type="button" variant="danger" size="sm"
                   @click="removeElement(tindex, index)"><b-icon-x /></b-button>
               </b-col>
             </b-row>
+
           </b-list-group-item>
         </draggable>
-        <b-list-group-item v-else v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
+        <b-list-group-item class="plan-list-item" v-else v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
           <b-row align-v="center">
-            <b-col cols="12">
-              <img :src="item.first_image" style="width: 5%; height: 5%;">
+            <b-col cols="3">  <img :src='item.first_image' style="width: 80%; height: 100%;">
             </b-col>
-            <b-col cols="9">
+            <b-col cols="5">
               {{ item.title }}
             </b-col>
-            <b-col cols="3">
+            <b-col cols="2">
               <b-button v-show="ismodi" type="button" variant="danger"
                 @click="removeElement(tindex, index)"><b-icon-x /></b-button>
             </b-col>
@@ -37,12 +38,12 @@
         </b-list-group-item>
       </b-list-group>
     </div>
-    <div v-if="!ismodi">
-      <b-button type="button" @click="modifyflag">수정</b-button>
+    <div v-if="!ismodi" class="mt-2">
+      <b-button class="mr-3" type="button" @click="modifyflag">수정</b-button>
       <b-button type="button" @click="movelist">목록</b-button>
     </div>
-    <div v-if="ismodi">
-      <b-button type="button" @click="updateplan">등록</b-button>
+    <div v-if="ismodi" class="mt-2">
+      <b-button class="mr-3" type="button" @click="updateplan">등록</b-button>
       <b-button type="button" @click="movelist">목록</b-button>
     </div>
   </div>
@@ -187,4 +188,12 @@ export default {
 
 };
 </script>
-<style></style>
+<style scoped>
+.list-group {
+  min-height: 1rem;
+  border: 1px solid;
+}
+.plan-list-item {
+  border-radius: 0.25rem;
+}
+</style>

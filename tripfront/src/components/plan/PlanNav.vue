@@ -1,9 +1,15 @@
 <template>
   <div>
     <b-form @submit="(e) => { e.preventDefault(); }">
+      <b-row>
+        <b-col>
       <b-form-input type="date" v-model="start_date" :readonly="!ismodify" />
+        </b-col>
+      <b-col>
       <b-form-input type="date" v-model="end_date" :readonly="!ismodify" />
-      <b-form-input type="text" v-model="title" placeholder="여행 제목을 입력해주세요" :readonly="!ismodify" />
+      </b-col>
+      </b-row>
+      <b-form-input class="mt-2" type="text" v-model="title" placeholder="여행 제목을 입력해주세요" :readonly="!ismodify" />
 
     </b-form>
     <!-- 

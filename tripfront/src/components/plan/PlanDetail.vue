@@ -1,16 +1,23 @@
 <template>
-  <b-container>
+  <!-- <b-container> -->
+    <b-row > 
+    <b-col >
     <kakao-map v-if="isfinish" :trips="trips" :isfinish="isfinish" :input_plan_info="planlist" @trip="inputtrip">
       <search-var @tripList="searchList" v-if="ismodify"></search-var>
     </kakao-map>
-
-    <user-search :ismodify="ismodify"></user-search>
-    <plan-nav :plan="plan" :ismodify="ismodify" @planinit="handleplaninit"></plan-nav>
+    </b-col>
+    <b-col lg="4" class ="mt-3 mt-lg-0">
+    <div >
+    <plan-nav class ="ml-3 mr-3 mt-3" :plan="plan" :ismodify="ismodify" @planinit="handleplaninit"></plan-nav>
+    <user-search  class ="ml-3 mr-3 mb-3 " :ismodify="ismodify"></user-search>
+    </div>
     <!-- plan-nav에는 여행의 큰 데이터 -->
     <plan-info :plan_init="plan" :init_list="plan_list" :trip="trip" :ismodify="ismodify"
       @modifyhandler="handelmodify"></plan-info>
     <!-- 여행의 세부데이터 전달하고 -->
-  </b-container>
+    </b-col>
+    </b-row>
+  <!-- </b-container> -->
 </template>
 
 <script>
@@ -186,4 +193,62 @@ span {
 button {
   margin-right: 1rem;
 }
+</style>
+<style>
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.map_wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 350px;
+}
+
+.radius_border {
+  border: 1px solid #919191;
+  border-radius: 5px;
+}
+/*
+.custom_typecontrol {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  overflow: hidden;
+  width: 200px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  z-index: 2;
+  font-size: 12px;
+  font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
+}
+
+.custom_typecontrol span {
+  display: block;
+  width: 65px;
+  height: 30px;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  cursor: pointer;
+} */
+</style>
+
+<style scoped>
+.main {
+  /* margin-top: 0;
+  padding-top: 2rem;
+  background-color: #e4feff;
+  min-height: calc(100vh - 4.5rem); */
+  max-width: 100vw;
+}
+/* .contaier {
+  width: 100%;
+} */
 </style>

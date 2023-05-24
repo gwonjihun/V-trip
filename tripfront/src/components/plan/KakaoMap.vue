@@ -128,7 +128,7 @@ export default {
       const container = document.getElementById("map");
       const options = {
         center: new window.kakao.maps.LatLng(36.480701, 127.570667),
-        level: 13,
+        level: 12,
       };
       console.log(container);
       this.map = new window.kakao.maps.Map(container, options);
@@ -370,23 +370,25 @@ export default {
 <style scoped>
 #map {
   width: 100%;
-  height: 400px;
+  height: 800px;
 }
 </style>
 
 <style>
-/* .info-window {
-  padding: 5px;
+.info-window {
+  padding: 10px;
   min-width: 200px;
   min-height: 150px;
+  border-radius: 5px;
 }
 
 .info-window-info {
   display: flex;
-  height: 100%;
+  height: calc(100% - 50px);
+  /* height: 100%; */
 }
 
 .info-window-button {
   height: 50px;
-} */
+}
 </style>
