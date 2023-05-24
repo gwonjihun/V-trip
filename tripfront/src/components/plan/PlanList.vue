@@ -49,8 +49,8 @@ export default {
   data() {
     return {
       pgno: 1,
-      // spp: 20,
-      spp: 2, // pagination test
+      spp: 10,
+      // spp: 2, // pagination test
       key: "",
       word: "",
       sidocode: 0,

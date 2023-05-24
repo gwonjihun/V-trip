@@ -6,7 +6,11 @@
       <b-col cols="2">
         <span v-if="!isChild" v-b-toggle="'arccordion-' + comment_id" class="reply-comment-btn">답글</span>
       </b-col>
-      <b-col cols="1">{{ nickname }}</b-col>
+      <b-col cols="1">
+        <span class="link" @click="moveUserPage(writername)">
+          {{ `${writername}(${nickname})` }}
+        </span>
+      </b-col>
       <b-col cols="2">
         {{ createat | dateFilter }}
       </b-col>
@@ -38,6 +42,11 @@ export default {
     nickname: String,
     children: [],
     isChild: { type: Boolean, default: false },
+  },
+  methods: {
+    moveUserPage(user_id) {
+      this.$router.push({ name: "userPage", params: { id: user_id } }).catch(() => {});
+    },
   },
 };
 </script>

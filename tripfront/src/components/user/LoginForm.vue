@@ -35,9 +35,8 @@ export default {
   name: "LoginForm",
   data() {
     return {
-      // dev 초기값
-      id: "ssafy",
-      password: "1234",
+      id: "",
+      password: "",
     };
   },
   props: {

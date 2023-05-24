@@ -1,6 +1,6 @@
 <template>
   <b-container class="custom_typecontrol">
-    <b-form @submit="search">
+    <b-form @submit="handSearch">
       <b-row>
         <b-form-select v-model="sidocode" :options="sido_options"></b-form-select>
       </b-row>
@@ -57,11 +57,19 @@ export default {
         console.log("에러발생 : " + err);
       }
     );
+    let queryTitle = this.$route.query.searchTitle;
+    if (queryTitle) {
+      this.word = queryTitle;
+    }
+    this.$EventBus.$on("kakao-map-load", this.search);
   },
   methods: {
-    search(e) {
-      let msg = "조회을 실패했습니다.";
+    handSearch(e) {
       e.preventDefault();
+      this.search();
+    },
+    search() {
+      let msg = "조회을 실패했습니다.";
 
       var params = {
         sido_code: this.sidocode,
