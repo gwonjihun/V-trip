@@ -31,13 +31,13 @@ async function planSelectOption(params, success, fail) {
   await api.get(`/plan/option`, { params }).then(success).catch(fail);
 }
 async function sharedelete(params, success, fail) {
-  await api.delete(`/plan/share`, { params }).then(success).catch(fail);
+  await api.post(`/plan/share/delete`, params).then(success).catch(fail);
 }
 async function sharesearch(params, success, fail) {
   await api.get(`/plan/share/${params}`).then(success).catch(fail);
 }
 async function shareinsert(params, success, fail) {
-  await api.post(`/plan/share`, { params }).then(success).catch(fail);
+  await api.post(`/plan/share`, params).then(success).catch(fail);
 }
 
-export { list, detail, regist, deletePlan, updateDetail, planSelectOption,sharedelete,sharesearch,shareinsert };
+export { list, detail, regist, deletePlan, updateDetail, planSelectOption, sharedelete, sharesearch, shareinsert };

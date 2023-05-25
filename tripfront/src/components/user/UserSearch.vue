@@ -5,7 +5,7 @@
         <template v-slot="{ tags, disabled, addTag, removeTag }">
           <ul v-if="tags.length > 0" class="list-inline d-inline-block mb-2">
             <li v-for="tag in tags" :key="tag" class="list-inline-item">
-              <b-form-tag @remove="removeTag(tag)" :title="tag" :disabled="disabled" variant="info">{{
+              <b-form-tag @remove="onDeleteClick({ tag, removeTag })" :title="tag" :disabled="disabled" variant="info">{{
                 tag
               }}</b-form-tag>
             </li>
@@ -37,7 +37,7 @@
 
 <script>
 import { selectUserOption } from "@/api/userapi";
-
+import { sharedelete, shareinsert } from "@/api/planapi";
 export default {
   name: "UserSearch",
   data() {
@@ -49,12 +49,9 @@ export default {
   },
   props: {
     ismodify: { type: Boolean, default: false },
-    userlist:[],
+    plan: { plan_id: { type: Number } },
   },
-  watch:{
-    userlist(){
-      
-    }
+  watch: {
   },
   computed: {
     criteria() {
@@ -81,8 +78,17 @@ export default {
     },
   },
   methods: {
+    onDeleteClick({ tag, removeTag }) {
+
+      console.log("user delete event ");
+      console.log(tag);
+      sharedelete({ plan_id: this.plan.plan_id, users_id: tag }, removeTag(tag), () => { console.log("tag delete error") });
+
+    },
     onOptionClick({ option, addTag }) {
-      addTag(option);
+      console.log("user insert event ");
+      console.log(option);
+      shareinsert({ plan_id: this.plan.plan_id, users_id: option }, addTag(option), () => { alert("이미 공유 중인 사용자입니다. 삭제를 원한다면 목록에서 제거해 주세요.") });
       this.search = "";
     },
     getUserList(word) {

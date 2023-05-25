@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.ssafy.trip.repo.plan.PlanShareRepo">
+<mapper namespace="com.ssafy.trip.model.repo.plan.PlanShareRepo">
 
 <select id="select" resultType="com.ssafy.trip.dto.plan.PlanShareDto">
 	select * from shareplan
-	where plan_id = #{plan_id} and users_id = #{users_id}
+	where plan_id = #{plan_id}
 </select>
 <delete id="delete">
 	delete from shareplan

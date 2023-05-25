@@ -5,9 +5,9 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor // select문
+@AllArgsConstructor 
 @ToString
 public class PlanShareDto {
-	private int Plan_id;
+	private int plan_id;
 	private String users_id;
 }
