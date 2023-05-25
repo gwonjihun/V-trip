@@ -24,7 +24,9 @@ export default {
         title: "",
       },
       plan_info: [],
+      line: [],
     };
+
   },
 
   props: {
@@ -258,10 +260,28 @@ export default {
       this.plan_deleteMarker();
       this.plan_info = this.input_plan_info;
       this.temp();
+
       // 마커를 생성합니다
       this.plan_markers = [];
+      console.log("line을 위한 positions조회")
       console.log(this.positions);
       console.log("불러온 장소 개수 : " + this.positions.length);
+      for (let i = 0; i < this.plan_info.length; i++) {
+        this.line.push(new kakao.maps.LatLng(this.plan_info[i].latitude, this.plan_info[i].longitude));
+      }
+      console.log(this.line);
+      var polyline = new kakao.maps.Polyline({
+        path: this.line, // 선을 구성하는 좌표배열 입니다
+        strokeWeight: 4, // 선의 두께 입니다
+        strokeColor: '#FF7E7E', // 선의 색깔입니다
+        strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+        strokeStyle: 'solid' // 선의 스타일입니다
+      });
+
+      // 지도에 선을 표시합니다 
+      polyline.setMap(this.map);
+
+
       this.positions.forEach((position) => {
         var imageSrc = 'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_red.png', // 마커이미지의 주소입니다    
           imageSize = new kakao.maps.Size(40, 49), // 마커이미지의 크기입니다
