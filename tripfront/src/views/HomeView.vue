@@ -16,24 +16,13 @@
     </b-jumbotron>
     <b-container class="main pt-5">
       <h3>최근 떠오르는 지역들</h3>
-      <b-carousel
-        v-model="slide"
-        :interval="4000"
-        controls
-        indicators
-        background="#ababab"
-        img-width="100"
-        img-height="100"
-      >
+      <b-carousel v-model="slide" :interval="4000" controls indicators background="#ababab" img-width="100"
+        img-height="100">
         <b-carousel-slide v-for="place in hotplaces" v-bind:key="place.content_id">
           <template #img>
             <b-container class="hot-place">
-              <b-img
-                rounded
-                :src="place.first_image"
-                :id="'hotplace-' + place.content_id"
-                @click="movePlace(place.title)"
-              />
+              <b-img rounded :src="place.first_image" :id="'hotplace-' + place.content_id"
+                @click="movePlace(place.title)" />
             </b-container>
           </template>
           <template>
@@ -104,6 +93,7 @@ export default {
   flex-direction: row;
   align-content: flex-start;
 }
+
 img {
   /* max-width: 100%; */
   height: 50vh;
@@ -118,13 +108,16 @@ img {
   color: rgb(0, 0, 0);
   border-radius: 0;
 }
+
 .hot-place :hover {
   opacity: 0.5;
   cursor: pointer;
 }
+
 .hot-place .jumbotron :hover {
   color: blue;
 }
+
 .trip-popover {
   color: red;
 }

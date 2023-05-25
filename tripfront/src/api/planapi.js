@@ -24,7 +24,7 @@ async function deletePlan(plan_id, success, fail) {
 }
 //수정
 async function updateDetail(plan_id, map, success, fail) {
-  await api.put(`/plan/${plan_id}`, JSON.stringify(map)).then(success).catch(fail);
+  await api.put(`/plan/${plan_id}`, map).then(success).catch(fail);
 }
 // 옵션 조회
 async function planSelectOption(params, success, fail) {
