@@ -1,5 +1,18 @@
 <template>
   <b-container class="pt-3">
+    <b-row align-h="center">
+      <b-img v-if="!modify" rounded="circle" :src="imgUrl + '.png'" onerror="this.src='/icon/user.png'"></b-img>
+      <form v-else enctype="multipart/form-data">
+        <b-form-file
+          v-model="img"
+          :state="Boolean(img)"
+          accept="image/jpeg, image/png, image/gif"
+          placeholder="Choose a file or drop it here..."
+          drop-placeholder="Drop file here..."
+        ></b-form-file>
+        <div class="mt-3">Selected file: {{ img ? img.name : "" }}</div>
+      </form>
+    </b-row>
     <b-row>
       <b-col md="4">
         <p class="user-header">아이디</p>
@@ -54,7 +67,7 @@
 </template>
 
 <script>
-import { userDelete, userInfo, userUpdate } from "@/api/userapi";
+import { postUserImg, userDelete, userInfo, userUpdate, getUserImgUrl } from "@/api/userapi";
 import { HttpStatusCode } from "axios";
 import { mapActions } from "vuex";
 import UserContents from "./UserContents.vue";
@@ -73,8 +86,14 @@ export default {
       email: "",
       nickname: "",
       point: 0,
+      img: null,
       modify: false,
     };
+  },
+  computed: {
+    imgUrl() {
+      return getUserImgUrl(this.id);
+    },
   },
   watch: {
     $route() {
@@ -119,17 +138,44 @@ export default {
           email: this.email,
           nickname: this.nickname,
         },
-        ({ status }) => {
+        async ({ status }) => {
           if (status == HttpStatusCode.NoContent) {
             alert("수정 실패");
             return;
           }
+          if (this.img != null) {
+            console.log(this.img);
+            await this.uploadImg();
+          }
           alert("수정 성공");
           this.modify = false;
-          this.getUserInfo();
+          location.reload();
+          // this.getUserInfo();
         },
         (err) => {
           alert(err);
+        }
+      );
+    },
+    async uploadImg() {
+      const formData = new FormData();
+      formData.append("img", this.img);
+      await postUserImg(
+        this.id,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          transformrequest: [
+            function () {
+              return formData;
+            },
+          ],
+        },
+        ({ status }) => {
+          console.log(status);
+        },
+        (err) => {
+          console.log(err);
         }
       );
     },
@@ -152,5 +198,10 @@ export default {
 }
 button {
   margin-right: 15px;
+}
+
+img {
+  width: 200px;
+  height: 200px;
 }
 </style>

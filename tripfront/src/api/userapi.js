@@ -34,4 +34,12 @@ async function selectUserOption(word, success, fail) {
   await api.get(`/user/option?word=${word}&spp=10`).then(success).catch(fail);
 }
 
-export { login, logout, userRegist, userUpdate, userInfo, userDelete, selectUserOption };
+async function postUserImg(id, img, config, success, fail) {
+  await api.post(`/user/img/${id}`, img, config).then(success).catch(fail);
+}
+
+function getUserImgUrl(id) {
+  return `${api.defaults.baseURL}/userimg/${id}`;
+}
+
+export { login, logout, userRegist, userUpdate, userInfo, userDelete, selectUserOption, postUserImg, getUserImgUrl };

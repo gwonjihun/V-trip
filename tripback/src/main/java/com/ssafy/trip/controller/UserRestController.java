@@ -1,10 +1,14 @@
 package com.ssafy.trip.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -15,7 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.trip.dto.user.UserDto;
 import com.ssafy.trip.model.service.user.JwtService;
@@ -37,6 +43,9 @@ public class UserRestController {
 	
 	private final UserService svc;
 	private final JwtService jwtSvc;
+	
+	@Value("${file.path}")
+	private String uploadPath;
 	
 	@PostMapping("/login")
 	ResponseEntity<?> login(@RequestBody UserDto user) throws SQLException {
@@ -106,5 +115,29 @@ public class UserRestController {
 		log.debug("{}, {}", word, spp);
 		if (word == null) word = "";
 		return new ResponseEntity<List<UserDto>>(svc.selectOption(word, spp), HttpStatus.OK);
+	}
+	
+	@PostMapping("/img/{id}")
+	ResponseEntity<Void> postUserImg(@PathVariable String id, @RequestParam("img") MultipartFile file) throws IllegalStateException, IOException {
+//		FileUpload 관련 설정.
+		if (file != null)
+			log.debug("MultipartFile.isEmpty : {}", file.isEmpty());
+		else
+			log.debug("MultipartFile is null");
+		if (file != null && !file.isEmpty()) {
+			String saveFolder = new ClassPathResource(uploadPath).getFile().getAbsolutePath();
+			log.debug("저장 폴더 : {}", saveFolder);
+			File folder = new File(saveFolder);
+			if (!folder.exists())
+				folder.mkdirs();
+
+			String originalFileName = file.getOriginalFilename();
+			String saveFileName = id
+					+ originalFileName.substring(originalFileName.lastIndexOf('.'));
+			log.debug("원본 파일 이름 : {}, 실제 저장 파일 이름 : {}", file.getOriginalFilename(), saveFileName);
+			file.transferTo(new File(folder, saveFileName));
+			
+		}
+		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 }
