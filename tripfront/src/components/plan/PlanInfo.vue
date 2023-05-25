@@ -1,14 +1,14 @@
 <template>
   <div>
-    <div class = "mt-2" v-for="(trip_lists, index) in plans_data" :key="index">
+    <div class="mt-2" v-for="(trip_lists, index) in plans_data" :key="index">
       <h2>{{ index + 1 }}일차 여행일정</h2>
       <b-list-group class="mt-3">
 
         <draggable v-if="ismodi" :list="trip_lists.trip_list" group="test">
-          <b-list-group-item  class="plan-list-item" v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
-            
+          <b-list-group-item class="plan-list-item" v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
+
             <b-row align-v="center">
-              <b-col  cols="3">
+              <b-col cols="3">
                 <img :src='item.first_image' style="width: 80%; height: 100%;">
 
               </b-col>
@@ -16,16 +16,17 @@
                 {{ item.title }}
               </b-col>
               <b-col cols="2">
-                <b-button  v-show="ismodi" type="button" variant="danger" size="sm"
+                <b-button v-show="ismodi" type="button" variant="danger" size="sm"
                   @click="removeElement(tindex, index)"><b-icon-x /></b-button>
               </b-col>
             </b-row>
 
           </b-list-group-item>
         </draggable>
-        <b-list-group-item class="plan-list-item" v-else v-for="(item, tindex) in plans_data[index].trip_list" :key="tindex">
+        <b-list-group-item class="plan-list-item" v-else v-for="(item, tindex) in plans_data[index].trip_list"
+          :key="tindex">
           <b-row align-v="center">
-            <b-col cols="3">  <img :src='item.first_image' style="width: 80%; height: 100%;">
+            <b-col cols="3"> <img :src='item.first_image' style="width: 80%; height: 100%;">
             </b-col>
             <b-col cols="5">
               {{ item.title }}
@@ -53,7 +54,7 @@
 <script>
 import { mapState } from "vuex";
 import draggable from "vuedraggable";
-import { updateDetail,deletePlan,sharesearch } from "@/api/planapi.js";
+import { updateDetail, deletePlan, sharesearch } from "@/api/planapi.js";
 export default {
   components: {
     draggable,
@@ -64,7 +65,7 @@ export default {
       isplan: false,
 
       //수정가능 객체
-      shareuser : [],
+      shareuser: [],
 
       plan: {},
       plans_data: [{
@@ -126,10 +127,10 @@ export default {
     }
   },
   methods: {
-    deletesend(){
-      deletePlan(this.plan.plan_id,()=>{
+    deletesend() {
+      deletePlan(this.plan.plan_id, () => {
         console.log("삭제 성공");
-      },()=>{
+      }, () => {
         console.log("삭제 오류");
       });
       this.$router.push("/plan");
@@ -182,7 +183,7 @@ export default {
     movelist() {
       this.$router.push("/plan");
     },
-    modifyflag(event) {
+    async modifyflag(event) {
       event.preventDefault();
       if (!this.isLogin) {
         alert("로그인 후에 이용해 주세요");
@@ -191,29 +192,42 @@ export default {
       /* 여기서 사용자 정보를 불러와 줘야한다. */
       console.log("사용자 명");
       console.log(this.plan.writerid);
-      console.log( this.userinfo.id);
-      sharesearch(this.plan.plan_id,(req)=>{
+      console.log(this.userinfo.id);
+      await sharesearch(this.plan.plan_id, (req) => {
+        console.log("!!!!!!!!!!------------------------");
         console.log(req);
+
+        console.log(req.data);
+        console.log(req.data === "");
         this.shareuser = req.data;
-      })
-      var contain = false;
-      this.shareuser.array.forEach(element => {
-        if(this.userinfo.id=== element.user_id){
-          contain=true;
+        if (this.shareuser === "") {
+          this.shareuser = [];
         }
       });
-      if(this.plan.writerid === this.userinfo.id|| contain){
+      console.log(this.shareuser.data);
+      var contain = false;
+      console.log("------명단 확인----")
+      // this.shareuser.forEach(element =>
 
-      // 여기서 
-      // 수정버튼을 누를때 가장 먼저 사용자 로그인 확인을 진행한다
-      // 사용가능자일 경우에만 modifyhander를 동작하게 해주고 
-      // modify가 되면 그떄가서 유저를 등록할 수 있도록 진행해준다.
-      // 사용자 확인이 끝나면 writerid를 확인해온다
-      this.ismodi = !this.ismodi;
-      this.$emit("modifyhandler", this.ismodi);
-      this.$emit("shareusers", this.shareuser);
+      for (let i = 0; i < this.shareuser.data.length; i++) {
+        console.log(this.shareuser.data[i]);
+        if (this.userinfo.id === this.shareuser.data[i].users_id) {
+          contain = true;
+
+        }
+      }
+      if (this.plan.writerid === this.userinfo.id || contain) {
+        console.log("!@#!@#!@$!@$!@$!@$!");
+        // 여기서 
+        // 수정버튼을 누를때 가장 먼저 사용자 로그인 확인을 진행한다
+        // 사용가능자일 경우에만 modifyhander를 동작하게 해주고 
+        // modify가 되면 그떄가서 유저를 등록할 수 있도록 진행해준다.
+        // 사용자 확인이 끝나면 writerid를 확인해온다
+        this.ismodi = !this.ismodi;
+        this.$emit("modifyhandler", this.ismodi);
+        this.$emit("shareusers", this.shareuser.data);
         // this.movelist();
-      }else{
+      } else {
         alert("수정 권한이 없습니다.");
       }
     },
@@ -232,6 +246,7 @@ export default {
   min-height: 1rem;
   border: 1px solid;
 }
+
 .plan-list-item {
   border-radius: 0.25rem;
 }

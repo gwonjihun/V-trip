@@ -40,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PlanRestController {
 
 	private final PlanSearvice svc;
+	
 	private final PlanDetailService pdsvc;
 	private final PlanShareService pssvc;
 	private final JwtService jwtSvc;
@@ -53,7 +54,7 @@ public class PlanRestController {
 		System.out.println("dfdfdfdfdfdfdfdf");
 		System.out.println(list);
 		if (list != null && list.size() > 0) {
-			result.put("user", list);
+			result.put("data", list);
 			return new ResponseEntity<Map<String, Object>>(result, HttpStatus.OK);
 		} else {
 			// 여행 계획이 0개이거나 list를 못불러온경우
@@ -131,6 +132,7 @@ public class PlanRestController {
 	ResponseEntity<Void> shareinsert(@RequestBody PlanShareDto pld) throws SQLException {
 		// plan 세부 조회
 //		log.debug(map.toString());
+		System.out.println(pld.toString());
 		int r = pssvc.insert(pld);
 		if (r != 0)
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
@@ -156,7 +158,7 @@ public class PlanRestController {
 //		}
 	}
 
-	@DeleteMapping("/share")
+	@PostMapping("/share/delete")
 	ResponseEntity<Void> share_delte(@RequestBody PlanShareDto pld) throws SQLException {
 		/*
 		 * data input {
@@ -165,6 +167,7 @@ public class PlanRestController {
 		 */
 		// plan 세부 조회
 //		if (jwtSvc.checkAuthor(plan.getWriterid())) {
+		System.out.println(pld);
 		int r = pssvc.delete(pld);
 		if (r != 0)
 			return new ResponseEntity<Void>(HttpStatus.CREATED);
