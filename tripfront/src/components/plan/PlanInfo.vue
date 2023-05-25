@@ -201,7 +201,7 @@ export default {
         console.log(req.data === "");
         this.shareuser = req.data;
         if (this.shareuser === "") {
-          this.shareuser = [];
+          this.shareuser = { data: [] };
         }
       });
       console.log(this.shareuser.data);
